@@ -1,8 +1,0 @@
-tests\requestResponseValidation\ReusableMethod\writingToExcel.class
-tests\requestResponseValidation\ReusableMethod\excelReader.class
-tests\requestResponseValidation\model\clientTestData.class
-util\ResourceLoader.class
-tests\requestResponseValidation\testValidation.class
-util\JsonUtil.class
-tests\requestResponseValidation\ReusableMethod\parsingJson.class
-tests\requestResponseValidation\ReusableMethod\separateHeaderBody.class

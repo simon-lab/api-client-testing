@@ -1,0 +1,9 @@
+<suite name="disbursement">
+    <test name="InterbankAPITest">
+        <parameter name="testDataPath" value="test-data/disbursement/testDataDefault.json" />
+        <classes>
+            <class name="tests.requestResponseValidation.testValidation">
+            </class>
+        </classes>
+    </test>
+</suite>

@@ -12,8 +12,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import io.restassured.path.json.JsonPath;
-
 public class excelReader {
 
     public static List<String> expectedReader(String excelFilePath) {
@@ -134,47 +132,50 @@ public class excelReader {
     // }
 
     public static void main(String[] args) {
-        String excelPath = "src/test/java/tests/request/model/TestcaseSNAPBI.xlsx";
-        // List<String> expectedData = expectedReader(excelPath);
-        // List<String> requestData = requestReader(excelPath);
-        // List<String> responseData = responseReader(excelPath);
-        // System.out.println("INI EXPECTED RESULT");
-        // System.out.println(expectedData);
-        // System.out.println("INI REQUEST");
-        // System.out.println(requestData);
-        // System.out.println("INI RESPONSE");
-        // System.out.println(responseData);
+        String excelPath = "src/test/java/tests/requestResponseValidation/model/TestcaseSNAPBI.xlsx";
+        List<String> expectedData = expectedReader(excelPath);
+        List<String> requestData = requestReader(excelPath);
+        List<String> responseData = responseReader(excelPath);
+        System.out.println("INI EXPECTED RESULT");
+        System.out.println(expectedData);
+        System.out.println("INI REQUEST");
+        System.out.println(requestData);
+        System.out.println("INI RESPONSE");
+        System.out.println(responseData);
 
         // System.out.println("INI EXPECTED CASE 1");
+        // String expectedCase1 = expectedCell(excelPath, 1);
         // System.out.println(expectedCell(excelPath, 1));
         // System.out.println("INI EXPECTED CASE 2");
         // System.out.println(expectedCell(excelPath, 2));
 
-        String requestCase1 = requestCell(excelPath, 1);
-        System.out.println("INI REQUEST CASE 1");
-        System.out.println(requestCase1);
+        // String requestCase1 = requestCell(excelPath, 1);
+        // System.out.println("INI REQUEST CASE 1");
+        // System.out.println(requestCase1);
         // System.out.println("INI REQUEST CASE 2");
         // System.out.println(requestCell(excelPath, 2));
 
-        System.out.println("INI PISAHAN HEADER DAN BODY: ");
-        String headerRequest1 = separateHeaderBody.header(requestCase1);
-        System.out.println(headerRequest1);
-        String bodyRequest1 = separateHeaderBody.body(requestCase1);
-        System.out.println(bodyRequest1);
+        // System.out.println("INI PISAHAN HEADER DAN BODY: ");
+        // String headerRequest1 = separateHeaderBody.header(requestCase1);
+        // System.out.println(headerRequest1);
+        // String bodyRequest1 = separateHeaderBody.body(requestCase1);
+        // System.out.println(bodyRequest1);
 
-        JsonPath jsRequestBody1 = parsingJson.rawToJson(bodyRequest1);
-        JsonPath jsRequestHeader1 = parsingJson.rawToJson(headerRequest1);
-        System.out.println("INI X-EXTERNAL-ID NYA: " + jsRequestHeader1.getString("X-EXTERNAL-ID"));
-        System.out.println("INI partnerReferenceNo NYA: " + jsRequestBody1.getString("partnerReferenceNo"));
+        // JsonPath jsRequestBody1 = parsingJson.rawToJson(bodyRequest1);
+        // JsonPath jsRequestHeader1 = parsingJson.rawToJson(headerRequest1);
+        // System.out.println("INI X-EXTERNAL-ID NYA: " +
+        // jsRequestHeader1.getString("X-EXTERNAL-ID"));
+        // System.out.println("INI partnerReferenceNo NYA: " +
+        // jsRequestBody1.getString("partnerReferenceNo"));
 
-        String responseCase1 = responseCell(excelPath, 1);
-        System.out.println("INI RESPONSE CASE 1");
-        System.out.println(responseCase1);
+        // String responseCase1 = responseCell(excelPath, 1);
+        // System.out.println("INI RESPONSE CASE 1");
+        // System.out.println(responseCase1);
         // System.out.println("INI RESPONSE CASE 2");
         // System.out.println(responseCell(excelPath, 2));
 
-        JsonPath js = parsingJson.rawToJson(responseCase1);
-        System.out.println("INI RESPONSE CODE NYA: " + js.getString("responseCode"));
+        // JsonPath js = parsingJson.rawToJson(responseCase1);
+        // System.out.println("INI RESPONSE CODE NYA: " + js.getString("responseCode"));
     }
 
 }

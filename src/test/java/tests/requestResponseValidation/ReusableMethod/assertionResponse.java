@@ -7,7 +7,7 @@ import org.testng.Assert;
 import io.qameta.allure.Allure;
 import io.restassured.path.json.JsonPath;
 
-public class assertion {
+public class assertionResponse {
 
     public static String assertJWT(JsonPath js, String jwt) {
         Allure.step("Check JWT");

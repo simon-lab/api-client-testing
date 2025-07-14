@@ -1,5 +1,10 @@
 package tests.requestResponseValidation.ReusableMethod;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class separateCell {
     public static String header(String cellContent) {
         String[] parts = cellContent.split("}\n");
@@ -29,24 +34,27 @@ public class separateCell {
         return body;
     }
 
-    public static String[] extractExpectedRC(String input) {
-        String responseCodeRegex = "Response Code:\\s*(\\S+)";
-        String responseMessageRegex = "Response Message:\\s*\"([^\"]+)\"";
+    public static String extractExpectedRC(String input) {
+        String rcRegex = "Error Code:\\s*([\\w]+)";
+        Pattern pattern = Pattern.compile(rcRegex);
+        Matcher matcher = pattern.matcher(input);
 
-        String responseCode = "";
-        String responseMessage = "";
-
-        // Mencari Error Code menggunakan regex
-        if (input.matches(".*" + responseCodeRegex + ".*")) {
-            responseCode = input.replaceAll(".*" + responseCodeRegex + ".*", "$1");
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            return "";
         }
+    }
 
-        // Mencari Error Message menggunakan regex
-        if (input.matches(".*" + responseMessageRegex + ".*")) {
-            responseMessage = input.replaceAll(".*" + responseMessageRegex + ".*", "$1");
+    public static String extractExpectedRM(String input) {
+        String msgRegex = "Error Message:\\s*\"([^\"]+)\"";
+        Pattern pattern = Pattern.compile(msgRegex);
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            return "";
         }
-
-        // Mengembalikan hasil sebagai array
-        return new String[] { responseCode, responseMessage };
     }
 }

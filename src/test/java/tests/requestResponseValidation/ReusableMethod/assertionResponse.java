@@ -20,8 +20,7 @@ public class assertionResponse {
         return jwt;
     }
 
-    public static void assertResponseCode(JsonPath js, int expectedLenght, String rcFormat,
-            List<List<Object>> reportDataList, String request, String responseString) {
+    public static void assertResponseCode(JsonPath js, int expectedLenght, String rcFormat) {
 
         Allure.step("Check Response Code");
         String responseCode = js.getString("responseCode");

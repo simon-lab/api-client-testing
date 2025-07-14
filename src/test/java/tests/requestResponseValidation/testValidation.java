@@ -9,9 +9,13 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import io.qameta.allure.Allure;
+import io.restassured.path.json.JsonPath;
+import tests.requestResponseValidation.ReusableMethod.assertionResponse;
 import tests.requestResponseValidation.ReusableMethod.excelReader;
+import tests.requestResponseValidation.ReusableMethod.methodIntro;
 import tests.requestResponseValidation.ReusableMethod.parsingJson;
 import tests.requestResponseValidation.ReusableMethod.separateCell;
+import tests.requestResponseValidation.ReusableMethod.toRegex;
 import tests.requestResponseValidation.model.clientTestData;
 import util.JsonUtil;
 
@@ -22,6 +26,8 @@ public class testValidation {
     excelReader excelReader = new excelReader();
     separateCell separate = new separateCell();
     parsingJson parsingJson = new parsingJson();
+    methodIntro intro = new methodIntro();
+    String separator = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
 
     @BeforeTest
     @Parameters({ "testDataPath" })
@@ -29,42 +35,45 @@ public class testValidation {
         Allure.step("Set Excel");
         this.testData = JsonUtil.getTestData(testDataPath, clientTestData.class);
         excelPath = testData.excelPath();
+        // List<String> expectedData = excelReader.expectedReader(excelPath);
+        // List<String> requestData = excelReader.requestReader(excelPath);
+        // List<String> responseData = excelReader.responseReader(excelPath);
+        // System.out.println("INI EXPECTED RESULT");
+        // System.out.println(expectedData);
+        // System.out.println("INI REQUEST");
+        // System.out.println(requestData);
+        // System.out.println("INI RESPONSE");
+        // System.out.println(responseData);
     }
 
     @BeforeMethod
     public void monitorMethod(Method method) {
+        System.out.println(separator);
         System.out.println("Akan menjalankan test: " + method.getName());
     }
 
     @Test
     public void case1() {
 
-        List<String> expectedData = excelReader.expectedReader(excelPath);
-        List<String> requestData = excelReader.requestReader(excelPath);
-        List<String> responseData = excelReader.responseReader(excelPath);
-        System.out.println("INI EXPECTED RESULT");
-        System.out.println(expectedData);
-        System.out.println("INI REQUEST");
-        System.out.println(requestData);
-        System.out.println("INI RESPONSE");
-        System.out.println(responseData);
+        List<String> expected = intro.expectedDefinition(excelPath, 1);
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 1);
+        String expectedRC = expected.get(0);
+        String expectedRM = expected.get(1);
+        JsonPath jsHeader = js.get(0);
+        JsonPath jsBody = js.get(1);
+        JsonPath jsResponse = js.get(2);
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+        System.out.println(formatRC);
 
-        // String expected = excelReader.expectedCell(excelPath, 1);
-        // String requestCase = excelReader.requestCell(excelPath, 1);
-        // String headerRequest = separateCell.header(requestCase);
-        // String bodyRequest = separateCell.body(requestCase);
-        // JsonPath jsRequestBody = parsingJson.rawToJson(bodyRequest);
-        // JsonPath jsRequestHeader = parsingJson.rawToJson(headerRequest);
-        // String responseCase = excelReader.responseCell(excelPath, 1);
-        // JsonPath jsResponse = parsingJson.rawToJson(responseCase);
+        assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
+        assertionResponse.assertResponseMessage(jsResponse, expectedRM);
 
-        // System.out.println("INI PISAHAN HEADER DAN BODY: ");
-        // System.out.println(headerRequest);
-        // System.out.println(bodyRequest);
-
-        // System.out.println("INI RESPONSE CASE 1");
-        // System.out.println(responseCase);
-
-        // System.out.println("INI ASSERTION CASE 1 ");
     }
+
+    // @Test
+    // public void case2() {
+
+    // intro.caseDataDefinition(excelPath, 2);
+    // }
+
 }

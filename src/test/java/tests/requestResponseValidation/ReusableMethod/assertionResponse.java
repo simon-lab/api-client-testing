@@ -1,7 +1,5 @@
 package tests.requestResponseValidation.ReusableMethod;
 
-import java.util.List;
-
 import org.testng.Assert;
 
 import io.qameta.allure.Allure;

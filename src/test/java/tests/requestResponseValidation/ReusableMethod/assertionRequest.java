@@ -40,6 +40,17 @@ public class assertionRequest {
 
     }
 
+    public static void assertXPartnerId(JsonPath js, String partnerID) {
+        Allure.step("Check Partner ID");
+        String xPartnerId = js.getString("X-PARTNER-ID");
+        Assert.assertNotNull(xPartnerId, "Partner ID Tidak ada");
+        System.out.println("Terdapat Partner ID");
+        Assert.assertFalse(xPartnerId.isEmpty(), "Partner ID Kosong");
+        System.out.println("Partner ID Tidak Kosong");
+        System.out.println("Partner ID: " + xPartnerId);
+        System.out.println("Partner ID sudah sesuai format");
+    }
+
     public static void assertChannelID(JsonPath js, String expectedChannelID) {
         Allure.step("Check Channel-ID");
         String channelId = js.getString("CHANNEL-ID");
@@ -63,6 +74,20 @@ public class assertionRequest {
         Assert.assertEquals(partnerReferenceNo, expectedPartnerReferenceNo,
                 "Partner Reference No Tidak Sesuai Expected");
         System.out.println("partnerReferenceNo Sudah Sesuai");
+
+    }
+
+    public static void sourceAccountNo(JsonPath js, String expectedSourceAccountNo) {
+        Allure.step("Check Source Account No");
+        String sourceAccountNo = js.getString("sourceAccountNo");
+        Assert.assertNotNull(sourceAccountNo, "Source Account No Tidak ada");
+        System.out.println("Terdapat Source Account No");
+        Assert.assertFalse(sourceAccountNo.isEmpty(), "Source Account No Kosong");
+        System.out.println("Source Account No Tidak Kosong");
+        Assert.assertTrue(sourceAccountNo.length() <= 19, "Jumlah karakter Source Account No lebih dari 19");
+        Assert.assertEquals(sourceAccountNo, expectedSourceAccountNo,
+                "Partner Reference No Tidak Sesuai Expected");
+        System.out.println("Source Account No Sudah Sesuai");
 
     }
 
@@ -99,6 +124,32 @@ public class assertionRequest {
         Assert.assertTrue(beneAccNo.length() <= 19, "Jumlah karakter Beneficiary Account No lebih dari 64");
         Assert.assertEquals(beneAccNo, expectedBeneAccNo, "Bene Acc No Tidak Sesuai Expected");
         System.out.println("Beneficiary Account No Sudah Sesuai");
+
+    }
+
+    public static void beneAccName(JsonPath js, String expectedBeneAccName) {
+        Allure.step("Check Beneficiary Account Name");
+        String beneAccName = js.getString("beneficiaryAccountName");
+        Assert.assertNotNull(beneAccName, "Beneficiary Account Name Tidak ada");
+        System.out.println("Terdapat Beneficiary Account Name");
+        Assert.assertFalse(beneAccName.isEmpty(), "Beneficiary Account Name Kosong");
+        System.out.println("Beneficiary Account Name Tidak Kosong");
+        Assert.assertEquals(beneAccName, expectedBeneAccName, "Beneficiary Account Name Tidak Sesuai Expected");
+        System.out.println("Beneficiary Account Name Sudah Sesuai");
+
+    }
+
+    public static void trxDate(JsonPath js, String expectedTrxDate) {
+        Allure.step("Check Transaction Date");
+        String trxDate = js.getString("transactionDate");
+        Assert.assertNotNull(trxDate, "Transaction Date Tidak ada");
+        System.out.println("Terdapat Transaction Date");
+        Assert.assertFalse(trxDate.isEmpty(), "Transaction Date Kosong");
+        String pattern = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{2}:\\d{2}$";
+        Assert.assertTrue(expectedTrxDate.matches(pattern), "Format tidak valid! Harus YYYY-MM-DDTHH:mm:ss+HH:mm");
+        System.out.println("Transaction Date Tidak Kosong");
+        Assert.assertEquals(trxDate, expectedTrxDate, "Transaction Date Tidak Sesuai Expected");
+        System.out.println("Transaction Date Sudah Sesuai");
 
     }
 
@@ -152,6 +203,30 @@ public class assertionRequest {
         System.out.println("dsp sign Tidak Kosong");
         Assert.assertEquals(dspSign, "Bearer " + jwt, "dsp sign Tidak Sesuai Expected");
         System.out.println("dspSign  Sudah Sesuai");
+
+    }
+
+    public static void disbCategory(JsonPath js, String expectedCategory) {
+        Allure.step("Check Disbursement Category");
+        String disbCategory = js.getString("additionalInfo.disbCategory");
+        Assert.assertNotNull(disbCategory, "Disbursement Category Tidak ada");
+        System.out.println("Terdapat Disbursement Category");
+        Assert.assertFalse(disbCategory.isEmpty(), "Disbursement Category Kosong");
+        System.out.println("Disbursement Category Tidak Kosong");
+
+        Boolean disb = expectedCategory.equals("DISBURSEMENT");
+        Boolean eComm = expectedCategory.equals("ECOMMERCE");
+        Boolean loan = expectedCategory.equals("LOAN");
+        Boolean fund = expectedCategory.equals("FUNDTRANSFER");
+        Boolean topUp = expectedCategory.equals("TOPUP");
+
+        if (disb || eComm || loan | fund || topUp) {
+            Assert.assertEquals(disbCategory, expectedCategory, "Disbursement Category Tidak Sesuai Expected");
+        } else {
+            Assert.assertTrue(false, "Category tidak ada dalam spec");
+        }
+
+        System.out.println("Disbursement Category Sudah Sesuai");
 
     }
 

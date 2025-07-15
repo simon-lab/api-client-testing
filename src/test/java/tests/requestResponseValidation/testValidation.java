@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import io.qameta.allure.Allure;
 import io.restassured.path.json.JsonPath;
+import tests.requestResponseValidation.ReusableMethod.assertionRequest;
 import tests.requestResponseValidation.ReusableMethod.assertionResponse;
 import tests.requestResponseValidation.ReusableMethod.excelReader;
 import tests.requestResponseValidation.ReusableMethod.methodIntro;

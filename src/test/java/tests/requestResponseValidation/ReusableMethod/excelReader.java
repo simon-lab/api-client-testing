@@ -23,7 +23,7 @@ public class excelReader {
             Sheet sheet = workbook.getSheetAt(0);
 
             int startRow = 9;
-            int endRow = 31;
+            int endRow = 21;
 
             for (int rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
                 Row dataRow = sheet.getRow(rowIndex);
@@ -50,7 +50,7 @@ public class excelReader {
             Sheet sheet = workbook.getSheetAt(0);
 
             int startRow = 9;
-            int endRow = 31;
+            int endRow = 21;
 
             for (int rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
                 Row dataRow = sheet.getRow(rowIndex);
@@ -77,7 +77,7 @@ public class excelReader {
             Sheet sheet = workbook.getSheetAt(0);
 
             int startRow = 9;
-            int endRow = 31;
+            int endRow = 21;
 
             for (int rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
                 Row dataRow = sheet.getRow(rowIndex);

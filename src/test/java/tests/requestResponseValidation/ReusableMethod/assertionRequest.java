@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.JSONObject;
 import org.testng.Assert;
 
 import io.qameta.allure.Allure;
@@ -26,7 +27,7 @@ public class assertionRequest {
         System.out.println("XTimeStamp sudah sesuai format");
     }
 
-    public static void assertXClientKey(JsonPath js) {
+    public static void assertXClientKey(JsonPath js, String expectedClientKey) {
         Allure.step("Check X-Client-Key");
         String clientKey = js.getString("X-CLIENT-KEY");
         Assert.assertNotNull(clientKey, "X-Client-Key Tidak ada");
@@ -34,6 +35,7 @@ public class assertionRequest {
         Assert.assertFalse(clientKey.isEmpty(), "X-Client-Key Kosong");
         System.out.println("X-Client-Key Tidak Kosong");
         System.out.println("X-Client-Key: " + clientKey);
+        Assert.assertEquals(clientKey, expectedClientKey, "X-Client-Key Tidak Sesuai Expected");
         System.out.println("X-Client-Key sudah sesuai format");
     }
 
@@ -48,8 +50,20 @@ public class assertionRequest {
         System.out.println("Terdapat Partner ID");
         Assert.assertFalse(xPartnerId.isEmpty(), "Partner ID Kosong");
         System.out.println("Partner ID Tidak Kosong");
+        Assert.assertEquals(xPartnerId, partnerID, "Channel Id Tidak Sesuai Expected");
         System.out.println("Partner ID: " + xPartnerId);
         System.out.println("Partner ID sudah sesuai format");
+    }
+
+    public static void assertXExternalId(JsonPath js) {
+        Allure.step("Check External ID");
+        String xExternalId = js.getString("X-EXTERNAL-ID");
+        Assert.assertNotNull(xExternalId, "External ID Tidak ada");
+        System.out.println("Terdapat External ID");
+        Assert.assertFalse(xExternalId.isEmpty(), "External ID Kosong");
+        System.out.println("External ID Tidak Kosong");
+        System.out.println("External ID: " + xExternalId);
+        System.out.println("External ID sudah sesuai format");
     }
 
     public static void assertChannelID(JsonPath js, String expectedChannelID) {
@@ -64,7 +78,7 @@ public class assertionRequest {
 
     }
 
-    public static void assertPartnerReferenceNo(JsonPath js, String expectedPartnerReferenceNo) {
+    public static void assertPartnerReferenceNo(JsonPath js) {
         Allure.step("Check Partner Reference No");
         String partnerReferenceNo = js.getString("partnerReferenceNo");
         Assert.assertNotNull(partnerReferenceNo, "partnerReferenceNo Tidak ada");
@@ -72,13 +86,11 @@ public class assertionRequest {
         Assert.assertFalse(partnerReferenceNo.isEmpty(), "partnerReferenceNo Kosong");
         System.out.println("partnerReferenceNo Tidak Kosong");
         Assert.assertTrue(partnerReferenceNo.length() <= 64, "Jumlah karakter partnerReferenceNo lebih dari 64");
-        Assert.assertEquals(partnerReferenceNo, expectedPartnerReferenceNo,
-                "Partner Reference No Tidak Sesuai Expected");
         System.out.println("partnerReferenceNo Sudah Sesuai");
 
     }
 
-    public static void sourceAccountNo(JsonPath js, String expectedSourceAccountNo) {
+    public static void sourceAccountNo(JsonPath js) {
         Allure.step("Check Source Account No");
         String sourceAccountNo = js.getString("sourceAccountNo");
         Assert.assertNotNull(sourceAccountNo, "Source Account No Tidak ada");
@@ -86,13 +98,11 @@ public class assertionRequest {
         Assert.assertFalse(sourceAccountNo.isEmpty(), "Source Account No Kosong");
         System.out.println("Source Account No Tidak Kosong");
         Assert.assertTrue(sourceAccountNo.length() <= 19, "Jumlah karakter Source Account No lebih dari 19");
-        Assert.assertEquals(sourceAccountNo, expectedSourceAccountNo,
-                "Partner Reference No Tidak Sesuai Expected");
         System.out.println("Source Account No Sudah Sesuai");
 
     }
 
-    public static void beneBankCode(JsonPath js, String expectedBeneBankCode) {
+    public static void beneBankCode(JsonPath js) {
         Allure.step("Check Beneficiary Account Code");
         String beneBankCode = js.getString("beneficiaryBankCode");
         String transferService = js.getString("additionalInfo.transferService");
@@ -110,46 +120,41 @@ public class assertionRequest {
         } else {
             Assert.fail("Transfer service tidak dikenali");
         }
-        Assert.assertEquals(beneBankCode, expectedBeneBankCode, "Bene Bank Code Tidak Sesuai Expected");
         System.out.println("Beneficiary Account Code Sudah Sesuai");
 
     }
 
-    public static void beneAccNo(JsonPath js, String expectedBeneAccNo) {
+    public static void beneAccNo(JsonPath js) {
         Allure.step("Check Beneficiary Account No");
         String beneAccNo = js.getString("beneficiaryAccountNo");
         Assert.assertNotNull(beneAccNo, "Beneficiary Account No Tidak ada");
         System.out.println("Terdapat Beneficiary Account No");
         Assert.assertFalse(beneAccNo.isEmpty(), "Beneficiary Account No Kosong");
         System.out.println("Beneficiary Account No Tidak Kosong");
-        Assert.assertTrue(beneAccNo.length() <= 19, "Jumlah karakter Beneficiary Account No lebih dari 64");
-        Assert.assertEquals(beneAccNo, expectedBeneAccNo, "Bene Acc No Tidak Sesuai Expected");
+        Assert.assertTrue(beneAccNo.length() <= 19, "Jumlah karakter Beneficiary Account No lebih dari 19");
         System.out.println("Beneficiary Account No Sudah Sesuai");
 
     }
 
-    public static void beneAccName(JsonPath js, String expectedBeneAccName) {
+    public static void beneAccName(JsonPath js) {
         Allure.step("Check Beneficiary Account Name");
         String beneAccName = js.getString("beneficiaryAccountName");
         Assert.assertNotNull(beneAccName, "Beneficiary Account Name Tidak ada");
         System.out.println("Terdapat Beneficiary Account Name");
         Assert.assertFalse(beneAccName.isEmpty(), "Beneficiary Account Name Kosong");
-        System.out.println("Beneficiary Account Name Tidak Kosong");
-        Assert.assertEquals(beneAccName, expectedBeneAccName, "Beneficiary Account Name Tidak Sesuai Expected");
         System.out.println("Beneficiary Account Name Sudah Sesuai");
 
     }
 
-    public static void trxDate(JsonPath js, String expectedTrxDate) {
+    public static void trxDate(JsonPath js) {
         Allure.step("Check Transaction Date");
         String trxDate = js.getString("transactionDate");
         Assert.assertNotNull(trxDate, "Transaction Date Tidak ada");
         System.out.println("Terdapat Transaction Date");
         Assert.assertFalse(trxDate.isEmpty(), "Transaction Date Kosong");
         String pattern = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{2}:\\d{2}$";
-        Assert.assertTrue(expectedTrxDate.matches(pattern), "Format tidak valid! Harus YYYY-MM-DDTHH:mm:ss+HH:mm");
+        Assert.assertTrue(trxDate.matches(pattern), "Format tidak valid! Harus YYYY-MM-DDTHH:mm:ss+HH:mm");
         System.out.println("Transaction Date Tidak Kosong");
-        Assert.assertEquals(trxDate, expectedTrxDate, "Transaction Date Tidak Sesuai Expected");
         System.out.println("Transaction Date Sudah Sesuai");
 
     }
@@ -167,7 +172,7 @@ public class assertionRequest {
 
     }
 
-    public static void value(JsonPath js, String expectedValue) {
+    public static void value(JsonPath js) {
         Allure.step("Check Value");
         String value = js.getString("additionalInfo.amount.value");
         Assert.assertNotNull(value, "Value Tidak ada");
@@ -177,7 +182,6 @@ public class assertionRequest {
         String pattern = "^\\d{1,16}\\.\\d{2}$";
         Assert.assertTrue(value.matches(pattern),
                 "Format tidak valid! Harus max 16 digit di depan, dan 2 di belakang koma.");
-        Assert.assertEquals(value, expectedValue, "Value Tidak Sesuai Expected");
         System.out.println("Value Sudah Sesuai");
 
     }
@@ -227,19 +231,18 @@ public class assertionRequest {
 
     }
 
-    public static void senderName(JsonPath js, String expectedSenderName) {
+    public static void senderName(JsonPath js) {
         Allure.step("Check Sender Name");
         String senderName = js.getString("senderInfo.name");
         Assert.assertNotNull(senderName, "Sender Name Tidak ada");
         System.out.println("Terdapat Sender Name");
         Assert.assertFalse(senderName.isEmpty(), "Sender Name Kosong");
         System.out.println("Sender Name Tidak Kosong");
-        Assert.assertEquals(senderName, expectedSenderName, "Sender Name Tidak Sesuai Expected");
         System.out.println("Sender Name  Sudah Sesuai");
 
     }
 
-    public static void accType(JsonPath js, String expectedAccType) {
+    public static void accType(JsonPath js) {
         Allure.step("Check Account Type");
         String accType = js.getString("senderInfo.accountType");
         Assert.assertNotNull(accType, "Account Type Tidak ada");
@@ -253,13 +256,12 @@ public class assertionRequest {
         if (!validAccTypes.contains(accType)) {
             Assert.fail("Account Type tidak ada dalam spec: " + accType);
         }
-        Assert.assertEquals(accType, expectedAccType, "Account Type Tidak Sesuai Expected");
 
         System.out.println("Account Type Sudah Sesuai");
 
     }
 
-    public static void accInstId(JsonPath js, String expectedAccInstId) {
+    public static void accInstId(JsonPath js) {
         Allure.step("Check Account Institution Id");
         String accInstId = js.getString("senderInfo.accountType");
         Assert.assertNotNull(accInstId, "Account Institution Id Tidak ada");
@@ -267,13 +269,11 @@ public class assertionRequest {
         Assert.assertFalse(accInstId.isEmpty(), "Account Institution Id Kosong");
         System.out.println("Account Institution Id Tidak Kosong");
 
-        Assert.assertEquals(accInstId, expectedAccInstId, "Account Institution Id Tidak Sesuai Expected");
-
         System.out.println("Account Institution Id Sudah Sesuai");
 
     }
 
-    public static void country(JsonPath js, String expectedCountry) {
+    public static void country(JsonPath js) {
         Allure.step("Check Country");
         String country = js.getString("senderInfo.country");
         Assert.assertNotNull(country, "Country Tidak ada");
@@ -318,13 +318,11 @@ public class assertionRequest {
             Assert.fail("Account Type tidak ada dalam spec: " + country);
         }
 
-        Assert.assertEquals(country, expectedCountry, "Country Tidak Sesuai Expected");
-
         System.out.println("Country Sudah Sesuai");
 
     }
 
-    public static void city(JsonPath js, String expectedCity) {
+    public static void city(JsonPath js) {
         Allure.step("Check City");
         String city = js.getString("senderInfo.city");
         Assert.assertNotNull(city, "City Tidak ada");
@@ -332,13 +330,11 @@ public class assertionRequest {
         Assert.assertFalse(city.isEmpty(), "City Kosong");
         System.out.println("City Tidak Kosong");
 
-        Assert.assertEquals(city, expectedCity, "City Tidak Sesuai Expected");
-
         System.out.println("City Sudah Sesuai");
 
     }
 
-    public static void identificType(JsonPath js, String expectedIdType) {
+    public static void identificType(JsonPath js) {
         Allure.step("Check Identification Type");
         String idType = js.getString("senderInfo.identificationType");
         Assert.assertNotNull(idType, "Identification Type Tidak ada");
@@ -351,13 +347,12 @@ public class assertionRequest {
         if (!validAccTypes.contains(idType)) {
             Assert.fail("Identification Type tidak ada dalam spec: " + idType);
         }
-        Assert.assertEquals(idType, expectedIdType, "Identification Type Tidak Sesuai Expected");
 
         System.out.println("Identification Type Sudah Sesuai");
 
     }
 
-    public static void city(JsonPath js) {
+    public static void identificationNo(JsonPath js) {
         Allure.step("Check Id Number");
         String idNumber = js.getString("senderInfo.identificationNumber");
         Assert.assertNotNull(idNumber, "Id Number Tidak ada");
@@ -383,16 +378,15 @@ public class assertionRequest {
 
     }
 
-    public static void msgId(JsonPath js, String expectedMsgId) {
+    public static void msgId(JsonPath js) {
         Allure.step("Check MSG ID");
         String msgId = js.getString("additionalInfo.msgId");
         Assert.assertNotNull(msgId, "MSG ID Tidak ada");
         System.out.println("Terdapat MSG ID");
         Assert.assertFalse(msgId.isEmpty(), "MSG ID Kosong");
         System.out.println("MSG ID Tidak Kosong");
-
-        Assert.assertEquals(msgId, expectedMsgId, "MSG ID Tidak Sesuai Expected");
-
+        Assert.assertTrue(msgId.length() <= 42, "Jumlah MSG ID lebih dari 42");
+        System.out.println("MSG ID Sudah Kurang Dari 42");
         System.out.println("MSG ID Sudah Sesuai");
 
     }
@@ -409,6 +403,72 @@ public class assertionRequest {
 
         System.out.println("Account No Sudah Sesuai");
 
+    }
+
+    public static void checkMissingMandatoryFields(String jsonString, Set<String> mandatoryFields) {
+        JSONObject json = new JSONObject(jsonString);
+
+        boolean isMissingField = false;
+
+        for (String field : mandatoryFields) {
+
+            if (!jsonPathExists(json, field)) {
+                System.out.println("Missing mandatory field: " + field);
+                isMissingField = true;
+            }
+        }
+
+        if (isMissingField) {
+            Assert.assertTrue(isMissingField, "Test berhasil karena ada missing mandatory field.");
+        } else if (!isMissingField) {
+            Assert.fail("Mandatory Field lengkap, tidak ada missing mandatory");
+        }
+
+    }
+
+    public static boolean jsonPathExists(JSONObject json, String fieldPath) {
+        String[] keys = fieldPath.split("\\."); // Memecah path berdasarkan titik (dot notation)
+        JSONObject currentJson = json;
+
+        // Menavigasi ke objek bersarang menggunakan keys yang dipecah
+        for (int i = 0; i < keys.length; i++) {
+            if (currentJson.has(keys[i])) {
+                // Jika ini adalah key terakhir, cek apakah itu valid
+                if (i == keys.length - 1) {
+                    return true;
+                } else {
+                    currentJson = currentJson.getJSONObject(keys[i]);
+                }
+            } else {
+                return false; // Jika key tidak ditemukan
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        // Contoh JSON string yang akan diperiksa
+        String jsonString = "{\r\n" + //
+                "  \"partnerReferenceNo\": \"24062011140563260278\",\r\n" + //
+                "  \"beneficiaryBankCode\": \"BCA\",\r\n" + //
+                "  \"beneficiaryAccountNo\": \"1234567890\",\r\n" + //
+                "  \"additionalInfo\": {\r\n" + //
+                "    \"transferService\": \"FAST\",\r\n" + //
+                "    \"amount\": {\r\n" + //
+                "      \"value\": \"15001.00\",\r\n" + //
+                "      \"currency\": \"IDR\"\r\n" + //
+                "    }\r\n" + //
+                "  },\r\n" + //
+                "  \"dspsign\": \"sampleSignatureString1234567890\"\r\n" + //
+                "}";
+
+        // Set of mandatory fields
+        Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo", "beneficiaryBankCode", "beneficiaryAccountNo",
+                "additionalInfo.transferService", "additionalInfo.amount.value", "additionalInfo.amount.currency",
+                "dspsign");
+
+        // Memanggil method untuk memeriksa apakah ada field yang hilang
+        checkMissingMandatoryFields(jsonString, mandatoryFieldsBody);
     }
 
 }

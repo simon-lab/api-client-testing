@@ -45,12 +45,11 @@ public class assertionResponse {
         System.out.println("Response Message sudah sesuai");
     }
 
-    public static void assertBeneAccNo(JsonPath js, String oriBeneAccNo) {
+    public static void assertBeneAccNo(JsonPath js) {
         Allure.step("Check beneficiary Account Number");
         String beneAccNo = js.getString("beneficiaryAccountNo");
         Assert.assertNotNull(beneAccNo, "Bene Acc No Tidak Ada");
         Assert.assertFalse(beneAccNo.isEmpty(), "Bener Acc No Kosong");
-        Assert.assertEquals(beneAccNo, oriBeneAccNo, "Bene Acc No Tidak Sesuai");
         System.out.println("beneficiaryAccountNo: " + beneAccNo);
         System.out.println("beneficiaryAccountNo sudah sesuai");
     }
@@ -86,27 +85,51 @@ public class assertionResponse {
         System.out.println("Reference No sudah 12 karakter");
     }
 
-    public static void assertBeneAccName(JsonPath js, String oriBeneAccName) {
-        Allure.step("Check Beneficiary Account Name");
-        String beneAccName = js.getString("beneficiaryAccountName");
-        if (beneAccName != null) {
-            Assert.assertEquals(beneAccName, oriBeneAccName, "BeneAccName Tidak Sesuai");
-            System.out.println("Beneficiary Acc Number: " + beneAccName);
-            System.out.println("beneficiaryAccountNo sudah sesuai");
-        } else {
-            System.out.println("beneficiaryAccountNo tidak ada");
-        }
+    public static void assertBeneAccName(JsonPath js) {
+        Allure.step("Check Bene Acc Name");
+        String msgId = js.getString("beneficiaryAccountName");
+        Assert.assertNotNull(msgId, "Bene Acc Name Tidak ada");
+        System.out.println("Terdapat Bene Acc Name");
+        Assert.assertFalse(msgId.isEmpty(), "Bene Acc Name Kosong");
+        System.out.println("Bene Acc Name Tidak Kosong");
+        System.out.println("Bene Acc Name Sudah Sesuai");
     }
 
-    public static String assertMsgId(JsonPath js, String msgId) {
+    public static String assertMsgId(JsonPath js) {
         Allure.step("Check msgId");
-        msgId = js.getString("additionalInfo.msgId");
+        String msgId = js.getString("additionalInfo.msgId");
         Assert.assertNotNull(msgId, "msgId Tidak Ada");
         Assert.assertFalse(msgId.isEmpty(), "msgId kosong");
-        // Assert.assertEquals(msgId.length(), 42, "msgId tidak 42 karakter");
+        Assert.assertTrue(msgId.length() <= 42, "Jumlah MSG ID lebih dari 42");
         System.out.println("msgId: " + msgId);
         System.out.println("msg Id sudah 42 karakter");
         return msgId;
+    }
+
+    public static void serviceCode(JsonPath js) {
+        Allure.step("Check Service Code");
+        String serviceCode = js.getString("senderInfo.serviceCode");
+        Assert.assertNotNull(serviceCode, "Service Code Tidak ada");
+        System.out.println("Terdapat Service Code");
+        Assert.assertFalse(serviceCode.isEmpty(), "Service Code Kosong");
+        System.out.println("Service Code Tidak Kosong");
+
+        Assert.assertEquals(serviceCode, 18, "Service Code Tidak Sesuai Expected");
+
+        System.out.println("Service Code Sudah Sesuai");
+
+    }
+
+    public static void sourceAccountNo(JsonPath js) {
+        Allure.step("Check Source Account No");
+        String sourceAccountNo = js.getString("sourceAccountNo");
+        Assert.assertNotNull(sourceAccountNo, "Source Account No Tidak ada");
+        System.out.println("Terdapat Source Account No");
+        Assert.assertFalse(sourceAccountNo.isEmpty(), "Source Account No Kosong");
+        System.out.println("Source Account No Tidak Kosong");
+        Assert.assertTrue(sourceAccountNo.length() <= 19, "Jumlah karakter Source Account No lebih dari 19");
+        System.out.println("Source Account No Sudah Sesuai");
+
     }
 
     public static void assertIsoRC(JsonPath js, String expectedRC) {

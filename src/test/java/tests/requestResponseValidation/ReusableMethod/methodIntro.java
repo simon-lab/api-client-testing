@@ -39,7 +39,7 @@ public class methodIntro {
         System.out.println("INI EXPECTED NYA Case " + noCase + ": ");
         System.out.println(expected);
         String rc = separateCell.extractExpectedRC(expected);
-        String rm = separateCell.extractExpectedRM(expected);
+        String rm = separateCell.extractExpectedRM(expected).replace("\"", "");
         System.out.println("INI EXPECTED RESPONSE CODE" + noCase + ": ");
         System.out.println(rc);
         System.out.println("INI EXPECTED RESPONSE MESSAGE" + noCase + ": ");

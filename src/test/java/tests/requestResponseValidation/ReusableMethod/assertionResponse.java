@@ -120,6 +120,47 @@ public class assertionResponse {
 
     }
 
+    public static void value(JsonPath js) {
+        Allure.step("Check Value");
+        String value = js.getString("accountInfos.availableBalance.value");
+        Assert.assertNotNull(value, "Value Tidak ada");
+        System.out.println("Terdapat Value");
+        Assert.assertFalse(value.isEmpty(), "Value Kosong");
+        System.out.println("Value Tidak Kosong");
+        String pattern = "^\\d{1,16}\\.\\d{2}$";
+        Assert.assertTrue(value.matches(pattern),
+                "Format tidak valid! Harus max 16 digit di depan, dan 2 di belakang koma.");
+        System.out.println("Value Sudah Sesuai");
+
+    }
+
+    public static void currency(JsonPath js, String expectedCurrency) {
+        Allure.step("Check Currency");
+        String currency = js.getString("accountInfos.availableBalance.currency");
+        Assert.assertNotNull(currency, "Currency Tidak ada");
+        System.out.println("Terdapat Currency");
+        Assert.assertFalse(currency.isEmpty(), "Currency Kosong");
+        System.out.println("Currency Tidak Kosong");
+        Assert.assertTrue(currency.matches("^[A-Z]{3}$"), "Currency tidak dalam format ISO 4217 (3 huruf kapital)");
+        Assert.assertEquals(currency, expectedCurrency, "Currency Tidak Sesuai Expected");
+        System.out.println("Currency Sudah Sesuai");
+
+    }
+
+    public static void balanceType(JsonPath js, String expectedType) {
+        Allure.step("Check Balance Type");
+        String balanceType = js.getString("accountInfos.balanceType");
+        Assert.assertNotNull(balanceType, "Balance Type Tidak ada");
+        System.out.println("Terdapat Balance Type");
+        Assert.assertFalse(balanceType.isEmpty(), "Balance Type Kosong");
+        System.out.println("Balance Type Tidak Kosong");
+        Assert.assertTrue(balanceType.matches("^[A-Z]{3}$"),
+                "Balance Type tidak dalam format ISO 4217 (3 huruf kapital)");
+        Assert.assertEquals(balanceType, expectedType, "Balance Type Tidak Sesuai Expected");
+        System.out.println("Currency Sudah Sesuai");
+
+    }
+
     public static void sourceAccountNo(JsonPath js) {
         Allure.step("Check Source Account No");
         String sourceAccountNo = js.getString("sourceAccountNo");

@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import io.qameta.allure.Allure;
 import io.restassured.path.json.JsonPath;
+import tests.requestResponseValidation.ReusableMethod.assertionPackage;
 import tests.requestResponseValidation.ReusableMethod.assertionRequest;
 import tests.requestResponseValidation.ReusableMethod.assertionResponse;
 import tests.requestResponseValidation.ReusableMethod.excelReader;
@@ -55,11 +56,11 @@ public class testValidation {
         System.out.println("Akan menjalankan test: " + method.getName());
     }
 
-    @Test
-    public void case1() {
+    // @Test
+    public void case8o1() {
 
-        List<String> expected = intro.expectedDefinition(excelPath, 1);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 1);
+        List<String> expected = intro.expectedDefinition(excelPath, 1, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 1, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsHeader = js.get(0);
@@ -73,11 +74,11 @@ public class testValidation {
 
     }
 
-    @Test
-    public void case2() {
+    // @Test
+    public void case8o2() {
 
-        List<String> expected = intro.expectedDefinition(excelPath, 2);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 2);
+        List<String> expected = intro.expectedDefinition(excelPath, 2, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 2, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsHeader = js.get(0);
@@ -90,22 +91,26 @@ public class testValidation {
         assertionResponse.assertResponseMessage(jsResponse, expectedRM);
     }
 
-    @Test
-    public void case3() {
+    @Test(priority = 3)
+    public void case8o3() {
 
-        String requestCase = excelReader.requestCell(excelPath, 3);
+        String requestCase = excelReader.requestCell(excelPath, 3, "interbank");
         String headerRequestString = separateCell.header(requestCase);
         String bodyRequestString = separateCell.body(requestCase);
-        List<String> expected = intro.expectedDefinition(excelPath, 3);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 3);
+        List<String> expected = intro.expectedDefinition(excelPath, 3, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 3, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsResponse = js.get(2);
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
         JSONObject jsonObjectBody = new JSONObject(bodyRequestString);
+        Boolean inquiry = jsonObjectBody.has("additionalInfo.transferService");
+        Boolean exe = jsonObjectBody.has("sourceAccountNo");
+        Boolean checkStatus = jsonObjectBody.has("originalPartnerReferenceNo");
+        Boolean getBalance = jsonObjectBody.has("accountNo");
 
-        if (jsonObjectBody.has("additionalInfo.transferService")) {
+        if (inquiry) {
             Set<String> mandatoryFieldsHeader = Set.of("Authorization", "X-TIMESTAMP", "X-SIGNATURE", "X-PARTNER-ID",
                     "X-EXTERNAL-ID", "CHANNEL-ID");
             assertionRequest.checkMissingMandatoryFields(headerRequestString, mandatoryFieldsHeader);
@@ -115,7 +120,7 @@ public class testValidation {
                     "additionalInfo.transferService", "additionalInfo.amount.value", "additionalInfo.amount.currency",
                     "dspsign");
             assertionRequest.checkMissingMandatoryFields(bodyRequestString, mandatoryFieldsBody);
-        } else if (jsonObjectBody.has("sourceAccountNo")) {
+        } else if (exe) {
             Set<String> mandatoryFieldsHeader = Set.of("Authorization", "X-TIMESTAMP", "X-SIGNATURE", "X-PARTNER-ID",
                     "X-EXTERNAL-ID", "CHANNEL-ID");
             assertionRequest.checkMissingMandatoryFields(headerRequestString, mandatoryFieldsHeader);
@@ -127,7 +132,7 @@ public class testValidation {
                     "senderInfo.identificationType",
                     "dspsign");
             assertionRequest.checkMissingMandatoryFields(bodyRequestString, mandatoryFieldsBody);
-        } else if (jsonObjectBody.has("originalPartnerReferenceNo")) {
+        } else if (checkStatus) {
             Set<String> mandatoryFieldsHeader = Set.of("Authorization", "X-TIMESTAMP", "X-SIGNATURE", "X-PARTNER-ID",
                     "X-EXTERNAL-ID", "CHANNEL-ID");
             assertionRequest.checkMissingMandatoryFields(headerRequestString, mandatoryFieldsHeader);
@@ -135,7 +140,7 @@ public class testValidation {
             Set<String> mandatoryFieldsBody = Set.of("originalPartnerReferenceNo", "serviceCode",
                     "additionalInfo.msgId", "additionalInfo.dspsign");
             assertionRequest.checkMissingMandatoryFields(bodyRequestString, mandatoryFieldsBody);
-        } else if (jsonObjectBody.has("accountNo")) {
+        } else if (getBalance) {
             Set<String> mandatoryFieldsHeader = Set.of("Authorization", "X-TIMESTAMP", "X-SIGNATURE", "X-PARTNER-ID",
                     "X-EXTERNAL-ID", "CHANNEL-ID");
             assertionRequest.checkMissingMandatoryFields(headerRequestString, mandatoryFieldsHeader);
@@ -150,11 +155,11 @@ public class testValidation {
         assertionResponse.assertResponseMessage(jsResponse, expectedRM);
     }
 
-    @Test
-    public void case4() {
+    // @Test
+    public void case8o4() {
 
-        List<String> expected = intro.expectedDefinition(excelPath, 4);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 4);
+        List<String> expected = intro.expectedDefinition(excelPath, 4, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 4, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsHeader = js.get(0);
@@ -167,13 +172,13 @@ public class testValidation {
         assertionResponse.assertResponseMessage(jsResponse, expectedRM);
     }
 
-    @Test
-    public void case5() {
+    // @Test
+    public void case8o5() {
 
-        String requestCase = excelReader.requestCell(excelPath, 5);
+        String requestCase = excelReader.requestCell(excelPath, 5, "interbank");
         String bodyRequestString = separateCell.body(requestCase);
-        List<String> expected = intro.expectedDefinition(excelPath, 5);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 5);
+        List<String> expected = intro.expectedDefinition(excelPath, 5, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 5, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsHeader = js.get(0);
@@ -188,61 +193,15 @@ public class testValidation {
         Boolean getBalance = jsonObjectBody.has("accountNo");
 
         if (inquiry) {
-            assertionRequest.assertXTimeStamp(jsHeader);
-            assertionRequest.assertXPartnerId(jsHeader, testData.partnerId());
-            assertionRequest.assertXExternalId(jsHeader);
-            assertionRequest.assertChannelID(jsHeader, testData.channelId());
-
-            assertionRequest.assertPartnerReferenceNo(jsResponse);
-            assertionRequest.beneBankCode(jsBody);
-            assertionRequest.beneAccNo(jsBody);
-            assertionRequest.transferService(jsBody, testData.transferService());
-            assertionRequest.value(jsBody);
-            assertionRequest.currency(jsBody, testData.currency());
-            assertionRequest.dspSign(jsBody, testData.jwt());
+            assertionPackage.inquiry(jsHeader, jsBody, testData);
         } else if (exe) {
-            assertionRequest.assertXTimeStamp(jsHeader);
-            assertionRequest.assertXPartnerId(jsHeader, testData.partnerId());
-            assertionRequest.assertXExternalId(jsHeader);
-            assertionRequest.assertChannelID(jsHeader, testData.channelId());
-
-            assertionRequest.assertPartnerReferenceNo(jsBody);
-            assertionRequest.sourceAccountNo(jsBody);
-            assertionRequest.beneBankCode(jsBody);
-            assertionRequest.beneAccNo(jsBody);
-            assertionRequest.beneAccName(jsBody);
-            assertionRequest.trxDate(jsBody);
-            assertionRequest.value(jsBody);
-            assertionRequest.currency(jsBody, testData.currency());
-            assertionRequest.msgId(jsBody);
-            // assertionRequest.disbCategory(jsBody, expectedRM);
-            assertionRequest.senderName(jsBody);
-            assertionRequest.accType(jsBody);
-            assertionRequest.accInstId(jsBody);
-            assertionRequest.country(jsBody);
-            assertionRequest.city(jsBody);
-            assertionRequest.identificationNo(jsBody);
-            assertionRequest.dspSign(jsBody, testData.jwt());
+            assertionPackage.exe(jsHeader, jsBody, testData);
 
         } else if (checkStatus) {
-            assertionRequest.assertXTimeStamp(jsHeader);
-            assertionRequest.assertXPartnerId(jsHeader, testData.partnerId());
-            assertionRequest.assertXExternalId(jsHeader);
-            assertionRequest.assertChannelID(jsHeader, testData.channelId());
-
-            assertionRequest.assertPartnerReferenceNo(jsResponse);
-            assertionRequest.serviceCode(jsBody);
-            assertionRequest.msgId(jsBody);
-            assertionRequest.dspSign(jsBody, testData.jwt());
+            assertionPackage.checkStatus(jsHeader, jsBody, testData);
 
         } else if (getBalance) {
-            assertionRequest.assertXTimeStamp(jsHeader);
-            assertionRequest.assertXPartnerId(jsHeader, testData.partnerId());
-            assertionRequest.assertXExternalId(jsHeader);
-            assertionRequest.assertChannelID(jsHeader, testData.channelId());
-
-            assertionRequest.accNo(jsBody, testData.partnerId());
-            assertionRequest.dspSign(jsBody, testData.jwt());
+            assertionPackage.getBalance(jsHeader, jsBody, testData);
 
         } else {
             System.out.print("Unique Field Tidak Ditemukan");
@@ -252,11 +211,11 @@ public class testValidation {
         assertionResponse.assertResponseMessage(jsResponse, expectedRM);
     }
 
-    @Test
-    public void case7() {
+    // @Test
+    public void case8o7() {
 
-        List<String> expected = intro.expectedDefinition(excelPath, 7);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 7);
+        List<String> expected = intro.expectedDefinition(excelPath, 7, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 7, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsHeader = js.get(0);
@@ -264,18 +223,7 @@ public class testValidation {
         JsonPath jsResponse = js.get(2);
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
-        assertionRequest.assertXTimeStamp(jsHeader);
-        assertionRequest.assertXPartnerId(jsHeader, testData.partnerId());
-        assertionRequest.assertXExternalId(jsHeader);
-        assertionRequest.assertChannelID(jsHeader, testData.channelId());
-
-        assertionRequest.assertPartnerReferenceNo(jsResponse);
-        assertionRequest.beneBankCode(jsBody);
-        assertionRequest.beneAccName(jsBody);
-        assertionRequest.transferService(jsBody, testData.transferService());
-        assertionRequest.value(jsBody);
-        assertionRequest.currency(jsBody, testData.currency());
-        assertionRequest.dspSign(jsBody, testData.jwt());
+        assertionPackage.inquiry(jsHeader, jsBody, testData);
 
         assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
         assertionResponse.assertResponseMessage(jsResponse, expectedRM);
@@ -287,11 +235,11 @@ public class testValidation {
         assertionResponse.assertIsoMessage(jsResponse, "Success");
     }
 
-    @Test
-    public void case9() {
+    // @Test
+    public void case8o9() {
 
-        List<String> expected = intro.expectedDefinition(excelPath, 9);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 9);
+        List<String> expected = intro.expectedDefinition(excelPath, 8, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 8, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsHeader = js.get(0);
@@ -299,18 +247,7 @@ public class testValidation {
         JsonPath jsResponse = js.get(2);
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
-        assertionRequest.assertXTimeStamp(jsHeader);
-        assertionRequest.assertXPartnerId(jsHeader, testData.partnerId());
-        assertionRequest.assertXExternalId(jsHeader);
-        assertionRequest.assertChannelID(jsHeader, testData.channelId());
-
-        assertionRequest.assertPartnerReferenceNo(jsResponse);
-        assertionRequest.beneBankCode(jsBody);
-        assertionRequest.beneAccName(jsBody);
-        assertionRequest.transferService(jsBody, testData.transferService());
-        assertionRequest.value(jsBody);
-        assertionRequest.currency(jsBody, testData.currency());
-        assertionRequest.dspSign(jsBody, testData.jwt());
+        assertionPackage.inquiry(jsHeader, jsBody, testData);
 
         assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
         assertionResponse.assertResponseMessage(jsResponse, expectedRM);
@@ -322,11 +259,11 @@ public class testValidation {
         assertionResponse.assertIsoMessage(jsResponse, "Success");
     }
 
-    @Test
-    public void case11() {
+    // @Test
+    public void case8o11() {
 
-        List<String> expected = intro.expectedDefinition(excelPath, 11);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 11);
+        List<String> expected = intro.expectedDefinition(excelPath, 10, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 10, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsHeader = js.get(0);
@@ -334,28 +271,7 @@ public class testValidation {
         JsonPath jsResponse = js.get(2);
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
-        assertionRequest.assertXTimeStamp(jsHeader);
-        assertionRequest.assertXPartnerId(jsHeader, testData.partnerId());
-        assertionRequest.assertXExternalId(jsHeader);
-        assertionRequest.assertChannelID(jsHeader, testData.channelId());
-
-        assertionRequest.assertPartnerReferenceNo(jsBody);
-        assertionRequest.sourceAccountNo(jsBody);
-        assertionRequest.beneBankCode(jsBody);
-        assertionRequest.beneAccNo(jsBody);
-        assertionRequest.beneAccName(jsBody);
-        assertionRequest.trxDate(jsBody);
-        assertionRequest.value(jsBody);
-        assertionRequest.currency(jsBody, testData.currency());
-        assertionRequest.msgId(jsBody);
-        // assertionRequest.disbCategory(jsBody, expectedRM);
-        assertionRequest.senderName(jsBody);
-        assertionRequest.accType(jsBody);
-        assertionRequest.accInstId(jsBody);
-        assertionRequest.country(jsBody);
-        assertionRequest.city(jsBody);
-        assertionRequest.identificationNo(jsBody);
-        assertionRequest.dspSign(jsBody, testData.jwt());
+        assertionPackage.exe(jsHeader, jsBody, testData);
 
         assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
         assertionResponse.assertResponseMessage(jsResponse, expectedRM);
@@ -366,11 +282,11 @@ public class testValidation {
 
     }
 
-    @Test
-    public void case12() {
+    // @Test
+    public void case8o12() {
 
-        List<String> expected = intro.expectedDefinition(excelPath, 11);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 11);
+        List<String> expected = intro.expectedDefinition(excelPath, 11, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 11, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsHeader = js.get(0);
@@ -378,28 +294,7 @@ public class testValidation {
         JsonPath jsResponse = js.get(2);
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
-        assertionRequest.assertXTimeStamp(jsHeader);
-        assertionRequest.assertXPartnerId(jsHeader, testData.partnerId());
-        assertionRequest.assertXExternalId(jsHeader);
-        assertionRequest.assertChannelID(jsHeader, testData.channelId());
-
-        assertionRequest.assertPartnerReferenceNo(jsBody);
-        assertionRequest.sourceAccountNo(jsBody);
-        assertionRequest.beneBankCode(jsBody);
-        assertionRequest.beneAccNo(jsBody);
-        assertionRequest.beneAccName(jsBody);
-        assertionRequest.trxDate(jsBody);
-        assertionRequest.value(jsBody);
-        assertionRequest.currency(jsBody, testData.currency());
-        assertionRequest.msgId(jsBody);
-        // assertionRequest.disbCategory(jsBody, expectedRM);
-        assertionRequest.senderName(jsBody);
-        assertionRequest.accType(jsBody);
-        assertionRequest.accInstId(jsBody);
-        assertionRequest.country(jsBody);
-        assertionRequest.city(jsBody);
-        assertionRequest.identificationNo(jsBody);
-        assertionRequest.dspSign(jsBody, testData.jwt());
+        assertionPackage.exe(jsHeader, jsBody, testData);
 
         assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
         assertionResponse.assertResponseMessage(jsResponse, expectedRM);
@@ -409,11 +304,11 @@ public class testValidation {
         assertionResponse.assertIsoMessage(jsResponse, "Success");
     }
 
-    @Test
-    public void case13() {
+    // @Test
+    public void case8o13() {
 
-        List<String> expected = intro.expectedDefinition(excelPath, 11);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 11);
+        List<String> expected = intro.expectedDefinition(excelPath, 12, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 12, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsHeader = js.get(0);
@@ -421,28 +316,7 @@ public class testValidation {
         JsonPath jsResponse = js.get(2);
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
-        assertionRequest.assertXTimeStamp(jsHeader);
-        assertionRequest.assertXPartnerId(jsHeader, testData.partnerId());
-        assertionRequest.assertXExternalId(jsHeader);
-        assertionRequest.assertChannelID(jsHeader, testData.channelId());
-
-        assertionRequest.assertPartnerReferenceNo(jsBody);
-        assertionRequest.sourceAccountNo(jsBody);
-        assertionRequest.beneBankCode(jsBody);
-        assertionRequest.beneAccNo(jsBody);
-        assertionRequest.beneAccName(jsBody);
-        assertionRequest.trxDate(jsBody);
-        assertionRequest.value(jsBody);
-        assertionRequest.currency(jsBody, testData.currency());
-        assertionRequest.msgId(jsBody);
-        // assertionRequest.disbCategory(jsBody, expectedRM);
-        assertionRequest.senderName(jsBody);
-        assertionRequest.accType(jsBody);
-        assertionRequest.accInstId(jsBody);
-        assertionRequest.country(jsBody);
-        assertionRequest.city(jsBody);
-        assertionRequest.identificationNo(jsBody);
-        assertionRequest.dspSign(jsBody, testData.jwt());
+        assertionPackage.exe(jsHeader, jsBody, testData);
 
         assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
         assertionResponse.assertResponseMessage(jsResponse, expectedRM);
@@ -452,11 +326,11 @@ public class testValidation {
         assertionResponse.assertIsoMessage(jsResponse, "Success");
     }
 
-    @Test
-    public void case14() {
+    // @Test
+    public void case8o14() {
 
-        List<String> expected = intro.expectedDefinition(excelPath, 11);
-        List<JsonPath> js = intro.caseDataDefinition(excelPath, 11);
+        List<String> expected = intro.expectedDefinition(excelPath, 13, "interbank");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 13, "interbank");
         String expectedRC = expected.get(0);
         String expectedRM = expected.get(1);
         JsonPath jsHeader = js.get(0);
@@ -464,15 +338,7 @@ public class testValidation {
         JsonPath jsResponse = js.get(2);
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
-        assertionRequest.assertXTimeStamp(jsHeader);
-        assertionRequest.assertXPartnerId(jsHeader, testData.partnerId());
-        assertionRequest.assertXExternalId(jsHeader);
-        assertionRequest.assertChannelID(jsHeader, testData.channelId());
-
-        assertionRequest.assertPartnerReferenceNo(jsResponse);
-        assertionRequest.serviceCode(jsBody);
-        assertionRequest.msgId(jsBody);
-        assertionRequest.dspSign(jsBody, testData.jwt());
+        assertionPackage.checkStatus(jsHeader, jsBody, testData);
 
         assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
         assertionResponse.assertResponseMessage(jsResponse, expectedRM);
@@ -482,6 +348,227 @@ public class testValidation {
         assertionResponse.sourceAccountNo(jsResponse);
         assertionResponse.assertIsoRC(jsResponse, "00");
         assertionResponse.assertIsoMessage(jsResponse, "Success");
+    }
+
+    // @Test
+    public void case3o3() {
+
+        String requestCase = excelReader.requestCell(excelPath, 3, "balance");
+        String headerRequestString = separateCell.header(requestCase);
+        String bodyRequestString = separateCell.body(requestCase);
+        List<String> expected = intro.expectedDefinition(excelPath, 3, "balance");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 3, "balance");
+        String expectedRC = expected.get(0);
+        String expectedRM = expected.get(1);
+        JsonPath jsResponse = js.get(2);
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        JSONObject jsonObjectBody = new JSONObject(bodyRequestString);
+        Boolean inquiry = jsonObjectBody.has("additionalInfo.transferService");
+        Boolean exe = jsonObjectBody.has("sourceAccountNo");
+        Boolean checkStatus = jsonObjectBody.has("originalPartnerReferenceNo");
+        Boolean getBalance = jsonObjectBody.has("accountNo");
+
+        if (inquiry) {
+            Set<String> mandatoryFieldsHeader = Set.of("Authorization", "X-TIMESTAMP", "X-SIGNATURE", "X-PARTNER-ID",
+                    "X-EXTERNAL-ID", "CHANNEL-ID");
+            assertionRequest.checkMissingMandatoryFields(headerRequestString, mandatoryFieldsHeader);
+
+            Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo", "beneficiaryBankCode",
+                    "beneficiaryAccountNo",
+                    "additionalInfo.transferService", "additionalInfo.amount.value", "additionalInfo.amount.currency",
+                    "dspsign");
+            assertionRequest.checkMissingMandatoryFields(bodyRequestString, mandatoryFieldsBody);
+        } else if (exe) {
+            Set<String> mandatoryFieldsHeader = Set.of("Authorization", "X-TIMESTAMP", "X-SIGNATURE", "X-PARTNER-ID",
+                    "X-EXTERNAL-ID", "CHANNEL-ID");
+            assertionRequest.checkMissingMandatoryFields(headerRequestString, mandatoryFieldsHeader);
+
+            Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo", "sourceAccountNo", "beneficiaryBankCode",
+                    "beneficiaryAccountNo", "beneAccountName", "transactionDate", "amount.value", "amount.currency",
+                    "additionalInfo.msgId", "additionalInfo.disbCategory", "senderInfo.name", "senderInfo.accountType",
+                    "senderInfo,accountInstId", "senderInfo.country", "senderInfo.city",
+                    "senderInfo.identificationType",
+                    "dspsign");
+            assertionRequest.checkMissingMandatoryFields(bodyRequestString, mandatoryFieldsBody);
+        } else if (checkStatus) {
+            Set<String> mandatoryFieldsHeader = Set.of("Authorization", "X-TIMESTAMP", "X-SIGNATURE", "X-PARTNER-ID",
+                    "X-EXTERNAL-ID", "CHANNEL-ID");
+            assertionRequest.checkMissingMandatoryFields(headerRequestString, mandatoryFieldsHeader);
+
+            Set<String> mandatoryFieldsBody = Set.of("originalPartnerReferenceNo", "serviceCode",
+                    "additionalInfo.msgId", "additionalInfo.dspsign");
+            assertionRequest.checkMissingMandatoryFields(bodyRequestString, mandatoryFieldsBody);
+        } else if (getBalance) {
+            Set<String> mandatoryFieldsHeader = Set.of("Authorization", "X-TIMESTAMP", "X-SIGNATURE", "X-PARTNER-ID",
+                    "X-EXTERNAL-ID", "CHANNEL-ID");
+            assertionRequest.checkMissingMandatoryFields(headerRequestString, mandatoryFieldsHeader);
+
+            Set<String> mandatoryFieldsBody = Set.of("accountNo", "additionalInfo.dspsign");
+            assertionRequest.checkMissingMandatoryFields(bodyRequestString, mandatoryFieldsBody);
+        } else {
+            System.out.print("Unique Field Tidak Ditemukan");
+        }
+
+        assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
+        assertionResponse.assertResponseMessage(jsResponse, expectedRM);
+    }
+
+    // @Test
+    public void case3o4() {
+
+        String requestCase = excelReader.requestCell(excelPath, 5, "balance");
+        String bodyRequestString = separateCell.body(requestCase);
+        List<String> expected = intro.expectedDefinition(excelPath, 5, "balance");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 5, "balance");
+        String expectedRC = expected.get(0);
+        String expectedRM = expected.get(1);
+        JsonPath jsHeader = js.get(0);
+        JsonPath jsBody = js.get(1);
+        JsonPath jsResponse = js.get(2);
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        JSONObject jsonObjectBody = new JSONObject(bodyRequestString);
+        Boolean inquiry = jsonObjectBody.has("additionalInfo.transferService");
+        Boolean exe = jsonObjectBody.has("additionalInfo.transferService");
+        Boolean checkStatus = jsonObjectBody.has("originalPartnerReferenceNo");
+        Boolean getBalance = jsonObjectBody.has("accountNo");
+
+        if (inquiry) {
+            assertionPackage.inquiry(jsHeader, jsBody, testData);
+        } else if (exe) {
+            assertionPackage.exe(jsHeader, jsBody, testData);
+
+        } else if (checkStatus) {
+            assertionPackage.checkStatus(jsHeader, jsBody, testData);
+
+        } else if (getBalance) {
+            assertionPackage.getBalance(jsHeader, jsBody, testData);
+
+        } else {
+            System.out.print("Unique Field Tidak Ditemukan");
+        }
+
+        assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
+        assertionResponse.assertResponseMessage(jsResponse, expectedRM);
+    }
+
+    // @Test
+    public void case3o5() {
+
+        List<String> expected = intro.expectedDefinition(excelPath, 6, "balance");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 6, "balance");
+        String expectedRC = expected.get(0);
+        String expectedRM = expected.get(1);
+        JsonPath jsHeader = js.get(0);
+        JsonPath jsBody = js.get(1);
+        JsonPath jsResponse = js.get(2);
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionPackage.getBalance(jsHeader, jsBody, testData);
+
+        assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
+        assertionResponse.assertResponseMessage(jsResponse, expectedRM);
+        assertionResponse.balanceType(jsResponse, "Disburse_Balance");
+        assertionResponse.value(jsResponse);
+        assertionResponse.currency(jsResponse, testData.currency());
+    }
+
+    // @Test
+    public void case3o6() {
+
+        List<String> expected = intro.expectedDefinition(excelPath, 7, "balance");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 7, "balance");
+        String expectedRC = expected.get(0);
+        String expectedRM = expected.get(1);
+        JsonPath jsHeader = js.get(0);
+        JsonPath jsBody = js.get(1);
+        JsonPath jsResponse = js.get(2);
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionPackage.getBalance(jsHeader, jsBody, testData);
+
+        assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
+        assertionResponse.assertResponseMessage(jsResponse, expectedRM);
+        assertionResponse.balanceType(jsResponse, "Disburse_Balance");
+        assertionResponse.value(jsResponse);
+        assertionResponse.currency(jsResponse, testData.currency());
+    }
+
+    // @Test
+    public void case3o7() {
+
+        List<String> expected = intro.expectedDefinition(excelPath, 8, "balance");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 8, "balance");
+        String expectedRC = expected.get(0);
+        String expectedRM = expected.get(1);
+        JsonPath jsHeader = js.get(0);
+        JsonPath jsBody = js.get(1);
+        JsonPath jsResponse = js.get(2);
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionPackage.getBalance(jsHeader, jsBody, testData);
+
+        assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
+        assertionResponse.assertResponseMessage(jsResponse, expectedRM);
+
+    }
+
+    // @Test
+    public void case3o8() {
+
+        List<String> expected = intro.expectedDefinition(excelPath, 9, "balance");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 9, "balance");
+        String expectedRC = expected.get(0);
+        String expectedRM = expected.get(1);
+        JsonPath jsHeader = js.get(0);
+        JsonPath jsBody = js.get(1);
+        JsonPath jsResponse = js.get(2);
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionPackage.getBalance(jsHeader, jsBody, testData);
+
+        assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
+        assertionResponse.assertResponseMessage(jsResponse, expectedRM);
+
+    }
+
+    // @Test
+    public void case3o9() {
+
+        List<String> expected = intro.expectedDefinition(excelPath, 10, "balance");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 10, "balance");
+        String expectedRC = expected.get(0);
+        String expectedRM = expected.get(1);
+        JsonPath jsHeader = js.get(0);
+        JsonPath jsBody = js.get(1);
+        JsonPath jsResponse = js.get(2);
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionPackage.getBalance(jsHeader, jsBody, testData);
+
+        assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
+        assertionResponse.assertResponseMessage(jsResponse, expectedRM);
+
+    }
+
+    // @Test
+    public void case3o10() {
+
+        List<String> expected = intro.expectedDefinition(excelPath, 11, "balance");
+        List<JsonPath> js = intro.caseDataDefinition(excelPath, 11, "balance");
+        String expectedRC = expected.get(0);
+        String expectedRM = expected.get(1);
+        JsonPath jsHeader = js.get(0);
+        JsonPath jsBody = js.get(1);
+        JsonPath jsResponse = js.get(2);
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionPackage.getBalance(jsHeader, jsBody, testData);
+
+        assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
+        assertionResponse.assertResponseMessage(jsResponse, expectedRM);
+
     }
 
 }

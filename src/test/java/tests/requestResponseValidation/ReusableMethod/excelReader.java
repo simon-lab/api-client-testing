@@ -14,16 +14,27 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class excelReader {
 
-    public static List<String> expectedReader(String excelFilePath) {
+    public static List<String> expectedReader(String excelFilePath, String service) {
         List<String> expectedList = new ArrayList<>();
 
         try (FileInputStream fis = new FileInputStream(new File(excelFilePath));
                 Workbook workbook = new XSSFWorkbook(fis)) {
 
-            Sheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = null;
+            int startRow = 0;
+            int endRow = 0;
 
-            int startRow = 9;
-            int endRow = 21;
+            if (service.equalsIgnoreCase("interbank")) {
+                sheet = workbook.getSheetAt(0);
+
+                startRow = 9;
+                endRow = 21;
+            } else if (service.equalsIgnoreCase("balance")) {
+                sheet = workbook.getSheetAt(1);
+
+                startRow = 8;
+                endRow = 18;
+            }
 
             for (int rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
                 Row dataRow = sheet.getRow(rowIndex);
@@ -41,16 +52,27 @@ public class excelReader {
         return expectedList;
     }
 
-    public static List<String> requestReader(String excelFilePath) {
+    public static List<String> requestReader(String excelFilePath, String service) {
         List<String> requestList = new ArrayList<>();
 
         try (FileInputStream fis = new FileInputStream(new File(excelFilePath));
                 Workbook workbook = new XSSFWorkbook(fis)) {
 
-            Sheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = null;
+            int startRow = 0;
+            int endRow = 0;
 
-            int startRow = 9;
-            int endRow = 21;
+            if (service.equalsIgnoreCase("interbank")) {
+                sheet = workbook.getSheetAt(0);
+
+                startRow = 9;
+                endRow = 21;
+            } else if (service.equalsIgnoreCase("balance")) {
+                sheet = workbook.getSheetAt(1);
+
+                startRow = 8;
+                endRow = 18;
+            }
 
             for (int rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
                 Row dataRow = sheet.getRow(rowIndex);
@@ -68,16 +90,27 @@ public class excelReader {
         return requestList;
     }
 
-    public static List<String> responseReader(String excelFilePath) {
+    public static List<String> responseReader(String excelFilePath, String service) {
         List<String> responseList = new ArrayList<>();
 
         try (FileInputStream fis = new FileInputStream(new File(excelFilePath));
                 Workbook workbook = new XSSFWorkbook(fis)) {
 
-            Sheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = null;
+            int startRow = 0;
+            int endRow = 0;
 
-            int startRow = 9;
-            int endRow = 21;
+            if (service.equalsIgnoreCase("interbank")) {
+                sheet = workbook.getSheetAt(0);
+
+                startRow = 9;
+                endRow = 21;
+            } else if (service.equalsIgnoreCase("balance")) {
+                sheet = workbook.getSheetAt(1);
+
+                startRow = 8;
+                endRow = 18;
+            }
 
             for (int rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
                 Row dataRow = sheet.getRow(rowIndex);
@@ -95,18 +128,18 @@ public class excelReader {
         return responseList;
     }
 
-    public static String expectedCell(String excelPath, int noCase) {
-        String request = expectedReader(excelPath).get(noCase - 1);
+    public static String expectedCell(String excelPath, int noCase, String service) {
+        String request = expectedReader(excelPath, service).get(noCase - 1);
         return request;
     }
 
-    public static String requestCell(String excelPath, int noCase) {
-        String request = requestReader(excelPath).get(noCase - 1);
+    public static String requestCell(String excelPath, int noCase, String service) {
+        String request = requestReader(excelPath, service).get(noCase - 1);
         return request;
     }
 
-    public static String responseCell(String excelPath, int noCase) {
-        String request = responseReader(excelPath).get(noCase - 1);
+    public static String responseCell(String excelPath, int noCase, String service) {
+        String request = responseReader(excelPath, service).get(noCase - 1);
         return request;
     }
 
@@ -133,9 +166,9 @@ public class excelReader {
 
     public static void main(String[] args) {
         String excelPath = "src/test/java/tests/requestResponseValidation/model/TestcaseSNAPBI.xlsx";
-        List<String> expectedData = expectedReader(excelPath);
-        List<String> requestData = requestReader(excelPath);
-        List<String> responseData = responseReader(excelPath);
+        List<String> expectedData = expectedReader(excelPath, "interbank");
+        List<String> requestData = requestReader(excelPath, "interbank");
+        List<String> responseData = responseReader(excelPath, "interbank");
         System.out.println("INI EXPECTED RESULT");
         System.out.println(expectedData);
         System.out.println("INI REQUEST");

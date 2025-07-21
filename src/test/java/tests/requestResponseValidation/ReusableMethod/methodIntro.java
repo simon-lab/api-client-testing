@@ -7,14 +7,14 @@ import io.restassured.path.json.JsonPath;
 
 public class methodIntro {
 
-    public static List<JsonPath> caseDataDefinition(String excelPath, int noCase) {
+    public static List<JsonPath> caseDataDefinition(String excelPath, int noCase, String service) {
 
-        String requestCase = excelReader.requestCell(excelPath, noCase);
+        String requestCase = excelReader.requestCell(excelPath, noCase, service);
         String headerRequest = separateCell.header(requestCase);
         String bodyRequest = separateCell.body(requestCase);
         JsonPath jsRequestBody = parsingJson.rawToJson(bodyRequest);
         JsonPath jsRequestHeader = parsingJson.rawToJson(headerRequest);
-        String responseCase = excelReader.responseCell(excelPath, noCase);
+        String responseCase = excelReader.responseCell(excelPath, noCase, service);
         JsonPath jsResponse = parsingJson.rawToJson(responseCase);
         List<JsonPath> jsGathering = new ArrayList<>();
         jsGathering.add(jsRequestHeader);
@@ -34,8 +34,8 @@ public class methodIntro {
 
     }
 
-    public static List<String> expectedDefinition(String excelPath, int noCase) {
-        String expected = excelReader.expectedCell(excelPath, noCase);
+    public static List<String> expectedDefinition(String excelPath, int noCase, String service) {
+        String expected = excelReader.expectedCell(excelPath, noCase, service);
         System.out.println("INI EXPECTED NYA Case " + noCase + ": ");
         System.out.println(expected);
         String rc = separateCell.extractExpectedRC(expected);

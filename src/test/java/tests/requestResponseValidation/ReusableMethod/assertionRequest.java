@@ -116,24 +116,24 @@ public class assertionRequest {
     }
 
     public static void beneBankCode(JsonPath js, clientTestData testData) {
-        Allure.step("Check Beneficiary Account Code");
+        Allure.step("Check Beneficiary Bank Code");
         String beneBankCode = js.getString("beneficiaryBankCode");
         String transferService = testData.transferService();
-        Assert.assertNotNull(beneBankCode, "Beneficiary Account Code tidak ada");
-        System.out.println("Terdapat Beneficiary Account Code");
-        Assert.assertFalse(beneBankCode.isEmpty(), "Beneficiary Account Code Kosong");
-        System.out.println("Beneficiary Account Code Tidak Kosong");
+        Assert.assertNotNull(beneBankCode, "Beneficiary Bank Code tidak ada");
+        System.out.println("Terdapat Beneficiary Bank Code");
+        Assert.assertFalse(beneBankCode.isEmpty(), "Beneficiary Bank Code Kosong");
+        System.out.println("Beneficiary Bank Code Tidak Kosong");
 
         if (transferService.equalsIgnoreCase("REALTIME ONLINE")) {
             Assert.assertTrue(beneBankCode.length() <= 3,
-                    "Jumlah karakter Beneficiary Account Code REALTIME ONLINE lebih dari 3");
+                    "Jumlah karakter Beneficiary Bank Code REALTIME ONLINE lebih dari 3");
         } else if (transferService.equalsIgnoreCase("BI FAST")) {
             Assert.assertTrue(beneBankCode.length() <= 8,
-                    "Jumlah karakter Beneficiary Account Code BI FAST lebih dari 8");
+                    "Jumlah karakter Beneficiary Bank Code BI FAST lebih dari 8");
         } else {
             Assert.fail("Transfer service tidak dikenali");
         }
-        System.out.println("Beneficiary Account Code Sudah Sesuai");
+        System.out.println("Beneficiary Bank Code Sudah Sesuai");
 
     }
 
@@ -447,6 +447,7 @@ public class assertionRequest {
 
     public static void checkMissingMandatoryFields(String jsonStringHeader,
             Set<String> mandatoryFieldsheader, String jsonStringBody, Set<String> mandatoryFieldsBody) {
+        Allure.step("Check Missing Mandatory Field");
         JSONObject json1 = new JSONObject(jsonStringHeader);
         JSONObject json2 = new JSONObject(jsonStringBody);
 
@@ -496,24 +497,26 @@ public class assertionRequest {
 
     public static void main(String[] args) {
         // Contoh JSON string yang akan diperiksa
-        String jsonString = "{\r\n" + //
-                "  \"partnerReferenceNo\": \"24062011140563260278\",\r\n" + //
-                "  \"beneficiaryBankCode\": \"BCA\",\r\n" + //
-                "  \"beneficiaryAccountNo\": \"1234567890\",\r\n" + //
-                "  \"additionalInfo\": {\r\n" + //
-                "    \"transferService\": \"FAST\",\r\n" + //
-                "    \"amount\": {\r\n" + //
-                "      \"value\": \"15001.00\",\r\n" + //
-                "      \"currency\": \"IDR\"\r\n" + //
-                "    }\r\n" + //
-                "  },\r\n" + //
-                "  \"dspsign\": \"sampleSignatureString1234567890\"\r\n" + //
-                "}";
+        // String jsonString = "{\r\n" + //
+        // " \"partnerReferenceNo\": \"24062011140563260278\",\r\n" + //
+        // " \"beneficiaryBankCode\": \"BCA\",\r\n" + //
+        // " \"beneficiaryAccountNo\": \"1234567890\",\r\n" + //
+        // " \"additionalInfo\": {\r\n" + //
+        // " \"transferService\": \"FAST\",\r\n" + //
+        // " \"amount\": {\r\n" + //
+        // " \"value\": \"15001.00\",\r\n" + //
+        // " \"currency\": \"IDR\"\r\n" + //
+        // " }\r\n" + //
+        // " },\r\n" + //
+        // " \"dspsign\": \"sampleSignatureString1234567890\"\r\n" + //
+        // "}";
 
         // Set of mandatory fields
-        Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo", "beneficiaryBankCode", "beneficiaryAccountNo",
-                "additionalInfo.transferService", "additionalInfo.amount.value", "additionalInfo.amount.currency",
-                "dspsign");
+        // Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo",
+        // "beneficiaryBankCode", "beneficiaryAccountNo",
+        // "additionalInfo.transferService", "additionalInfo.amount.value",
+        // "additionalInfo.amount.currency",
+        // "dspsign");
 
         // Memanggil method untuk memeriksa apakah ada field yang hilang
         // checkMissingMandatoryFields(jsonString, mandatoryFieldsBody);

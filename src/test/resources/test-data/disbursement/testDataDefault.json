@@ -1,8 +1,8 @@
 {
 "excelPath": "src/test/java/tests/requestResponseValidation/model/TestcaseSNAPBI.xlsx",
-"partnerId":"",
-"channelId":"",
+"partnerId":"D00000000000016",
+"channelId":"95221",
 "transferService":"REALTIME ONLINE",
 "currency":"IDR",
-"jwt":""
+"jwt":"eyJhbGciOiJIUzI1NiJ9.eyJjbGllbnRJZCI6IkQwMDAwMDAwMDAwMDAwMSJ9.7WWdX_nUDG_ifh90DhYsDsXILAC6gH-c0AIGlqUXyYU"
     }

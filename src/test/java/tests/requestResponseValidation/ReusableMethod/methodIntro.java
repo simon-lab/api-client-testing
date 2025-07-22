@@ -34,7 +34,23 @@ public class methodIntro {
 
     }
 
-    public static List<String> expectedDefinition(String excelPath, int noCase, String service) {
+    public static List<String> expectedErrorDefinition(String excelPath, int noCase, String service) {
+        String expected = excelReader.expectedCell(excelPath, noCase, service);
+        System.out.println("INI EXPECTED NYA Case " + noCase + ": ");
+        System.out.println(expected);
+        String rc = separateCell.extractExpectedEC(expected);
+        String rm = separateCell.extractExpectedEM(expected).replace("\"", "");
+        System.out.println("INI EXPECTED RESPONSE CODE" + noCase + ": ");
+        System.out.println(rc);
+        System.out.println("INI EXPECTED RESPONSE MESSAGE" + noCase + ": ");
+        System.out.println(rm);
+        List<String> expectedGathering = new ArrayList<>();
+        expectedGathering.add(rc);
+        expectedGathering.add(rm);
+        return expectedGathering;
+    }
+
+    public static List<String> expectedResponseDefinition(String excelPath, int noCase, String service) {
         String expected = excelReader.expectedCell(excelPath, noCase, service);
         System.out.println("INI EXPECTED NYA Case " + noCase + ": ");
         System.out.println(expected);

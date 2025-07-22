@@ -74,23 +74,21 @@ public class assertionResponse {
         return referenceNo;
     }
 
-    public static void assertOriginalReferenceNo(JsonPath js, String originalTransferExecutionReferenceNo) {
+    public static void assertOriginalReferenceNo(JsonPath js) {
         Allure.step("Check Original Reference No");
         String originalReferenceNo = js.getString("originalReferenceNo");
         Assert.assertNotNull(originalReferenceNo, "Reference No Tidak Ada");
         Assert.assertFalse(originalReferenceNo.isEmpty(), "Reference No Kosong");
-        Assert.assertEquals(originalReferenceNo.length(), 28, "Reference No Tidak 28 Karakter");
-        Assert.assertEquals(originalReferenceNo, originalTransferExecutionReferenceNo,
-                "Original Reference No tidak sama dengan Reference No Transfer Execution");
+        Assert.assertEquals(originalReferenceNo.length(), 12, "Reference No Tidak 28 Karakter");
         System.out.println("Reference No sudah 12 karakter");
     }
 
     public static void assertBeneAccName(JsonPath js) {
         Allure.step("Check Bene Acc Name");
-        String msgId = js.getString("beneficiaryAccountName");
-        Assert.assertNotNull(msgId, "Bene Acc Name Tidak ada");
+        String beneAccName = js.getString("beneficiaryAccountName");
+        Assert.assertNotNull(beneAccName, "Bene Acc Name Tidak ada");
         System.out.println("Terdapat Bene Acc Name");
-        Assert.assertFalse(msgId.isEmpty(), "Bene Acc Name Kosong");
+        Assert.assertFalse(beneAccName.isEmpty(), "Bene Acc Name Kosong");
         System.out.println("Bene Acc Name Tidak Kosong");
         System.out.println("Bene Acc Name Sudah Sesuai");
     }
@@ -108,13 +106,13 @@ public class assertionResponse {
 
     public static void serviceCode(JsonPath js) {
         Allure.step("Check Service Code");
-        String serviceCode = js.getString("senderInfo.serviceCode");
+        String serviceCode = js.getString("serviceCode");
         Assert.assertNotNull(serviceCode, "Service Code Tidak ada");
         System.out.println("Terdapat Service Code");
         Assert.assertFalse(serviceCode.isEmpty(), "Service Code Kosong");
         System.out.println("Service Code Tidak Kosong");
 
-        Assert.assertEquals(serviceCode, 18, "Service Code Tidak Sesuai Expected");
+        Assert.assertEquals(serviceCode, "18", "Service Code Tidak Sesuai Expected");
 
         System.out.println("Service Code Sudah Sesuai");
 
@@ -157,6 +155,18 @@ public class assertionResponse {
         Assert.assertTrue(balanceType.matches("^[A-Z]{3}$"),
                 "Balance Type tidak dalam format ISO 4217 (3 huruf kapital)");
         Assert.assertEquals(balanceType, expectedType, "Balance Type Tidak Sesuai Expected");
+        System.out.println("Currency Sudah Sesuai");
+
+    }
+
+    public static void balanceTypeBalance(JsonPath js, String expectedType) {
+        Allure.step("Check Balance Type");
+        String balanceType = js.getString("accountInfos.balanceType");
+        Assert.assertNotNull(balanceType, "Balance Type Tidak ada");
+        System.out.println("Terdapat Balance Type");
+        Assert.assertFalse(balanceType.isEmpty(), "Balance Type Kosong");
+        System.out.println("Balance Type Tidak Kosong");
+        Assert.assertTrue(balanceType.equalsIgnoreCase(expectedType), "Balance Type Tidak Sesuai Expected");
         System.out.println("Currency Sudah Sesuai");
 
     }

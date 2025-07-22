@@ -12,7 +12,7 @@ public class assertionPackage {
         assertionRequest.assertChannelID(jsHeader, testData.channelId());
 
         assertionRequest.assertPartnerReferenceNo(jsBody);
-        assertionRequest.beneBankCode(jsBody);
+        assertionRequest.beneBankCode(jsBody, testData);
         assertionRequest.beneAccNo(jsBody);
         assertionRequest.transferService(jsBody, testData.transferService());
         assertionRequest.value(jsBody);
@@ -28,12 +28,12 @@ public class assertionPackage {
 
         assertionRequest.assertPartnerReferenceNo(jsBody);
         assertionRequest.sourceAccountNo(jsBody);
-        assertionRequest.beneBankCode(jsBody);
+        assertionRequest.beneBankCode(jsBody, testData);
         assertionRequest.beneAccNo(jsBody);
         assertionRequest.beneAccName(jsBody);
         assertionRequest.trxDate(jsBody);
-        assertionRequest.value(jsBody);
-        assertionRequest.currency(jsBody, testData.currency());
+        assertionRequest.valueExe(jsBody);
+        assertionRequest.currencyExe(jsBody, testData.currency());
         assertionRequest.msgId(jsBody);
         // assertionRequest.disbCategory(jsBody, expectedRM);
         assertionRequest.senderName(jsBody);
@@ -51,7 +51,7 @@ public class assertionPackage {
         assertionRequest.assertXExternalId(jsHeader);
         assertionRequest.assertChannelID(jsHeader, testData.channelId());
 
-        assertionRequest.assertPartnerReferenceNo(jsBody);
+        assertionRequest.assertOriPartnerReferenceNo(jsBody);
         assertionRequest.serviceCode(jsBody);
         assertionRequest.msgId(jsBody);
         assertionRequest.dspSign(jsBody, testData.jwt());

@@ -2,8 +2,8 @@ package com.saimen.constant;
 
 import java.util.Map;
 
-public final class expected {
-    private expected() {
+public final class Expected {
+    private Expected() {
 
     }
 

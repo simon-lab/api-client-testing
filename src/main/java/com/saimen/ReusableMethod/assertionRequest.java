@@ -7,16 +7,18 @@ import java.util.regex.Pattern;
 import org.json.JSONObject;
 import org.testng.Assert;
 
-import com.saimen.constant.expected;
+import com.saimen.api.entity.Body;
+import com.saimen.api.entity.Header;
+import com.saimen.constant.Expected;
 
 import io.qameta.allure.Allure;
 import io.restassured.path.json.JsonPath;
 
 public class assertionRequest {
 
-    public static void assertXTimeStamp(JsonPath js) {
+    public static void assertXTimeStamp(Header head) {
         Allure.step("Check X-Time-Stamp");
-        String timestamp = js.getString("X-TIMESTAMP");
+        String timestamp = head.getxTimeStamp();
         String regex = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}([+-]\\d{2}:\\d{2})$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(timestamp);
@@ -29,25 +31,26 @@ public class assertionRequest {
         System.out.println("XTimeStamp sudah sesuai format");
     }
 
-    public static void assertXClientKey(JsonPath js, String expectedClientKey) {
-        Allure.step("Check X-Client-Key");
-        String clientKey = js.getString("X-CLIENT-KEY");
-        Assert.assertNotNull(clientKey, "X-Client-Key Tidak ada");
-        System.out.println("Terdapat X-Client-Key");
-        Assert.assertFalse(clientKey.isEmpty(), "X-Client-Key Kosong");
-        System.out.println("X-Client-Key Tidak Kosong");
-        System.out.println("X-Client-Key: " + clientKey);
-        Assert.assertEquals(clientKey, expectedClientKey, "X-Client-Key Tidak Sesuai Expected");
-        System.out.println("X-Client-Key sudah sesuai format");
-    }
+    // public static void assertXClientKey(Header head, String expectedClientKey) {
+    // Allure.step("Check X-Client-Key");
+    // String clientKey = head.ge;
+    // Assert.assertNotNull(clientKey, "X-Client-Key Tidak ada");
+    // System.out.println("Terdapat X-Client-Key");
+    // Assert.assertFalse(clientKey.isEmpty(), "X-Client-Key Kosong");
+    // System.out.println("X-Client-Key Tidak Kosong");
+    // System.out.println("X-Client-Key: " + clientKey);
+    // Assert.assertEquals(clientKey, expectedClientKey, "X-Client-Key Tidak Sesuai
+    // Expected");
+    // System.out.println("X-Client-Key sudah sesuai format");
+    // }
 
     public static void assertXSignature(String Signature) {
 
     }
 
-    public static void assertXPartnerId(JsonPath js, String partnerID) {
+    public static void assertXPartnerId(Header head, String partnerID) {
         Allure.step("Check Partner ID");
-        String xPartnerId = js.getString("X-PARTNER-ID");
+        String xPartnerId = head.getxPartnerId();
         Assert.assertNotNull(xPartnerId, "Partner ID Tidak ada");
         System.out.println("Terdapat Partner ID");
         Assert.assertFalse(xPartnerId.isEmpty(), "Partner ID Kosong");
@@ -57,9 +60,9 @@ public class assertionRequest {
         System.out.println("Partner ID sudah sesuai format");
     }
 
-    public static void assertXExternalId(JsonPath js) {
+    public static void assertXExternalId(Header head) {
         Allure.step("Check External ID");
-        String xExternalId = js.getString("X-EXTERNAL-ID");
+        String xExternalId = head.getxExternalId();
         Assert.assertNotNull(xExternalId, "External ID Tidak ada");
         System.out.println("Terdapat External ID");
         Assert.assertFalse(xExternalId.isEmpty(), "External ID Kosong");
@@ -68,9 +71,9 @@ public class assertionRequest {
         System.out.println("External ID sudah sesuai format");
     }
 
-    public static void assertChannelID(JsonPath js, String expectedChannelID) {
+    public static void assertChannelID(Header head, String expectedChannelID) {
         Allure.step("Check Channel-ID");
-        String channelId = js.getString("CHANNEL-ID");
+        String channelId = head.getChannelId();
         Assert.assertNotNull(channelId, "Channel-ID Tidak ada");
         System.out.println("Terdapat Channel-ID");
         Assert.assertFalse(channelId.isEmpty(), "Channel-ID Kosong");
@@ -80,9 +83,9 @@ public class assertionRequest {
 
     }
 
-    public static void assertPartnerReferenceNo(JsonPath js) {
+    public static void assertPartnerReferenceNo(Body body) {
         Allure.step("Check Partner Reference No");
-        String partnerReferenceNo = js.getString("partnerReferenceNo");
+        String partnerReferenceNo = body.getPartnerReferenceNo();
         Assert.assertNotNull(partnerReferenceNo, "partnerReferenceNo Tidak ada");
         System.out.println("Terdapat partnerReferenceNo");
         Assert.assertFalse(partnerReferenceNo.isEmpty(), "partnerReferenceNo Kosong");
@@ -92,9 +95,9 @@ public class assertionRequest {
 
     }
 
-    public static void assertOriPartnerReferenceNo(JsonPath js) {
+    public static void assertOriPartnerReferenceNo(Body body) {
         Allure.step("Check Partner Reference No");
-        String partnerReferenceNo = js.getString("originalPartnerReferenceNo");
+        String partnerReferenceNo = body.getOriginalPartnerReferenceNo();
         Assert.assertNotNull(partnerReferenceNo, "partnerReferenceNo Tidak ada");
         System.out.println("Terdapat partnerReferenceNo");
         Assert.assertFalse(partnerReferenceNo.isEmpty(), "partnerReferenceNo Kosong");
@@ -104,9 +107,9 @@ public class assertionRequest {
 
     }
 
-    public static void sourceAccountNo(JsonPath js) {
+    public static void sourceAccountNo(Body body) {
         Allure.step("Check Source Account No");
-        String sourceAccountNo = js.getString("sourceAccountNo");
+        String sourceAccountNo = body.getSourceAccountNo();
         Assert.assertNotNull(sourceAccountNo, "Source Account No Tidak ada");
         System.out.println("Terdapat Source Account No");
         Assert.assertFalse(sourceAccountNo.isEmpty(), "Source Account No Kosong");
@@ -116,9 +119,9 @@ public class assertionRequest {
 
     }
 
-    public static void beneBankCode(JsonPath js, expected testData) {
+    public static void beneBankCode(Body body, Expected testData) {
         Allure.step("Check Beneficiary Bank Code");
-        String beneBankCode = js.getString("beneficiaryBankCode");
+        String beneBankCode = body.getBeneficiaryBankCode();
         String transferService = testData.TRANSFERSERVICE;
         Assert.assertNotNull(beneBankCode, "Beneficiary Bank Code tidak ada");
         System.out.println("Terdapat Beneficiary Bank Code");
@@ -138,9 +141,9 @@ public class assertionRequest {
 
     }
 
-    public static void beneAccNo(JsonPath js) {
+    public static void beneAccNo(Body body) {
         Allure.step("Check Beneficiary Account No");
-        String beneAccNo = js.getString("beneficiaryAccountNo");
+        String beneAccNo = body.getBeneficiaryAccountNo();
         Assert.assertNotNull(beneAccNo, "Beneficiary Account No Tidak ada");
         System.out.println("Terdapat Beneficiary Account No");
         Assert.assertFalse(beneAccNo.isEmpty(), "Beneficiary Account No Kosong");
@@ -150,9 +153,9 @@ public class assertionRequest {
 
     }
 
-    public static void beneAccName(JsonPath js) {
+    public static void beneAccName(Body body) {
         Allure.step("Check Beneficiary Account Name");
-        String beneAccName = js.getString("beneficiaryAccountName");
+        String beneAccName = body.getBeneficiaryAccountName();
         Assert.assertNotNull(beneAccName, "Beneficiary Account Name Tidak ada");
         System.out.println("Terdapat Beneficiary Account Name");
         Assert.assertFalse(beneAccName.isEmpty(), "Beneficiary Account Name Kosong");
@@ -160,9 +163,9 @@ public class assertionRequest {
 
     }
 
-    public static void trxDate(JsonPath js) {
+    public static void trxDate(Body body) {
         Allure.step("Check Transaction Date");
-        String trxDate = js.getString("transactionDate");
+        String trxDate = body.getTransactionDate();
         Assert.assertNotNull(trxDate, "Transaction Date Tidak ada");
         System.out.println("Terdapat Transaction Date");
         Assert.assertFalse(trxDate.isEmpty(), "Transaction Date Kosong");
@@ -173,9 +176,9 @@ public class assertionRequest {
 
     }
 
-    public static void transferService(JsonPath js, String expectedTransferService) {
+    public static void transferService(Body body, String expectedTransferService) {
         Allure.step("Check Transfer Service");
-        String transferService = js.getString("additionalInfo.transferService");
+        String transferService = body.getAdditionalInfo().getTransferService();
         Assert.assertNotNull(transferService, "Transfer Service Tidak ada");
         System.out.println("Terdapat Transfer Service");
         Assert.assertFalse(transferService.isEmpty(), "Transfer Service Kosong");
@@ -186,9 +189,9 @@ public class assertionRequest {
 
     }
 
-    public static void value(JsonPath js) {
+    public static void value(Body body) {
         Allure.step("Check Value");
-        String value = js.getString("additionalInfo.amount.value");
+        String value = body.getAdditionalInfo().getAmount().getValue();
         Assert.assertNotNull(value, "Value Tidak ada");
         System.out.println("Terdapat Value");
         Assert.assertFalse(value.isEmpty(), "Value Kosong");
@@ -200,9 +203,9 @@ public class assertionRequest {
 
     }
 
-    public static void currency(JsonPath js, String expectedCurrency) {
+    public static void currency(Body body, String expectedCurrency) {
         Allure.step("Check Currency");
-        String currency = js.getString("additionalInfo.amount.currency");
+        String currency = body.getAdditionalInfo().getAmount().getCurrency();
         Assert.assertNotNull(currency, "Currency Tidak ada");
         System.out.println("Terdapat Currency");
         Assert.assertFalse(currency.isEmpty(), "Currency Kosong");
@@ -213,9 +216,9 @@ public class assertionRequest {
 
     }
 
-    public static void valueExe(JsonPath js) {
+    public static void valueExe(Body body) {
         Allure.step("Check Value");
-        String value = js.getString("amount.value");
+        String value = body.getAmount().getValue();
         Assert.assertNotNull(value, "Value Tidak ada");
         System.out.println("Terdapat Value");
         Assert.assertFalse(value.isEmpty(), "Value Kosong");
@@ -227,9 +230,9 @@ public class assertionRequest {
 
     }
 
-    public static void currencyExe(JsonPath js, String expectedCurrency) {
+    public static void currencyExe(Body body, String expectedCurrency) {
         Allure.step("Check Currency");
-        String currency = js.getString("amount.currency");
+        String currency = body.getAmount().getCurrency();
         Assert.assertNotNull(currency, "Currency Tidak ada");
         System.out.println("Terdapat Currency");
         Assert.assertFalse(currency.isEmpty(), "Currency Kosong");
@@ -240,9 +243,9 @@ public class assertionRequest {
 
     }
 
-    public static void dspSign(JsonPath js, String jwt) {
+    public static void dspSign(Body body, String jwt) {
         Allure.step("Check dsp sign");
-        String dspSign = js.getString("additionalInfo.dspsign");
+        String dspSign = body.getAdditionalInfo().getDspsign();
         Assert.assertNotNull(dspSign, "dsp sign Tidak ada");
         System.out.println("Terdapat dsp sign");
         Assert.assertFalse(dspSign.isEmpty(), "dsp sign Kosong");
@@ -252,9 +255,9 @@ public class assertionRequest {
 
     }
 
-    public static void disbCategory(JsonPath js, String expectedCategory) {
+    public static void disbCategory(Body body, String expectedCategory) {
         Allure.step("Check Disbursement Category");
-        String disbCategory = js.getString("additionalInfo.disbCategory");
+        String disbCategory = body.getAdditionalInfo().getDisbCategory();
         Assert.assertNotNull(disbCategory, "Disbursement Category Tidak ada");
         System.out.println("Terdapat Disbursement Category");
         Assert.assertFalse(disbCategory.isEmpty(), "Disbursement Category Kosong");
@@ -272,9 +275,9 @@ public class assertionRequest {
 
     }
 
-    public static void senderName(JsonPath js) {
+    public static void senderName(Body body) {
         Allure.step("Check Sender Name");
-        String senderName = js.getString("additionalInfo.senderInfo.name");
+        String senderName = body.getAdditionalInfo().getSenderInfo().getName();
         Assert.assertNotNull(senderName, "Sender Name Tidak ada");
         System.out.println("Terdapat Sender Name");
         Assert.assertFalse(senderName.isEmpty(), "Sender Name Kosong");
@@ -283,9 +286,9 @@ public class assertionRequest {
 
     }
 
-    public static void accType(JsonPath js) {
+    public static void accType(Body body) {
         Allure.step("Check Account Type");
-        String accType = js.getString("additionalInfo.senderInfo.accountType");
+        String accType = body.getAdditionalInfo().getSenderInfo().getAccountType();
         Assert.assertNotNull(accType, "Account Type Tidak ada");
         System.out.println("Terdapat Account Type");
         Assert.assertFalse(accType.isEmpty(), "Account Type Kosong");
@@ -302,9 +305,9 @@ public class assertionRequest {
 
     }
 
-    public static void accInstId(JsonPath js) {
+    public static void accInstId(Body body) {
         Allure.step("Check Account Institution Id");
-        String accInstId = js.getString("additionalInfo.senderInfo.accountType");
+        String accInstId = body.getAdditionalInfo().getSenderInfo().getAccountInstId();
         Assert.assertNotNull(accInstId, "Account Institution Id Tidak ada");
         System.out.println("Terdapat Account Institution Id");
         Assert.assertFalse(accInstId.isEmpty(), "Account Institution Id Kosong");
@@ -314,9 +317,9 @@ public class assertionRequest {
 
     }
 
-    public static void country(JsonPath js) {
+    public static void country(Body body) {
         Allure.step("Check Country");
-        String country = js.getString("additionalInfo.senderInfo.country");
+        String country = body.getAdditionalInfo().getSenderInfo().getCountry();
         Assert.assertNotNull(country, "Country Tidak ada");
         System.out.println("Terdapat Country");
         Assert.assertFalse(country.isEmpty(), "Country Kosong");
@@ -363,9 +366,9 @@ public class assertionRequest {
 
     }
 
-    public static void city(JsonPath js) {
+    public static void city(Body body) {
         Allure.step("Check City");
-        String city = js.getString("additionalInfo.senderInfo.city");
+        String city = body.getAdditionalInfo().getSenderInfo().getCity();
         Assert.assertNotNull(city, "City Tidak ada");
         System.out.println("Terdapat City");
         Assert.assertFalse(city.isEmpty(), "City Kosong");
@@ -375,9 +378,9 @@ public class assertionRequest {
 
     }
 
-    public static void identificType(JsonPath js) {
+    public static void identificationType(Body body) {
         Allure.step("Check Identification Type");
-        String idType = js.getString("additionalInfo.senderInfo.identificationType");
+        String idType = body.getAdditionalInfo().getSenderInfo().getIdentificationType();
         Assert.assertNotNull(idType, "Identification Type Tidak ada");
         System.out.println("Terdapat Identification Type");
         Assert.assertFalse(idType.isEmpty(), "Identification Type Kosong");
@@ -393,9 +396,9 @@ public class assertionRequest {
 
     }
 
-    public static void identificationNo(JsonPath js) {
+    public static void identificationNo(Body body) {
         Allure.step("Check Id Number");
-        String idNumber = js.getString("additionalInfo.senderInfo.identificationNumber");
+        String idNumber = body.getAdditionalInfo().getSenderInfo().getIdentificationNumber();
         Assert.assertNotNull(idNumber, "Id Number Tidak ada");
         System.out.println("Terdapat Id Number");
         Assert.assertFalse(idNumber.isEmpty(), "Id Number Kosong");
@@ -405,9 +408,9 @@ public class assertionRequest {
 
     }
 
-    public static void serviceCode(JsonPath js) {
+    public static void serviceCode(Body body) {
         Allure.step("Check Service Code");
-        String serviceCode = js.getString("serviceCode");
+        String serviceCode = body.getServiceCode();
         Assert.assertNotNull(serviceCode, "Service Code Tidak ada");
         System.out.println("Terdapat Service Code");
         Assert.assertFalse(serviceCode.isEmpty(), "Service Code Kosong");
@@ -419,9 +422,9 @@ public class assertionRequest {
 
     }
 
-    public static void msgId(JsonPath js) {
+    public static void msgId(Body body) {
         Allure.step("Check MSG ID");
-        String msgId = js.getString("additionalInfo.msgId");
+        String msgId = body.getAdditionalInfo().getMsgId();
         Assert.assertNotNull(msgId, "MSG ID Tidak ada");
         System.out.println("Terdapat MSG ID");
         Assert.assertFalse(msgId.isEmpty(), "MSG ID Kosong");
@@ -432,9 +435,9 @@ public class assertionRequest {
 
     }
 
-    public static void accNo(JsonPath js, String expectedPartnerId) {
+    public static void accNo(Body body, String expectedPartnerId) {
         Allure.step("Check Account No");
-        String accNo = js.getString("accountNo");
+        String accNo = body.getAccountNo();
         Assert.assertNotNull(accNo, "Account No Tidak ada");
         System.out.println("Terdapat Account No");
         Assert.assertFalse(accNo.isEmpty(), "Account No Kosong");

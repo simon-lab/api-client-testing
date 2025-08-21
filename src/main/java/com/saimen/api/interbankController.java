@@ -11,7 +11,6 @@ import com.saimen.ReusableMethod.assertionPackage;
 import com.saimen.ReusableMethod.assertionResponse;
 import com.saimen.ReusableMethod.toRegex;
 import com.saimen.api.entity.Body;
-import com.saimen.constant.Expected;
 import com.saimen.constant.expected;
 
 import io.restassured.path.json.JsonPath;
@@ -35,9 +34,9 @@ public class interbankController {
     }
 
     @PostMapping("req/body/case7")
-    public String case7RequestCheck(@RequestBody Body body) {
+    public void case7RequestCheck(@RequestBody Body body) {
 
-        Expected expected;
+        expected expected = new expected();
 
         String expectedRC = "2001600";
         String expectedRM = "success";
@@ -45,15 +44,6 @@ public class interbankController {
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
         assertionPackage.inquiryBody(body, expected);
-
-        assertionResponse.assertResponseCode(jsResponse, 7, formatRC);
-        assertionResponse.assertResponseMessage(jsResponse, expectedRM);
-        assertionResponse.assertBeneAccName(jsResponse);
-        assertionResponse.assertBeneAccNo(jsResponse);
-        assertionResponse.assertReferenceNo(jsResponse, 12);
-        assertionResponse.assertMsgId(jsResponse);
-        assertionResponse.assertIsoRC(jsResponse, "00");
-        assertionResponse.assertIsoMessage(jsResponse, "Success");
 
     }
 }

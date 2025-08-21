@@ -2,13 +2,13 @@ package com.saimen.ReusableMethod;
 
 import com.saimen.api.entity.Header;
 import com.saimen.api.entity.Body;
-import com.saimen.constant.Expected;
+import com.saimen.constant.expected;
 
 import io.restassured.path.json.JsonPath;
 
 public class assertionPackage {
 
-    public static void inquiryHeader(Header head, Expected testData) {
+    public static void inquiryHeader(Header head, expected testData) {
         assertionRequest.assertXTimeStamp(head);
         assertionRequest.assertXPartnerId(head, testData.PARTNERID);
         assertionRequest.assertXExternalId(head);
@@ -16,7 +16,7 @@ public class assertionPackage {
 
     }
 
-    public static void inquiryBody(Body body, Expected testData) {
+    public static void inquiryBody(Body body, expected testData) {
         assertionRequest.assertPartnerReferenceNo(body);
         assertionRequest.beneBankCode(body, testData);
         assertionRequest.beneAccNo(body);
@@ -26,7 +26,7 @@ public class assertionPackage {
         assertionRequest.dspSign(body, testData.JWT);
     }
 
-    public static void exe(Header head, Body body, Expected testData) {
+    public static void exe(Header head, Body body, expected testData) {
         assertionRequest.assertXTimeStamp(head);
         assertionRequest.assertXPartnerId(head, testData.PARTNERID);
         assertionRequest.assertXExternalId(head);
@@ -51,7 +51,7 @@ public class assertionPackage {
         assertionRequest.dspSign(body, testData.JWT);
     }
 
-    public static void checkStatus(Header head, Body body, Expected testData) {
+    public static void checkStatus(Header head, Body body, expected testData) {
         assertionRequest.assertXTimeStamp(head);
         assertionRequest.assertXPartnerId(head, testData.PARTNERID);
         assertionRequest.assertXExternalId(head);
@@ -63,7 +63,7 @@ public class assertionPackage {
         assertionRequest.dspSign(body, testData.JWT);
     }
 
-    public static void getBalance(Header head, Body body, Expected testData) {
+    public static void getBalance(Header head, Body body, expected testData) {
         assertionRequest.assertXTimeStamp(head);
         assertionRequest.assertXPartnerId(head, testData.PARTNERID);
         assertionRequest.assertXExternalId(head);

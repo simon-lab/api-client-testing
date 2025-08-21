@@ -9,7 +9,7 @@ import org.testng.Assert;
 
 import com.saimen.api.entity.Body;
 import com.saimen.api.entity.Header;
-import com.saimen.constant.Expected;
+import com.saimen.constant.expected;
 
 import io.qameta.allure.Allure;
 import io.restassured.path.json.JsonPath;
@@ -119,7 +119,7 @@ public class assertionRequest {
 
     }
 
-    public static void beneBankCode(Body body, Expected testData) {
+    public static void beneBankCode(Body body, expected testData) {
         Allure.step("Check Beneficiary Bank Code");
         String beneBankCode = body.getBeneficiaryBankCode();
         String transferService = testData.TRANSFERSERVICE;

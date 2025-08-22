@@ -2,14 +2,17 @@ package com.saimen.api;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.saimen.ReusableMethod.assertionPackage;
+import com.saimen.ReusableMethod.assertionRequest;
 import com.saimen.ReusableMethod.assertionResponse;
 import com.saimen.ReusableMethod.toRegex;
+import com.saimen.api.dto.ValidationResult;
 import com.saimen.api.entity.Body;
 import com.saimen.constant.expected;
 
@@ -34,8 +37,7 @@ public class interbankController {
     }
 
     @PostMapping("req/body/case7")
-    public void case7RequestCheck(@RequestBody Body body) {
-
+    public ResponseEntity<ValidationResult> case7RequestCheck(@RequestBody Body body) {
         expected expected = new expected();
 
         String expectedRC = "2001600";
@@ -43,7 +45,11 @@ public class interbankController {
 
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
-        assertionPackage.inquiryBody(body, expected);
+        ValidationResult result = assertionPackage.inquiryBody(body, expected);
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
 
     }
 }

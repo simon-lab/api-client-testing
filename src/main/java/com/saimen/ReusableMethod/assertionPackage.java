@@ -1,76 +1,96 @@
 package com.saimen.ReusableMethod;
 
 import com.saimen.api.entity.Header;
+import com.saimen.api.dto.ValidationContext;
+import com.saimen.api.dto.ValidationResult;
 import com.saimen.api.entity.Body;
 import com.saimen.constant.expected;
-
-import io.restassured.path.json.JsonPath;
 
 public class assertionPackage {
 
     public static void inquiryHeader(Header head, expected testData) {
-        assertionRequest.assertXTimeStamp(head);
-        assertionRequest.assertXPartnerId(head, testData.PARTNERID);
-        assertionRequest.assertXExternalId(head);
-        assertionRequest.assertChannelID(head, testData.CHANNELID);
+        ValidationContext ctx = new ValidationContext();
+        assertionRequest.assertXTimeStamp(head, ctx);
+        assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
+        assertionRequest.assertXExternalId(head, ctx);
+        assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
 
     }
 
-    public static void inquiryBody(Body body, expected testData) {
-        assertionRequest.assertPartnerReferenceNo(body);
-        assertionRequest.beneBankCode(body, testData);
-        assertionRequest.beneAccNo(body);
-        assertionRequest.transferService(body, testData.TRANSFERSERVICE);
-        assertionRequest.value(body);
-        assertionRequest.currency(body, testData.CURRENCY);
-        assertionRequest.dspSign(body, testData.JWT);
+    public static ValidationResult inquiryBody(Body body, expected testData) {
+        ValidationContext ctx = new ValidationContext();
+
+        assertionRequest.assertPartnerReferenceNo(body, ctx);
+        assertionRequest.beneBankCode(body, ctx);
+        assertionRequest.beneAccNo(body, ctx);
+        assertionRequest.transferService(body, testData.TRANSFERSERVICE, ctx);
+        assertionRequest.value(body, ctx);
+        assertionRequest.currency(body, testData.CURRENCY, ctx);
+        assertionRequest.dspSign(body, testData.JWT, ctx);
+
+        return ctx.toResult();
     }
 
-    public static void exe(Header head, Body body, expected testData) {
-        assertionRequest.assertXTimeStamp(head);
-        assertionRequest.assertXPartnerId(head, testData.PARTNERID);
-        assertionRequest.assertXExternalId(head);
-        assertionRequest.assertChannelID(head, testData.CHANNELID);
+    public static void exeHeader(Header head, Body body, expected testData) {
+        ValidationContext ctx = new ValidationContext();
+        assertionRequest.assertXTimeStamp(head, ctx);
+        assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
+        assertionRequest.assertXExternalId(head, ctx);
+        assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
+    }
 
-        assertionRequest.assertPartnerReferenceNo(body);
-        assertionRequest.sourceAccountNo(body);
-        assertionRequest.beneBankCode(body, testData);
-        assertionRequest.beneAccNo(body);
-        assertionRequest.beneAccName(body);
-        assertionRequest.trxDate(body);
-        assertionRequest.valueExe(body);
-        assertionRequest.currencyExe(body, testData.CURRENCY);
-        assertionRequest.msgId(body);
+    public static void exeBody(Header head, Body body, expected testData) {
+        ValidationContext ctx = new ValidationContext();
+
+        assertionRequest.assertPartnerReferenceNo(body, ctx);
+        assertionRequest.sourceAccountNo(body, ctx);
+        assertionRequest.beneBankCode(body, ctx);
+        assertionRequest.beneAccNo(body, ctx);
+        assertionRequest.beneAccName(body, ctx);
+        assertionRequest.trxDate(body, ctx);
+        assertionRequest.valueExe(body, ctx);
+        assertionRequest.currencyExe(body, testData.CURRENCY, ctx);
+        assertionRequest.msgId(body, ctx);
         // assertionRequest.disbCategory(jsBody, expectedRM);
-        assertionRequest.senderName(body);
-        assertionRequest.accType(body);
-        assertionRequest.accInstId(body);
-        assertionRequest.country(body);
-        assertionRequest.city(body);
-        assertionRequest.identificationNo(body);
-        assertionRequest.dspSign(body, testData.JWT);
+        assertionRequest.senderName(body, ctx);
+        assertionRequest.accType(body, ctx);
+        assertionRequest.accInstId(body, ctx);
+        assertionRequest.country(body, ctx);
+        assertionRequest.city(body, ctx);
+        assertionRequest.identificationNo(body, ctx);
+        assertionRequest.dspSign(body, testData.JWT, ctx);
     }
 
-    public static void checkStatus(Header head, Body body, expected testData) {
-        assertionRequest.assertXTimeStamp(head);
-        assertionRequest.assertXPartnerId(head, testData.PARTNERID);
-        assertionRequest.assertXExternalId(head);
-        assertionRequest.assertChannelID(head, testData.CHANNELID);
-
-        assertionRequest.assertOriPartnerReferenceNo(body);
-        assertionRequest.serviceCode(body);
-        assertionRequest.msgId(body);
-        assertionRequest.dspSign(body, testData.JWT);
+    public static void checkStatusHeader(Header head, Body body, expected testData) {
+        ValidationContext ctx = new ValidationContext();
+        assertionRequest.assertXTimeStamp(head, ctx);
+        assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
+        assertionRequest.assertXExternalId(head, ctx);
+        assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
     }
 
-    public static void getBalance(Header head, Body body, expected testData) {
-        assertionRequest.assertXTimeStamp(head);
-        assertionRequest.assertXPartnerId(head, testData.PARTNERID);
-        assertionRequest.assertXExternalId(head);
-        assertionRequest.assertChannelID(head, testData.CHANNELID);
+    public static void checkStatusBody(Header head, Body body, expected testData) {
+        ValidationContext ctx = new ValidationContext();
 
-        assertionRequest.accNo(body, testData.PARTNERID);
-        assertionRequest.dspSign(body, testData.JWT);
+        assertionRequest.assertOriPartnerReferenceNo(body, ctx);
+        assertionRequest.serviceCode(body, ctx);
+        assertionRequest.msgId(body, ctx);
+        assertionRequest.dspSign(body, testData.JWT, ctx);
+    }
+
+    public static void getBalanceHeader(Header head, Body body, expected testData) {
+        ValidationContext ctx = new ValidationContext();
+        assertionRequest.assertXTimeStamp(head, ctx);
+        assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
+        assertionRequest.assertXExternalId(head, ctx);
+        assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
+    }
+
+    public static void getBalanceBody(Header head, Body body, expected testData) {
+        ValidationContext ctx = new ValidationContext();
+
+        assertionRequest.accNo(body, testData.PARTNERID, ctx);
+        assertionRequest.dspSign(body, testData.JWT, ctx);
     }
 
 }

@@ -5,7 +5,6 @@ import org.testng.Assert;
 import com.saimen.api.entity.Response;
 
 import io.qameta.allure.Allure;
-import io.restassured.path.json.JsonPath;
 
 public class assertionResponse {
 

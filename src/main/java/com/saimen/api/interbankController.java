@@ -20,14 +20,58 @@ import com.saimen.constant.expected;
 @RequestMapping("/interbank")
 public class interbankController {
 
-    @PostMapping("req/case3")
-    public String case3RequestCheck(@RequestBody Body inq) {
+    // @PostMapping("req/header/case5")
+    // public ResponseEntity<ValidationResult> case5HeaderRequestCheck(@RequestBody
+    // Header head) {
+    // expected expected = new expected();
 
-        String getPartnerRefNo = inq.getPartnerReferenceNo();
+    // ValidationResult result = assertionPackage.inquiryHeader(head, expected);
 
-        return "Nih Reference No Nya:" + getPartnerRefNo;
+    // return "OK".equals(result.getStatus())
+    // ? ResponseEntity.ok(result)
+    // : ResponseEntity.unprocessableEntity().body(result);
 
-    }
+    // }
+
+    // @PostMapping("req/body/case5")
+    // public ResponseEntity<ValidationResult> case5BodyRequestCheck(@RequestBody
+    // Body body) {
+    // expected expected = new expected();
+
+    // ValidationResult result = assertionPackage.inquiryBody(body, expected);
+
+    // return "OK".equals(result.getStatus())
+    // ? ResponseEntity.ok(result)
+    // : ResponseEntity.unprocessableEntity().body(result);
+
+    // }
+
+    // @PostMapping("resp/case5")
+    // public ResponseEntity<ValidationResult> case5ResponseCheck(@RequestBody
+    // Response resp) {
+    // ValidationContext ctxResp = new ValidationContext();
+
+    // String expectedRC = "2001600";
+    // String expectedRM = "success";
+
+    // String formatRC = toRegex.toRegexFormat(expectedRC);
+
+    // assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
+    // assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
+    // assertionResponse.assertBeneAccName(resp, ctxResp);
+    // assertionResponse.assertBeneAccNo(resp, ctxResp);
+    // assertionResponse.assertReferenceNo(resp, 12, ctxResp);
+    // assertionResponse.assertMsgId(resp, 42, ctxResp);
+    // assertionResponse.assertIsoRC(resp, "00", ctxResp);
+    // assertionResponse.assertIsoMessage(resp, "Success", ctxResp);
+
+    // ValidationResult result = ctxResp.toResult();
+
+    // return "OK".equals(result.getStatus())
+    // ? ResponseEntity.ok(result)
+    // : ResponseEntity.unprocessableEntity().body(result);
+
+    // }
 
     @PostMapping("req/header/case7")
     public ResponseEntity<ValidationResult> case7HeaderRequestCheck(@RequestBody Header head) {
@@ -54,7 +98,7 @@ public class interbankController {
     }
 
     @PostMapping("resp/case7")
-    public ResponseEntity<ValidationResult> case7ResponseRequestCheck(@RequestBody Response resp) {
+    public ResponseEntity<ValidationResult> case7ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
 
         String expectedRC = "2001600";
@@ -104,7 +148,7 @@ public class interbankController {
     }
 
     @PostMapping("resp/case8")
-    public ResponseEntity<ValidationResult> case8ResponseRequestCheck(@RequestBody Response resp) {
+    public ResponseEntity<ValidationResult> case8ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
 
         String expectedRC = "4031618";
@@ -148,7 +192,7 @@ public class interbankController {
     }
 
     @PostMapping("resp/case10")
-    public ResponseEntity<ValidationResult> case10ResponseRequestCheck(@RequestBody Response resp) {
+    public ResponseEntity<ValidationResult> case10ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
 
         String expectedRC = "2001800";
@@ -196,7 +240,7 @@ public class interbankController {
     }
 
     @PostMapping("resp/case11")
-    public ResponseEntity<ValidationResult> case11ResponseRequestCheck(@RequestBody Response resp) {
+    public ResponseEntity<ValidationResult> case11ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
 
         String expectedRC = "4031814";
@@ -240,7 +284,7 @@ public class interbankController {
     }
 
     @PostMapping("resp/case12")
-    public ResponseEntity<ValidationResult> case12ResponseRequestCheck(@RequestBody Response resp) {
+    public ResponseEntity<ValidationResult> case12ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
 
         String expectedRC = "4031814";
@@ -251,6 +295,56 @@ public class interbankController {
         assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
         assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
 
+        ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("header/case13")
+    public ResponseEntity<ValidationResult> case13HeaderRequestCheck(@RequestBody Header head) {
+        expected expected = new expected();
+
+        ValidationResult result = assertionPackage.checkStatusHeader(head, expected);
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("body/case13")
+    public ResponseEntity<ValidationResult> case13BodyRequestCheck(@RequestBody Body body) {
+        expected expected = new expected();
+
+        ValidationResult result = assertionPackage.checkStatusBody(body, expected);
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("resp/case13")
+    public ResponseEntity<ValidationResult> case13ResponseCheck(@RequestBody Response resp) {
+        ValidationContext ctxResp = new ValidationContext();
+
+        String expectedRC = "2003600";
+        String expectedRM = "success";
+
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
+        assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
+        assertionResponse.assertOriginalReferenceNo(resp, 12, ctxResp);
+        assertionResponse.assertReferenceNo(resp, 12, ctxResp);
+        assertionResponse.assertBeneAccNo(resp, ctxResp);
+        assertionResponse.serviceCode(resp, "18", ctxResp);
+        assertionResponse.sourceAccountNo(resp, 19, ctxResp);
+        assertionResponse.assertIsoRC(resp, "00", ctxResp);
+        assertionResponse.assertIsoMessage(resp, "success", ctxResp);
         ValidationResult result = ctxResp.toResult();
 
         return "OK".equals(result.getStatus())

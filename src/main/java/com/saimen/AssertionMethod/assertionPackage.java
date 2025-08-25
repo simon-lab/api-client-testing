@@ -1,4 +1,4 @@
-package com.saimen.ReusableMethod;
+package com.saimen.AssertionMethod;
 
 import com.saimen.api.entity.Header;
 import com.saimen.api.dto.ValidationContext;
@@ -8,12 +8,13 @@ import com.saimen.constant.expected;
 
 public class assertionPackage {
 
-    public static void inquiryHeader(Header head, expected testData) {
+    public static ValidationResult inquiryHeader(Header head, expected testData) {
         ValidationContext ctx = new ValidationContext();
         assertionRequest.assertXTimeStamp(head, ctx);
         assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
         assertionRequest.assertXExternalId(head, ctx);
         assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
+        return ctx.toResult();
 
     }
 
@@ -31,15 +32,17 @@ public class assertionPackage {
         return ctx.toResult();
     }
 
-    public static void exeHeader(Header head, Body body, expected testData) {
+    public static ValidationResult exeHeader(Header head, expected testData) {
         ValidationContext ctx = new ValidationContext();
         assertionRequest.assertXTimeStamp(head, ctx);
         assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
         assertionRequest.assertXExternalId(head, ctx);
         assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
+
+        return ctx.toResult();
     }
 
-    public static void exeBody(Header head, Body body, expected testData) {
+    public static ValidationResult exeBody(Body body, expected testData) {
         ValidationContext ctx = new ValidationContext();
 
         assertionRequest.assertPartnerReferenceNo(body, ctx);
@@ -59,38 +62,48 @@ public class assertionPackage {
         assertionRequest.city(body, ctx);
         assertionRequest.identificationNo(body, ctx);
         assertionRequest.dspSign(body, testData.JWT, ctx);
+
+        return ctx.toResult();
     }
 
-    public static void checkStatusHeader(Header head, Body body, expected testData) {
+    public static ValidationResult checkStatusHeader(Header head, expected testData) {
         ValidationContext ctx = new ValidationContext();
         assertionRequest.assertXTimeStamp(head, ctx);
         assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
         assertionRequest.assertXExternalId(head, ctx);
         assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
+
+        return ctx.toResult();
     }
 
-    public static void checkStatusBody(Header head, Body body, expected testData) {
+    public static ValidationResult checkStatusBody(Body body, expected testData) {
         ValidationContext ctx = new ValidationContext();
 
         assertionRequest.assertOriPartnerReferenceNo(body, ctx);
         assertionRequest.serviceCode(body, ctx);
         assertionRequest.msgId(body, ctx);
         assertionRequest.dspSign(body, testData.JWT, ctx);
+
+        return ctx.toResult();
     }
 
-    public static void getBalanceHeader(Header head, Body body, expected testData) {
+    public static ValidationResult getBalanceHeader(Header head, expected testData) {
         ValidationContext ctx = new ValidationContext();
         assertionRequest.assertXTimeStamp(head, ctx);
         assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
         assertionRequest.assertXExternalId(head, ctx);
         assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
+
+        return ctx.toResult();
     }
 
-    public static void getBalanceBody(Header head, Body body, expected testData) {
+    public static ValidationResult getBalanceBody(Body body, expected testData) {
         ValidationContext ctx = new ValidationContext();
 
         assertionRequest.accNo(body, testData.PARTNERID, ctx);
         assertionRequest.dspSign(body, testData.JWT, ctx);
+
+        return ctx.toResult();
     }
 
 }

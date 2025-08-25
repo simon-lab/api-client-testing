@@ -1,4 +1,4 @@
-package com.saimen.ReusableMethod;
+package com.saimen.AssertionMethod;
 
 import java.util.Set;
 
@@ -9,12 +9,9 @@ import com.saimen.api.dto.ValidationContext;
 import com.saimen.api.entity.Body;
 import com.saimen.api.entity.Header;
 
-import io.qameta.allure.Allure;
-
 public class assertionRequest {
 
     public static void assertXTimeStamp(Header head, ValidationContext ctx) {
-        Allure.step("Check X-Time-Stamp");
         String timestamp = head.getxTimeStamp();
         String pattern = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}([+-]\\d{2}:\\d{2})$";
 
@@ -28,7 +25,6 @@ public class assertionRequest {
     }
 
     // public static void assertXClientKey(Header head, String expectedClientKey) {
-    // Allure.step("Check X-Client-Key");
     // String clientKey = head.ge;
     // Assert.assertNotNull(clientKey, "X-Client-Key Tidak ada");
     // System.out.println("Terdapat X-Client-Key");
@@ -45,7 +41,6 @@ public class assertionRequest {
     }
 
     public static void assertXPartnerId(Header head, String partnerID, ValidationContext ctx) {
-        Allure.step("Check Partner ID");
         String xPartnerId = head.getxPartnerId();
 
         if (xPartnerId == null) {
@@ -58,7 +53,6 @@ public class assertionRequest {
     }
 
     public static void assertXExternalId(Header head, ValidationContext ctx) {
-        Allure.step("Check External ID");
         String xExternalId = head.getxExternalId();
 
         if (xExternalId == null) {
@@ -69,7 +63,6 @@ public class assertionRequest {
     }
 
     public static void assertChannelID(Header head, String expectedChannelID, ValidationContext ctx) {
-        Allure.step("Check Channel-ID");
         String channelId = head.getChannelId();
 
         if (channelId == null) {
@@ -83,7 +76,6 @@ public class assertionRequest {
     }
 
     public static void assertPartnerReferenceNo(Body body, ValidationContext ctx) {
-        Allure.step("Check Partner Reference No");
         String partnerReferenceNo = body.getPartnerReferenceNo();
 
         if (partnerReferenceNo == null) {
@@ -97,7 +89,6 @@ public class assertionRequest {
     }
 
     public static void assertOriPartnerReferenceNo(Body body, ValidationContext ctx) {
-        Allure.step("Check Partner Reference No");
         String partnerReferenceNo = body.getOriginalPartnerReferenceNo();
 
         if (partnerReferenceNo == null) {
@@ -111,7 +102,6 @@ public class assertionRequest {
     }
 
     public static void sourceAccountNo(Body body, ValidationContext ctx) {
-        Allure.step("Check Source Account No");
         String sourceAccountNo = body.getSourceAccountNo();
 
         if (sourceAccountNo == null) {
@@ -125,7 +115,6 @@ public class assertionRequest {
     }
 
     public static void beneBankCode(Body body, ValidationContext ctx) {
-        Allure.step("Check Beneficiary Bank Code");
         String beneBankCode = body.getBeneficiaryBankCode();
         String transferService = body.getAdditionalInfo().getTransferService();
 
@@ -152,7 +141,6 @@ public class assertionRequest {
     }
 
     public static void beneAccNo(Body body, ValidationContext ctx) {
-        Allure.step("Check Beneficiary Account No");
         String beneAccNo = body.getBeneficiaryAccountNo();
 
         if (beneAccNo == null) {
@@ -166,7 +154,6 @@ public class assertionRequest {
     }
 
     public static void beneAccName(Body body, ValidationContext ctx) {
-        Allure.step("Check Beneficiary Account Name");
         String beneAccName = body.getBeneficiaryAccountName();
 
         if (beneAccName == null) {
@@ -178,7 +165,6 @@ public class assertionRequest {
     }
 
     public static void trxDate(Body body, ValidationContext ctx) {
-        Allure.step("Check Transaction Date");
         String trxDate = body.getTransactionDate();
         String pattern = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{2}:\\d{2}$";
 
@@ -193,7 +179,6 @@ public class assertionRequest {
     }
 
     public static void transferService(Body body, String expectedTransferService, ValidationContext ctx) {
-        Allure.step("Check Transfer Service");
         String transferService = body.getAdditionalInfo().getTransferService();
 
         if (transferService == null) {
@@ -205,7 +190,6 @@ public class assertionRequest {
     }
 
     public static void value(Body body, ValidationContext ctx) {
-        Allure.step("Check Value");
         String value = body.getAdditionalInfo().getAmount().getValue();
         String pattern = "^\\d{1,16}\\.\\d{2}$";
 
@@ -220,7 +204,6 @@ public class assertionRequest {
     }
 
     public static void currency(Body body, String expectedCurrency, ValidationContext ctx) {
-        Allure.step("Check Currency");
         String currency = body.getAdditionalInfo().getAmount().getCurrency();
 
         if (currency == null) {
@@ -234,7 +217,6 @@ public class assertionRequest {
     }
 
     public static void valueExe(Body body, ValidationContext ctx) {
-        Allure.step("Check Value");
         String value = body.getAmount().getValue();
         String pattern = "^\\d{1,16}\\.\\d{2}$";
 
@@ -249,7 +231,6 @@ public class assertionRequest {
     }
 
     public static void currencyExe(Body body, String expectedCurrency, ValidationContext ctx) {
-        Allure.step("Check Currency");
         String currency = body.getAmount().getCurrency();
 
         if (currency == null) {
@@ -263,7 +244,6 @@ public class assertionRequest {
     }
 
     public static void dspSign(Body body, String jwt, ValidationContext ctx) {
-        Allure.step("Check dsp sign");
         String dspSign = body.getAdditionalInfo().getDspsign();
 
         if (dspSign == null) {
@@ -277,7 +257,6 @@ public class assertionRequest {
     }
 
     public static void disbCategory(Body body, String expectedCategory, ValidationContext ctx) {
-        Allure.step("Check Disbursement Category");
         String disbCategory = body.getAdditionalInfo().getDisbCategory();
 
         Set<String> validDisbCategory = Set.of(
@@ -296,7 +275,6 @@ public class assertionRequest {
     }
 
     public static void senderName(Body body, ValidationContext ctx) {
-        Allure.step("Check Sender Name");
         String senderName = body.getAdditionalInfo().getSenderInfo().getName();
 
         if (senderName == null) {
@@ -308,7 +286,6 @@ public class assertionRequest {
     }
 
     public static void accType(Body body, ValidationContext ctx) {
-        Allure.step("Check Account Type");
         String accType = body.getAdditionalInfo().getSenderInfo().getAccountType();
 
         Set<String> validAccTypes = Set.of(
@@ -325,7 +302,6 @@ public class assertionRequest {
     }
 
     public static void accInstId(Body body, ValidationContext ctx) {
-        Allure.step("Check Account Institution Id");
         String accInstId = body.getAdditionalInfo().getSenderInfo().getAccountInstId();
 
         if (accInstId == null) {
@@ -337,7 +313,6 @@ public class assertionRequest {
     }
 
     public static void country(Body body, ValidationContext ctx) {
-        Allure.step("Check Country");
         String country = body.getAdditionalInfo().getSenderInfo().getCountry();
 
         Set<String> validCountryCode = Set.of(
@@ -384,7 +359,6 @@ public class assertionRequest {
     }
 
     public static void city(Body body, ValidationContext ctx) {
-        Allure.step("Check City");
         String city = body.getAdditionalInfo().getSenderInfo().getCity();
 
         if (city == null) {
@@ -396,7 +370,6 @@ public class assertionRequest {
     }
 
     public static void identificationType(Body body, ValidationContext ctx) {
-        Allure.step("Check Identification Type");
         String idType = body.getAdditionalInfo().getSenderInfo().getIdentificationType();
         Set<String> validAccTypes = Set.of("KTP", "PASSPORT");
 
@@ -411,7 +384,6 @@ public class assertionRequest {
     }
 
     public static void identificationNo(Body body, ValidationContext ctx) {
-        Allure.step("Check Id Number");
         String idNumber = body.getAdditionalInfo().getSenderInfo().getIdentificationNumber();
 
         if (idNumber == null) {
@@ -423,7 +395,6 @@ public class assertionRequest {
     }
 
     public static void serviceCode(Body body, ValidationContext ctx) {
-        Allure.step("Check Service Code");
         String serviceCode = body.getServiceCode();
 
         if (serviceCode == null) {
@@ -437,7 +408,6 @@ public class assertionRequest {
     }
 
     public static void msgId(Body body, ValidationContext ctx) {
-        Allure.step("Check MSG ID");
         String msgId = body.getAdditionalInfo().getMsgId();
 
         if (msgId == null) {
@@ -451,7 +421,6 @@ public class assertionRequest {
     }
 
     public static void accNo(Body body, String expectedPartnerId, ValidationContext ctx) {
-        Allure.step("Check Account No");
         String accNo = body.getAccountNo();
 
         if (accNo == null) {
@@ -466,7 +435,6 @@ public class assertionRequest {
 
     public static void checkMissingMandatoryFields(String jsonStringHeader,
             Set<String> mandatoryFieldsheader, String jsonStringBody, Set<String> mandatoryFieldsBody) {
-        Allure.step("Check Missing Mandatory Field");
         JSONObject json1 = new JSONObject(jsonStringHeader);
         JSONObject json2 = new JSONObject(jsonStringBody);
 

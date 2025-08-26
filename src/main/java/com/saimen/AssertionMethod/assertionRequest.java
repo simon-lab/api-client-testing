@@ -1,15 +1,18 @@
 package com.saimen.AssertionMethod;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import org.json.JSONObject;
-import org.testng.Assert;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saimen.api.dto.ValidationContext;
+import com.saimen.api.dto.ValidationResult;
 import com.saimen.api.entity.Body;
 import com.saimen.api.entity.Header;
 
 public class assertionRequest {
+
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     public static void assertXTimeStamp(Header head, ValidationContext ctx) {
         String timestamp = head.getxTimeStamp();
@@ -115,6 +118,13 @@ public class assertionRequest {
     }
 
     public static void beneBankCode(Body body, ValidationContext ctx) {
+
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Transfer Service Tidak ada");
+            return;
+        }
+
         String beneBankCode = body.getBeneficiaryBankCode();
         String transferService = body.getAdditionalInfo().getTransferService();
 
@@ -179,6 +189,13 @@ public class assertionRequest {
     }
 
     public static void transferService(Body body, String expectedTransferService, ValidationContext ctx) {
+
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Transfer Service Tidak ada");
+            return;
+        }
+
         String transferService = body.getAdditionalInfo().getTransferService();
 
         if (transferService == null) {
@@ -190,6 +207,19 @@ public class assertionRequest {
     }
 
     public static void value(Body body, ValidationContext ctx) {
+
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Value Tidak Ada");
+            return;
+        }
+
+        var ai1 = body.getAdditionalInfo().getAmount();
+
+        if (ai1 == null) {
+            ctx.addError("Value Tidak Ada");
+            return;
+        }
         String value = body.getAdditionalInfo().getAmount().getValue();
         String pattern = "^\\d{1,16}\\.\\d{2}$";
 
@@ -204,6 +234,20 @@ public class assertionRequest {
     }
 
     public static void currency(Body body, String expectedCurrency, ValidationContext ctx) {
+
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Currency Tidak Ada");
+            return;
+        }
+
+        var ai1 = body.getAdditionalInfo().getAmount();
+
+        if (ai1 == null) {
+            ctx.addError("Currency Tidak Ada");
+            return;
+        }
+
         String currency = body.getAdditionalInfo().getAmount().getCurrency();
 
         if (currency == null) {
@@ -217,6 +261,12 @@ public class assertionRequest {
     }
 
     public static void valueExe(Body body, ValidationContext ctx) {
+
+        var ai = body.getAmount();
+        if (ai == null) {
+            ctx.addError("Value Tidak ada");
+            return;
+        }
         String value = body.getAmount().getValue();
         String pattern = "^\\d{1,16}\\.\\d{2}$";
 
@@ -231,6 +281,11 @@ public class assertionRequest {
     }
 
     public static void currencyExe(Body body, String expectedCurrency, ValidationContext ctx) {
+        var ai = body.getAmount();
+        if (ai == null) {
+            ctx.addError("Currency Tidak ada");
+            return;
+        }
         String currency = body.getAmount().getCurrency();
 
         if (currency == null) {
@@ -244,12 +299,19 @@ public class assertionRequest {
     }
 
     public static void dspSign(Body body, String jwt, ValidationContext ctx) {
+
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("dsp sign Tidak ada");
+            return;
+        }
+
         String dspSign = body.getAdditionalInfo().getDspsign();
 
         if (dspSign == null) {
-            ctx.addError("Beneficiary Account No Tidak ada");
+            ctx.addError("dsp sign Tidak ada");
         } else if (dspSign.isEmpty()) {
-            ctx.addError("Beneficiary Account No kosong");
+            ctx.addError("dsp sign kosong");
         } else if (!dspSign.equals("Bearer " + jwt)) {
             ctx.addError("dsp sign jwt Tidak Sesuai Expected");
         }
@@ -257,6 +319,12 @@ public class assertionRequest {
     }
 
     public static void disbCategory(Body body, String expectedCategory, ValidationContext ctx) {
+
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Disbursement Category Tidak ada");
+            return;
+        }
         String disbCategory = body.getAdditionalInfo().getDisbCategory();
 
         Set<String> validDisbCategory = Set.of(
@@ -267,7 +335,7 @@ public class assertionRequest {
         } else if (disbCategory.isEmpty()) {
             ctx.addError("Disbursement Category kosong");
         } else if (!validDisbCategory.contains(disbCategory)) {
-            ctx.addError("Account Type tidak ada dalam spec: " + disbCategory);
+            ctx.addError("Disbursement Category tidak ada dalam spec: " + disbCategory);
         } else if (!disbCategory.equals(expectedCategory)) {
             ctx.addError("Disbursement Category Tidak Sesuai Expected");
         }
@@ -275,6 +343,20 @@ public class assertionRequest {
     }
 
     public static void senderName(Body body, ValidationContext ctx) {
+
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Sender Name Tidak ada");
+            return;
+        }
+
+        var ai1 = body.getAdditionalInfo().getSenderInfo();
+
+        if (ai1 == null) {
+            ctx.addError("Sender Name Tidak ada");
+            return;
+        }
+
         String senderName = body.getAdditionalInfo().getSenderInfo().getName();
 
         if (senderName == null) {
@@ -286,6 +368,19 @@ public class assertionRequest {
     }
 
     public static void accType(Body body, ValidationContext ctx) {
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Account Type Tidak ada");
+            return;
+        }
+
+        var ai1 = body.getAdditionalInfo().getSenderInfo();
+
+        if (ai1 == null) {
+            ctx.addError("Account Type Tidak ada");
+            return;
+        }
+
         String accType = body.getAdditionalInfo().getSenderInfo().getAccountType();
 
         Set<String> validAccTypes = Set.of(
@@ -302,6 +397,19 @@ public class assertionRequest {
     }
 
     public static void accInstId(Body body, ValidationContext ctx) {
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Account Institution Id Tidak ada");
+            return;
+        }
+
+        var ai1 = body.getAdditionalInfo().getSenderInfo();
+
+        if (ai1 == null) {
+            ctx.addError("Account Institution Id Tidak ada");
+            return;
+        }
+
         String accInstId = body.getAdditionalInfo().getSenderInfo().getAccountInstId();
 
         if (accInstId == null) {
@@ -313,6 +421,19 @@ public class assertionRequest {
     }
 
     public static void country(Body body, ValidationContext ctx) {
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Country Tidak ada");
+            return;
+        }
+
+        var ai1 = body.getAdditionalInfo().getSenderInfo();
+
+        if (ai1 == null) {
+            ctx.addError("Country Tidak ada");
+            return;
+        }
+
         String country = body.getAdditionalInfo().getSenderInfo().getCountry();
 
         Set<String> validCountryCode = Set.of(
@@ -359,6 +480,20 @@ public class assertionRequest {
     }
 
     public static void city(Body body, ValidationContext ctx) {
+
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("City Tidak ada");
+            return;
+        }
+
+        var ai1 = body.getAdditionalInfo().getSenderInfo();
+
+        if (ai1 == null) {
+            ctx.addError("City Tidak ada");
+            return;
+        }
+
         String city = body.getAdditionalInfo().getSenderInfo().getCity();
 
         if (city == null) {
@@ -370,6 +505,19 @@ public class assertionRequest {
     }
 
     public static void identificationType(Body body, ValidationContext ctx) {
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Identification Type Tidak ada");
+            return;
+        }
+
+        var ai1 = body.getAdditionalInfo().getSenderInfo();
+
+        if (ai1 == null) {
+            ctx.addError("Identification Type Tidak ada");
+            return;
+        }
+
         String idType = body.getAdditionalInfo().getSenderInfo().getIdentificationType();
         Set<String> validAccTypes = Set.of("KTP", "PASSPORT");
 
@@ -384,6 +532,19 @@ public class assertionRequest {
     }
 
     public static void identificationNo(Body body, ValidationContext ctx) {
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Identification Number Tidak ada");
+            return;
+        }
+
+        var ai1 = body.getAdditionalInfo().getSenderInfo();
+
+        if (ai1 == null) {
+            ctx.addError("Identification Number Tidak ada");
+            return;
+        }
+
         String idNumber = body.getAdditionalInfo().getSenderInfo().getIdentificationNumber();
 
         if (idNumber == null) {
@@ -408,6 +569,11 @@ public class assertionRequest {
     }
 
     public static void msgId(Body body, ValidationContext ctx) {
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("MSG ID Tidak ada");
+            return;
+        }
         String msgId = body.getAdditionalInfo().getMsgId();
 
         if (msgId == null) {
@@ -433,53 +599,70 @@ public class assertionRequest {
 
     }
 
-    public static void checkMissingMandatoryFields(String jsonStringHeader,
-            Set<String> mandatoryFieldsheader, String jsonStringBody, Set<String> mandatoryFieldsBody) {
-        JSONObject json1 = new JSONObject(jsonStringHeader);
-        JSONObject json2 = new JSONObject(jsonStringBody);
+    public static ValidationResult checkMissingHeaderMandatoryFields(Object bodyEntity,
+            Set<String> mandatoryFields,
+            ValidationContext ctx) {
+        if (bodyEntity == null) {
+            String msg = "Body entity null (seluruh mandatory dianggap missing)";
+            if (ctx != null)
+                ctx.addSuccess(msg);
+            return new ValidationResult("OK", msg);
+        }
 
-        boolean isMissingFieldJsonHeader = false;
-        boolean isMissingFieldJsonBody = false;
+        JsonNode root = MAPPER.valueToTree(bodyEntity);
 
-        for (String field : mandatoryFieldsheader) {
-            if (!jsonPathExists(json1, field)) {
-                System.out.println("Missing mandatory field in JSONHeader: " + field);
-                isMissingFieldJsonHeader = true;
+        Set<String> missing = new HashSet<>();
+        for (String field : mandatoryFields) {
+            JsonNode val = root.get(field);
+            if (val == null || val.isNull() || (val.isTextual() && val.asText().isBlank())) {
+                missing.add(field);
             }
         }
 
-        for (String field : mandatoryFieldsBody) {
-            if (!jsonPathExists(json2, field)) {
-                System.out.println("Missing mandatory field in JSONBody: " + field);
-                isMissingFieldJsonBody = true;
-            }
-        }
-
-        if (isMissingFieldJsonHeader || isMissingFieldJsonBody) {
-            Assert.assertTrue(true, "Test berhasil karena ada missing mandatory field di salah satu JSON.");
+        if (!missing.isEmpty()) {
+            String msg = "Header missing: " + String.join(", ", missing);
+            if (ctx != null)
+                ctx.addSuccess(msg);
+            return new ValidationResult("OK", msg);
         } else {
-            Assert.fail("Tidak ada missing mandatory fields, kedua JSON lengkap.");
+            String msg = "Tidak ada yang missing";
+            if (ctx != null)
+                ctx.addError(msg);
+            return new ValidationResult("ERROR", msg);
         }
     }
 
-    public static boolean jsonPathExists(JSONObject json, String fieldPath) {
-        String[] keys = fieldPath.split("\\."); // Memecah path berdasarkan titik (dot notation)
-        JSONObject currentJson = json;
+    public static ValidationResult checkMissingBodyMandatoryFields(Object bodyEntity,
+            Set<String> mandatoryFields,
+            ValidationContext ctx) {
+        if (bodyEntity == null) {
+            String msg = "Body entity null (seluruh mandatory dianggap missing)";
+            if (ctx != null)
+                ctx.addSuccess(msg);
+            return new ValidationResult("OK", msg);
+        }
 
-        // Menavigasi ke objek bersarang menggunakan keys yang dipecah
-        for (int i = 0; i < keys.length; i++) {
-            if (currentJson.has(keys[i])) {
-                // Jika ini adalah key terakhir, cek apakah itu valid
-                if (i == keys.length - 1) {
-                    return true;
-                } else {
-                    currentJson = currentJson.getJSONObject(keys[i]);
-                }
-            } else {
-                return false; // Jika key tidak ditemukan
+        JsonNode root = MAPPER.valueToTree(bodyEntity);
+
+        Set<String> missing = new HashSet<>();
+        for (String field : mandatoryFields) {
+            JsonNode val = root.get(field);
+            if (val == null || val.isNull() || (val.isTextual() && val.asText().isBlank())) {
+                missing.add(field);
             }
         }
-        return false;
+
+        if (!missing.isEmpty()) {
+            String msg = "Body missing: " + String.join(", ", missing);
+            if (ctx != null)
+                ctx.addSuccess(msg);
+            return new ValidationResult("OK", msg);
+        } else {
+            String msg = "Tidak ada yang missing";
+            if (ctx != null)
+                ctx.addError(msg);
+            return new ValidationResult("ERROR", msg);
+        }
     }
 
     public static void main(String[] args) {

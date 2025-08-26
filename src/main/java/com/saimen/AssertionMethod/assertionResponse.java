@@ -111,6 +111,12 @@ public class assertionResponse {
 
     public static void assertMsgId(Response rsp, int expectedLenght, ValidationContext ctx) {
 
+        var ai = rsp.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Original Reference No Tidak ada");
+            return;
+        }
+
         String msgId = rsp.getAdditionalInfo().getMsgId();
 
         if (msgId == null) {
@@ -139,6 +145,12 @@ public class assertionResponse {
 
     public static void value(Response rsp, ValidationContext ctx) {
 
+        var ai = rsp.getAccountInfos();
+        if (ai == null) {
+            ctx.addError("Value Tidak ada");
+            return;
+        }
+
         String value = rsp.getAccountInfos().getAvailableBalance().getValue();
         String pattern = "^\\d{1,16}\\.\\d{2}$";
 
@@ -153,6 +165,12 @@ public class assertionResponse {
     }
 
     public static void currency(Response rsp, String expectedCurrency, ValidationContext ctx) {
+
+        var ai = rsp.getAccountInfos();
+        if (ai == null) {
+            ctx.addError("Currency Tidak ada");
+            return;
+        }
 
         String currency = rsp.getAccountInfos().getAvailableBalance().getCurrency();
 
@@ -169,6 +187,12 @@ public class assertionResponse {
     }
 
     public static void balanceType(Response rsp, String expectedType, ValidationContext ctx) {
+
+        var ai = rsp.getAccountInfos();
+        if (ai == null) {
+            ctx.addError("Balance Type Tidak ada");
+            return;
+        }
 
         String balanceType = rsp.getAccountInfos().getBalanceType();
 
@@ -216,6 +240,12 @@ public class assertionResponse {
 
         String isoResponseCode = rsp.getAdditionalInfo().getIsoResponseCode();
 
+        var ai = rsp.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("isoRC Tidak ada");
+            return;
+        }
+
         if (isoResponseCode == null) {
             ctx.addError("isoRC Tidak ada");
         } else if (isoResponseCode.isEmpty()) {
@@ -229,6 +259,12 @@ public class assertionResponse {
     }
 
     public static void assertIsoMessage(Response rsp, String expectedMessage, ValidationContext ctx) {
+
+        var ai = rsp.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("iso Response Message Tidak ada");
+            return;
+        }
 
         String isoResponseMessage = rsp.getAdditionalInfo().getIsoResponseMessage();
 

@@ -1,5 +1,7 @@
 package com.saimen.api;
 
+import java.util.Set;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.saimen.AssertionMethod.assertionPackage;
+import com.saimen.AssertionMethod.assertionRequest;
 import com.saimen.AssertionMethod.assertionResponse;
 import com.saimen.ReusableMethod.toRegex;
 import com.saimen.api.dto.ValidationContext;
@@ -19,6 +22,76 @@ import com.saimen.constant.expected;
 @RestController
 @RequestMapping("/interbank")
 public class interbankController {
+
+    @PostMapping("req/header/case3")
+    public ResponseEntity<ValidationResult> case3HeaderRequestCheck(@RequestBody Header head) {
+        ValidationContext ctx = new ValidationContext();
+        Set<String> mandatoryFieldsHeader = Set.of("Authorization", "X-TIMESTAMP", "X-SIGNATURE", "X-PARTNER-ID",
+                "X-EXTERNAL-ID", "CHANNEL-ID");
+
+        assertionRequest.checkMissingHeaderMandatoryFields(head, mandatoryFieldsHeader, ctx);
+
+        ValidationResult result = ctx.successResult();
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/body/case3")
+    public ResponseEntity<ValidationResult> case3BodyRequestCheck(@RequestBody Body body) {
+        ValidationContext ctx = new ValidationContext();
+        Boolean inquiry = false;
+
+        var add = body.getAdditionalInfo();
+
+        if (add != null) {
+            var inq = body.getAdditionalInfo().getTransferService();
+            inquiry = inq != null;
+        }
+
+        var exe = body.getSourceAccountNo();
+        Boolean execution = exe != null;
+        var check = body.getOriginalPartnerReferenceNo();
+        Boolean checkStatus = check != null;
+        var balance = body.getAccountNo();
+        Boolean getBalance = balance != null;
+
+        if (inquiry) {
+
+            Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo", "beneficiaryBankCode",
+                    "beneficiaryAccountNo",
+                    "additionalInfo.transferService", "additionalInfo.amount.value", "additionalInfo.amount.currency",
+                    "dspsign");
+            assertionRequest.checkMissingBodyMandatoryFields(body, mandatoryFieldsBody, ctx);
+        } else if (execution) {
+
+            Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo", "sourceAccountNo", "beneficiaryBankCode",
+                    "beneficiaryAccountNo", "beneAccountName", "transactionDate", "amount.value", "amount.currency",
+                    "additionalInfo.msgId", "additionalInfo.disbCategory", "senderInfo.name", "senderInfo.accountType",
+                    "senderInfo,accountInstId", "senderInfo.country", "senderInfo.city",
+                    "senderInfo.identificationType",
+                    "dspsign");
+            assertionRequest.checkMissingBodyMandatoryFields(body, mandatoryFieldsBody, ctx);
+        } else if (checkStatus) {
+
+            Set<String> mandatoryFieldsBody = Set.of("originalPartnerReferenceNo", "serviceCode",
+                    "additionalInfo.msgId", "additionalInfo.dspsign");
+            assertionRequest.checkMissingBodyMandatoryFields(body, mandatoryFieldsBody, ctx);
+        } else if (getBalance) {
+
+            Set<String> mandatoryFieldsBody = Set.of("accountNo", "additionalInfo.dspsign");
+            assertionRequest.checkMissingBodyMandatoryFields(body, mandatoryFieldsBody, ctx);
+        } else {
+            ctx.addError("Unique Field Tidak Ditemukan");
+        }
+
+        ValidationResult result = ctx.successResult();
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
 
     // @PostMapping("req/header/case5")
     // public ResponseEntity<ValidationResult> case5HeaderRequestCheck(@RequestBody

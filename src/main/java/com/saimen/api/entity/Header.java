@@ -3,6 +3,7 @@ package com.saimen.api.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Header {
+    @JsonProperty("Authorization")
     private String Authorization;
 
     @JsonProperty("X-TIMESTAMP")

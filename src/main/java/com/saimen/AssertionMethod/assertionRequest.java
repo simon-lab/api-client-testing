@@ -645,10 +645,10 @@ public class assertionRequest {
         JsonNode root = MAPPER.valueToTree(bodyEntity);
 
         Set<String> missing = new HashSet<>();
-        for (String field : mandatoryFields) {
-            JsonNode val = root.get(field);
-            if (val == null || val.isNull() || (val.isTextual() && val.asText().isBlank())) {
-                missing.add(field);
+        for (String path : mandatoryFields) {
+            JsonNode node = getByPath(root, path);
+            if (isMissing(node)) {
+                missing.add(path);
             }
         }
 
@@ -663,6 +663,55 @@ public class assertionRequest {
                 ctx.addError(msg);
             return new ValidationResult("ERROR", msg);
         }
+    }
+
+    private static JsonNode getByPath(JsonNode root, String dotPath) {
+        if (root == null || dotPath == null || dotPath.isBlank())
+            return null;
+        String[] segments = dotPath.split("\\.");
+
+        JsonNode curr = root;
+        for (String seg : segments) {
+            if (curr == null)
+                return null;
+
+            int bracketIdx = seg.indexOf('[');
+            if (bracketIdx >= 0) {
+                String key = seg.substring(0, bracketIdx);
+                curr = curr.get(key);
+                if (curr == null)
+                    return null;
+
+                int pos = bracketIdx;
+                while (pos < seg.length() && seg.charAt(pos) == '[') {
+                    int end = seg.indexOf(']', pos);
+                    if (end < 0)
+                        return null;
+                    String numStr = seg.substring(pos + 1, end).trim();
+                    int idx;
+                    try {
+                        idx = Integer.parseInt(numStr);
+                    } catch (NumberFormatException e) {
+                        return null;
+                    }
+                    if (!curr.isArray() || idx < 0 || idx >= curr.size())
+                        return null;
+                    curr = curr.get(idx);
+                    pos = end + 1;
+                }
+            } else {
+                curr = curr.get(seg);
+            }
+        }
+        return curr;
+    }
+
+    private static boolean isMissing(JsonNode node) {
+        if (node == null || node.isNull())
+            return true;
+        if (node.isTextual() && node.asText().isBlank())
+            return true;
+        return false;
     }
 
     public static void main(String[] args) {

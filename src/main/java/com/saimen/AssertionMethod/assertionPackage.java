@@ -8,7 +8,7 @@ import com.saimen.constant.expected;
 
 public class assertionPackage {
 
-    public static ValidationResult inquiryHeader(Header head, expected testData) {
+    public static ValidationResult header(Header head, expected testData) {
         ValidationContext ctx = new ValidationContext();
         assertionRequest.assertXTimeStamp(head, ctx);
         assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
@@ -28,16 +28,6 @@ public class assertionPackage {
         assertionRequest.value(body, ctx);
         assertionRequest.currency(body, testData.CURRENCY, ctx);
         assertionRequest.dspSign(body, testData.JWT, ctx);
-
-        return ctx.toResult();
-    }
-
-    public static ValidationResult exeHeader(Header head, expected testData) {
-        ValidationContext ctx = new ValidationContext();
-        assertionRequest.assertXTimeStamp(head, ctx);
-        assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
-        assertionRequest.assertXExternalId(head, ctx);
-        assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
 
         return ctx.toResult();
     }
@@ -66,16 +56,6 @@ public class assertionPackage {
         return ctx.toResult();
     }
 
-    public static ValidationResult checkStatusHeader(Header head, expected testData) {
-        ValidationContext ctx = new ValidationContext();
-        assertionRequest.assertXTimeStamp(head, ctx);
-        assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
-        assertionRequest.assertXExternalId(head, ctx);
-        assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
-
-        return ctx.toResult();
-    }
-
     public static ValidationResult checkStatusBody(Body body, expected testData) {
         ValidationContext ctx = new ValidationContext();
 
@@ -83,16 +63,6 @@ public class assertionPackage {
         assertionRequest.serviceCode(body, ctx);
         assertionRequest.msgId(body, ctx);
         assertionRequest.dspSign(body, testData.JWT, ctx);
-
-        return ctx.toResult();
-    }
-
-    public static ValidationResult getBalanceHeader(Header head, expected testData) {
-        ValidationContext ctx = new ValidationContext();
-        assertionRequest.assertXTimeStamp(head, ctx);
-        assertionRequest.assertXPartnerId(head, testData.PARTNERID, ctx);
-        assertionRequest.assertXExternalId(head, ctx);
-        assertionRequest.assertChannelID(head, testData.CHANNELID, ctx);
 
         return ctx.toResult();
     }

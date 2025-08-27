@@ -24,7 +24,7 @@ public class balanceServicesController {
     public ResponseEntity<ValidationResult> case6HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.getBalanceHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -71,7 +71,7 @@ public class balanceServicesController {
     public ResponseEntity<ValidationResult> case7HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.getBalanceHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -118,7 +118,7 @@ public class balanceServicesController {
     public ResponseEntity<ValidationResult> case8HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.getBalanceHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -162,7 +162,7 @@ public class balanceServicesController {
     public ResponseEntity<ValidationResult> case9HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.getBalanceHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -206,7 +206,7 @@ public class balanceServicesController {
     public ResponseEntity<ValidationResult> case10HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.getBalanceHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -250,7 +250,7 @@ public class balanceServicesController {
     public ResponseEntity<ValidationResult> case11HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.getBalanceHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)

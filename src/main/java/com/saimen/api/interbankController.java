@@ -62,16 +62,19 @@ public class interbankController {
             Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo", "beneficiaryBankCode",
                     "beneficiaryAccountNo",
                     "additionalInfo.transferService", "additionalInfo.amount.value", "additionalInfo.amount.currency",
-                    "dspsign");
+                    "additionalInfo.dspsign");
             assertionRequest.checkMissingBodyMandatoryFields(body, mandatoryFieldsBody, ctx);
         } else if (execution) {
 
             Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo", "sourceAccountNo", "beneficiaryBankCode",
-                    "beneficiaryAccountNo", "beneAccountName", "transactionDate", "amount.value", "amount.currency",
-                    "additionalInfo.msgId", "additionalInfo.disbCategory", "senderInfo.name", "senderInfo.accountType",
-                    "senderInfo,accountInstId", "senderInfo.country", "senderInfo.city",
-                    "senderInfo.identificationType",
-                    "dspsign");
+                    "beneficiaryAccountNo", "beneficiaryAccountName", "transactionDate", "amount.value",
+                    "amount.currency",
+                    "additionalInfo.msgId", "additionalInfo.disbCategory", "additionalInfo.senderInfo.name",
+                    "additionalInfo.senderInfo.accountType",
+                    "additionalInfo.senderInfo.accountInstId", "additionalInfo.senderInfo.country",
+                    "additionalInfo.senderInfo.city",
+                    "additionalInfo.senderInfo.identificationType",
+                    "additionalInfo.dspsign");
             assertionRequest.checkMissingBodyMandatoryFields(body, mandatoryFieldsBody, ctx);
         } else if (checkStatus) {
 
@@ -93,18 +96,36 @@ public class interbankController {
 
     }
 
-    // @PostMapping("req/header/case5")
-    // public ResponseEntity<ValidationResult> case5HeaderRequestCheck(@RequestBody
-    // Header head) {
-    // expected expected = new expected();
+    @PostMapping("resp/case3")
+    public ResponseEntity<ValidationResult> case3ResponseCheck(@RequestBody Response resp) {
+        ValidationContext ctxResp = new ValidationContext();
+        String expectedRC = "400xx02";
+        String expectedRM = "Missing Mandatory Field";
 
-    // ValidationResult result = assertionPackage.inquiryHeader(head, expected);
+        String formatRC = toRegex.toRegexFormat(expectedRC);
 
-    // return "OK".equals(result.getStatus())
-    // ? ResponseEntity.ok(result)
-    // : ResponseEntity.unprocessableEntity().body(result);
+        assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
+        assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
 
-    // }
+        ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/header/case5")
+    public ResponseEntity<ValidationResult> case5HeaderRequestCheck(@RequestBody Header head) {
+        expected expected = new expected();
+
+        ValidationResult result = assertionPackage.header(head, expected);
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
 
     // @PostMapping("req/body/case5")
     // public ResponseEntity<ValidationResult> case5BodyRequestCheck(@RequestBody
@@ -150,7 +171,7 @@ public class interbankController {
     public ResponseEntity<ValidationResult> case7HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.inquiryHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -200,7 +221,7 @@ public class interbankController {
     public ResponseEntity<ValidationResult> case8HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.inquiryHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -244,7 +265,7 @@ public class interbankController {
     public ResponseEntity<ValidationResult> case10HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.exeHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -292,7 +313,7 @@ public class interbankController {
     public ResponseEntity<ValidationResult> case11HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.exeHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -336,7 +357,7 @@ public class interbankController {
     public ResponseEntity<ValidationResult> case12HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.exeHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -380,7 +401,7 @@ public class interbankController {
     public ResponseEntity<ValidationResult> case13HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
-        ValidationResult result = assertionPackage.checkStatusHeader(head, expected);
+        ValidationResult result = assertionPackage.header(head, expected);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)

@@ -265,6 +265,26 @@ public class balanceServicesController {
 
     }
 
+    @PostMapping("resp/case4")
+    public ResponseEntity<ValidationResult> case4ResponseCheck(@RequestBody Response resp) {
+        ValidationContext ctxResp = new ValidationContext();
+
+        String expectedRC = "400xx01";
+        String expectedRM = "Invalid Field Format";
+
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
+        assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
+
+        ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("req/header/case5")
     public ResponseEntity<ValidationResult> case5HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();

@@ -22,6 +22,155 @@ import com.saimen.constant.expected;
 @RestController
 @RequestMapping("/interbank")
 public class interbankController {
+    @PostMapping("req/header/case1")
+    public ResponseEntity<ValidationResult> case1HeaderRequestCheck(@RequestBody Header head) {
+        expected expected = new expected();
+
+        ValidationResult result = assertionPackage.header(head, expected);
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/body/case1")
+    public ResponseEntity<ValidationResult> case1BodyRequestCheck(@RequestBody Body body) {
+        ValidationContext ctx = new ValidationContext();
+        expected expected = new expected();
+        Boolean inquiry = false;
+
+        var add = body.getAdditionalInfo();
+
+        if (add != null) {
+            var inq = body.getAdditionalInfo().getTransferService();
+            inquiry = inq != null;
+        }
+
+        var exe = body.getSourceAccountNo();
+        Boolean execution = exe != null;
+        var check = body.getOriginalPartnerReferenceNo();
+        Boolean checkStatus = check != null;
+        var balance = body.getAccountNo();
+        Boolean getBalance = balance != null;
+
+        ValidationResult result = null;
+
+        if (inquiry) {
+
+            result = assertionPackage.inquiryBody(body, expected);
+        } else if (execution) {
+
+            result = assertionPackage.exeBody(body, expected);
+        } else if (checkStatus) {
+
+            result = assertionPackage.checkStatusBody(body, expected);
+        } else if (getBalance) {
+
+            result = assertionPackage.getBalanceBody(body, expected);
+        } else {
+            ctx.addError("Unique Field Tidak Ditemukan");
+        }
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("resp/case1")
+    public ResponseEntity<ValidationResult> case1ResponseCheck(@RequestBody Response resp) {
+        ValidationContext ctxResp = new ValidationContext();
+
+        String expectedRC = "401xx01";
+        String expectedRM = "Unauthorized Signature";
+
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
+        assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
+
+        ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/header/case2")
+    public ResponseEntity<ValidationResult> case2HeaderRequestCheck(@RequestBody Header head) {
+        expected expected = new expected();
+
+        ValidationResult result = assertionPackage.header(head, expected);
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/body/case2")
+    public ResponseEntity<ValidationResult> case2BodyRequestCheck(@RequestBody Body body) {
+        ValidationContext ctx = new ValidationContext();
+        expected expected = new expected();
+        Boolean inquiry = false;
+
+        var add = body.getAdditionalInfo();
+
+        if (add != null) {
+            var inq = body.getAdditionalInfo().getTransferService();
+            inquiry = inq != null;
+        }
+
+        var exe = body.getSourceAccountNo();
+        Boolean execution = exe != null;
+        var check = body.getOriginalPartnerReferenceNo();
+        Boolean checkStatus = check != null;
+        var balance = body.getAccountNo();
+        Boolean getBalance = balance != null;
+
+        ValidationResult result = null;
+
+        if (inquiry) {
+
+            result = assertionPackage.inquiryBody(body, expected);
+        } else if (execution) {
+
+            result = assertionPackage.exeBody(body, expected);
+        } else if (checkStatus) {
+
+            result = assertionPackage.checkStatusBody(body, expected);
+        } else if (getBalance) {
+
+            result = assertionPackage.getBalanceBody(body, expected);
+        } else {
+            ctx.addError("Unique Field Tidak Ditemukan");
+        }
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("resp/case2")
+    public ResponseEntity<ValidationResult> case2ResponseCheck(@RequestBody Response resp) {
+        ValidationContext ctxResp = new ValidationContext();
+
+        String expectedRC = "401xx00";
+        String expectedRM = "Access Token Invalid";
+
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
+        assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
+
+        ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
 
     @PostMapping("req/header/case3")
     public ResponseEntity<ValidationResult> case3HeaderRequestCheck(@RequestBody Header head) {
@@ -127,45 +276,68 @@ public class interbankController {
 
     }
 
-    // @PostMapping("req/body/case5")
-    // public ResponseEntity<ValidationResult> case5BodyRequestCheck(@RequestBody
-    // Body body) {
-    // expected expected = new expected();
+    @PostMapping("req/body/case5")
+    public ResponseEntity<ValidationResult> case5BodyRequestCheck(@RequestBody Body body) {
+        ValidationContext ctx = new ValidationContext();
+        expected expected = new expected();
+        Boolean inquiry = false;
 
-    // ValidationResult result = assertionPackage.inquiryBody(body, expected);
+        var add = body.getAdditionalInfo();
 
-    // return "OK".equals(result.getStatus())
-    // ? ResponseEntity.ok(result)
-    // : ResponseEntity.unprocessableEntity().body(result);
+        if (add != null) {
+            var inq = body.getAdditionalInfo().getTransferService();
+            inquiry = inq != null;
+        }
 
-    // }
+        var exe = body.getSourceAccountNo();
+        Boolean execution = exe != null;
+        var check = body.getOriginalPartnerReferenceNo();
+        Boolean checkStatus = check != null;
+        var balance = body.getAccountNo();
+        Boolean getBalance = balance != null;
 
-    // @PostMapping("resp/case5")
-    // public ResponseEntity<ValidationResult> case5ResponseCheck(@RequestBody
-    // Response resp) {
-    // ValidationContext ctxResp = new ValidationContext();
+        ValidationResult result = null;
 
-    // String expectedRC = "2001600";
-    // String expectedRM = "success";
+        if (inquiry) {
 
-    // String formatRC = toRegex.toRegexFormat(expectedRC);
+            result = assertionPackage.inquiryBody(body, expected);
+        } else if (execution) {
 
-    // assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
-    // assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
-    // assertionResponse.assertBeneAccName(resp, ctxResp);
-    // assertionResponse.assertBeneAccNo(resp, ctxResp);
-    // assertionResponse.assertReferenceNo(resp, 12, ctxResp);
-    // assertionResponse.assertMsgId(resp, 42, ctxResp);
-    // assertionResponse.assertIsoRC(resp, "00", ctxResp);
-    // assertionResponse.assertIsoMessage(resp, "Success", ctxResp);
+            result = assertionPackage.exeBody(body, expected);
+        } else if (checkStatus) {
 
-    // ValidationResult result = ctxResp.toResult();
+            result = assertionPackage.checkStatusBody(body, expected);
+        } else if (getBalance) {
 
-    // return "OK".equals(result.getStatus())
-    // ? ResponseEntity.ok(result)
-    // : ResponseEntity.unprocessableEntity().body(result);
+            result = assertionPackage.getBalanceBody(body, expected);
+        } else {
+            ctx.addError("Unique Field Tidak Ditemukan");
+        }
 
-    // }
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+    }
+
+    @PostMapping("resp/case5")
+    public ResponseEntity<ValidationResult> case5ResponseCheck(@RequestBody Response resp) {
+        ValidationContext ctxResp = new ValidationContext();
+
+        String expectedRC = "409xx00";
+        String expectedRM = "Conflict";
+
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
+        assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
+
+        ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
 
     @PostMapping("req/header/case7")
     public ResponseEntity<ValidationResult> case7HeaderRequestCheck(@RequestBody Header head) {

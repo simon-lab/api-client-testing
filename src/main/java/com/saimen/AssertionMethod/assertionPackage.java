@@ -22,7 +22,7 @@ public class assertionPackage {
         ValidationContext ctx = new ValidationContext();
 
         assertionRequest.assertPartnerReferenceNo(body, ctx);
-        assertionRequest.beneBankCode(body, ctx);
+        assertionRequest.beneBankCodeInq(body, ctx);
         assertionRequest.beneAccNo(body, ctx);
         assertionRequest.transferService(body, testData.TRANSFERSERVICE, ctx);
         assertionRequest.value(body, ctx);
@@ -37,7 +37,7 @@ public class assertionPackage {
 
         assertionRequest.assertPartnerReferenceNo(body, ctx);
         assertionRequest.sourceAccountNo(body, ctx);
-        assertionRequest.beneBankCode(body, ctx);
+        assertionRequest.beneBankCodeExe(body, testData.TRANSFERSERVICE, ctx);
         assertionRequest.beneAccNo(body, ctx);
         assertionRequest.beneAccName(body, ctx);
         assertionRequest.trxDate(body, ctx);

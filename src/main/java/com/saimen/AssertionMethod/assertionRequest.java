@@ -117,7 +117,7 @@ public class assertionRequest {
 
     }
 
-    public static void beneBankCode(Body body, ValidationContext ctx) {
+    public static void beneBankCodeInq(Body body, ValidationContext ctx) {
 
         var ai = body.getAdditionalInfo();
         if (ai == null) {
@@ -136,6 +136,35 @@ public class assertionRequest {
             ctx.addError("Transfer Service Tidak ada");
         } else if (transferService.isEmpty()) {
             ctx.addError("Transfer Service kosong");
+        } else if (transferService.equalsIgnoreCase("REALTIME ONLINE")) {
+            if (beneBankCode.length() > 3) {
+                ctx.addError("Jumlah karakter Beneficiary Bank Code REALTIME ONLINE lebih dari 3");
+            }
+        } else if (transferService.equalsIgnoreCase("BI FAST")) {
+            if (beneBankCode.length() > 8) {
+                ctx.addError("Jumlah karakter Beneficiary Bank Code BI FAST lebih dari 8");
+            }
+        } else {
+            ctx.addError("Transfer service tidak dikenali");
+        }
+
+    }
+
+    public static void beneBankCodeExe(Body body, String expectedTransferService, ValidationContext ctx) {
+
+        var ai = body.getAdditionalInfo();
+        if (ai == null) {
+            ctx.addError("Transfer Service Tidak ada");
+            return;
+        }
+
+        String beneBankCode = body.getBeneficiaryBankCode();
+        String transferService = expectedTransferService;
+
+        if (beneBankCode == null) {
+            ctx.addError("Bene Bank Code Tidak ada");
+        } else if (beneBankCode.isEmpty()) {
+            ctx.addError("Bene Bank Code kosong");
         } else if (transferService.equalsIgnoreCase("REALTIME ONLINE")) {
             if (beneBankCode.length() > 3) {
                 ctx.addError("Jumlah karakter Beneficiary Bank Code REALTIME ONLINE lebih dari 3");

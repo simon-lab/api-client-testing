@@ -250,7 +250,7 @@ public class balanceServicesController {
     public ResponseEntity<ValidationResult> case3ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
         String expectedRC = "400xx02";
-        String expectedRM = "Missing Mandatory Field";
+        String expectedRM = "Invalid Mandatory Field";
 
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
@@ -614,8 +614,8 @@ public class balanceServicesController {
     public ResponseEntity<ValidationResult> case11ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
 
-        String expectedRC = "4011101";
-        String expectedRM = "Access Token Invalid";
+        String expectedRC = "4011102";
+        String expectedRM = "Invalid Customer Token";
 
         String formatRC = toRegex.toRegexFormat(expectedRC);
 

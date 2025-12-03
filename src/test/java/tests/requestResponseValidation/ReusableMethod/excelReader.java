@@ -32,8 +32,8 @@ public class excelReader {
             } else if (service.equalsIgnoreCase("balance")) {
                 sheet = workbook.getSheetAt(1);
 
-                startRow = 8;
-                endRow = 18;
+                startRow = 9;
+                endRow = 15;
             }
 
             for (int rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
@@ -70,8 +70,8 @@ public class excelReader {
             } else if (service.equalsIgnoreCase("balance")) {
                 sheet = workbook.getSheetAt(1);
 
-                startRow = 8;
-                endRow = 18;
+                startRow = 9;
+                endRow = 15;
             }
 
             for (int rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
@@ -108,8 +108,8 @@ public class excelReader {
             } else if (service.equalsIgnoreCase("balance")) {
                 sheet = workbook.getSheetAt(1);
 
-                startRow = 8;
-                endRow = 18;
+                startRow = 9;
+                endRow = 15;
             }
 
             for (int rowIndex = startRow; rowIndex <= endRow; rowIndex++) {

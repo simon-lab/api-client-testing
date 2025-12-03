@@ -3,6 +3,7 @@ package com.saimen.api;
 import java.util.Set;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -249,7 +250,7 @@ public class interbankController {
     public ResponseEntity<ValidationResult> case3ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
         String expectedRC = "400xx02";
-        String expectedRM = "Missing Mandatory Field";
+        String expectedRM = "Invalid Mandatory Field";
 
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
@@ -371,6 +372,7 @@ public class interbankController {
 
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("req/body/case7")
     public ResponseEntity<ValidationResult> case7BodyRequestCheck(@RequestBody Body body) {
         expected expected = new expected();

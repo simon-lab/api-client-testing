@@ -1,7 +1,9 @@
 package util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.LoggerFactory;
+
+import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 
 import java.io.InputStream;

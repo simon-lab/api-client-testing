@@ -33,8 +33,6 @@ public class assertionResponse {
 
     public static void assertResponseMessage(Response rsp, String expectedMessage, ValidationContext ctx) {
         String responseMessage = rsp.getResponseMessage();
-        // Assert.assertEquals(responseMessage, expectedMessage, "Response Message Tidak
-        // Sesuai");
 
         if (responseMessage == null) {
             ctx.addError("Response Message Tidak ada");

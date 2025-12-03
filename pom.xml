@@ -23,6 +23,7 @@
         <allure.commons.version>2.29.1</allure.commons.version>
         <allure.JUnit4.version>2.29.1</allure.JUnit4.version>
         <maven.resources.plugin>3.3.1</maven.resources.plugin>
+        <jackson.version>2.18.2</jackson.version>
         <package.directory>${project.build.directory}/api-resources</package.directory>
     </properties>
 
@@ -97,22 +98,21 @@
             <artifactId>json</artifactId>
             <version>20250107</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>3.5.3</version>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+    <version>3.5.7</version>
+</dependency>
+<dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.38</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>3.5.3</version>
-            <scope>test</scope>
-        </dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>3.5.7</version>
+</dependency>
     </dependencies>
 
     <build>
@@ -215,11 +215,6 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.5.3</version>
-            </plugin>
 
         </plugins>
 

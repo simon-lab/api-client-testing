@@ -360,6 +360,7 @@ public class interbankController {
 
     }
 
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("req/header/case7")
     public ResponseEntity<ValidationResult> case7HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
@@ -372,7 +373,7 @@ public class interbankController {
 
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("req/body/case7")
     public ResponseEntity<ValidationResult> case7BodyRequestCheck(@RequestBody Body body) {
         expected expected = new expected();
@@ -385,12 +386,13 @@ public class interbankController {
 
     }
 
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("resp/case7")
     public ResponseEntity<ValidationResult> case7ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
 
         String expectedRC = "2001600";
-        String expectedRM = "success";
+        String expectedRM = "Successful";
 
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
@@ -484,7 +486,7 @@ public class interbankController {
         ValidationContext ctxResp = new ValidationContext();
 
         String expectedRC = "2001800";
-        String expectedRM = "success";
+        String expectedRM = "Successful";
 
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
@@ -620,7 +622,7 @@ public class interbankController {
         ValidationContext ctxResp = new ValidationContext();
 
         String expectedRC = "2003600";
-        String expectedRM = "success";
+        String expectedRM = "Successful";
 
         String formatRC = toRegex.toRegexFormat(expectedRC);
 

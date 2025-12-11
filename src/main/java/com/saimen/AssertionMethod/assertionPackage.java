@@ -1,12 +1,20 @@
 package com.saimen.AssertionMethod;
 
 import com.saimen.api.entity.Header;
+import com.saimen.api.entity.Url;
 import com.saimen.api.dto.ValidationContext;
 import com.saimen.api.dto.ValidationResult;
 import com.saimen.api.entity.Body;
 import com.saimen.constant.expected;
 
 public class assertionPackage {
+
+    public static ValidationResult url(Url url, String services) {
+        ValidationContext ctx = new ValidationContext();
+        assertionRequest.assertUrl(url, ctx, services);
+        return ctx.toResult();
+
+    }
 
     public static ValidationResult header(Header head, expected testData) {
         ValidationContext ctx = new ValidationContext();
@@ -26,7 +34,7 @@ public class assertionPackage {
         assertionRequest.beneAccNo(body, ctx);
         assertionRequest.transferService(body, testData.TRANSFERSERVICE, ctx);
         assertionRequest.value(body, ctx);
-        assertionRequest.currency(body, testData.CURRENCY, ctx);
+        assertionRequest.currency(body, "IDR", ctx);
         assertionRequest.dspSign(body, testData.JWT, ctx);
 
         return ctx.toResult();
@@ -42,7 +50,7 @@ public class assertionPackage {
         assertionRequest.beneAccName(body, ctx);
         assertionRequest.trxDate(body, ctx);
         assertionRequest.valueExe(body, ctx);
-        assertionRequest.currencyExe(body, testData.CURRENCY, ctx);
+        assertionRequest.currencyExe(body, "IDR", ctx);
         assertionRequest.msgId(body, ctx);
         // assertionRequest.disbCategory(jsBody, expectedRM);
         assertionRequest.senderName(body, ctx);

@@ -9,10 +9,43 @@ import com.saimen.api.dto.ValidationContext;
 import com.saimen.api.dto.ValidationResult;
 import com.saimen.api.entity.Body;
 import com.saimen.api.entity.Header;
+import com.saimen.api.entity.Url;
 
 public class assertionRequest {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
+
+    public static void assertUrl(Url urlEndpoint, ValidationContext ctx, String expectedServices) {
+        String url = urlEndpoint.getUrlEndpoint();
+        String inquiryUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2/account-inquiry-external";
+        String exeUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2/transfer-interbank";
+        String statusUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2/transfer/status";
+        String balanceUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2/balance-inquiry";
+
+        if (url == null) {
+            ctx.addError("Url Endpoint tidak ada");
+        } else if (url.isEmpty()) {
+            ctx.addError("Url Endpoint kosong");
+        }
+
+        if (expectedServices.equalsIgnoreCase("inquiry")) {
+            if (!url.equals(inquiryUrl)) {
+                ctx.addError("Url Endpoint Salah");
+            }
+        } else if (expectedServices.equalsIgnoreCase("execution")) {
+            if (!url.equals(exeUrl)) {
+                ctx.addError("Url Endpoint Salah");
+            }
+        } else if (expectedServices.equalsIgnoreCase("status")) {
+            if (!url.equals(statusUrl)) {
+                ctx.addError("Url Endpoint Salah");
+            }
+        } else if (expectedServices.equalsIgnoreCase("balance")) {
+            if (!url.equals(balanceUrl)) {
+                ctx.addError("Url Endpoint Salah");
+            }
+        }
+    }
 
     public static void assertXTimeStamp(Header head, ValidationContext ctx) {
         String timestamp = head.getxTimeStamp();

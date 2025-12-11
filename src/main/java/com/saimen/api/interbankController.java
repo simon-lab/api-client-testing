@@ -18,9 +18,11 @@ import com.saimen.api.dto.ValidationResult;
 import com.saimen.api.entity.Body;
 import com.saimen.api.entity.Header;
 import com.saimen.api.entity.Response;
+import com.saimen.api.entity.Url;
 import com.saimen.constant.expected;
 
 @RestController
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @RequestMapping("/interbank")
 public class interbankController {
     @PostMapping("req/header/case1")
@@ -360,7 +362,67 @@ public class interbankController {
 
     }
 
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @PostMapping("req/url/case6")
+    public ResponseEntity<ValidationResult> case6UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "inquiry");
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/header/case6")
+    public ResponseEntity<ValidationResult> case6HeaderRequestCheck(@RequestBody Header head) {
+        expected expected = new expected();
+
+        ValidationResult result = assertionPackage.header(head, expected);
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/body/case6")
+    public ResponseEntity<ValidationResult> case6BodyRequestCheck(@RequestBody Body body) {
+        expected expected = new expected();
+
+        ValidationResult result = assertionPackage.inquiryBody(body, expected);
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("resp/case6")
+    public ResponseEntity<ValidationResult> case6ResponseCheck(@RequestBody Response resp) {
+        ValidationContext ctxResp = new ValidationContext();
+
+        String expectedRC = "2001600";
+        String expectedRM = "Successful";
+
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
+        assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
+        assertionResponse.assertBeneAccName(resp, ctxResp);
+        assertionResponse.assertBeneAccNo(resp, ctxResp);
+        assertionResponse.assertReferenceNo(resp, 12, ctxResp);
+        assertionResponse.assertMsgId(resp, 42, ctxResp);
+        assertionResponse.assertIsoRC(resp, "00", ctxResp);
+        assertionResponse.assertIsoMessage(resp, "Success", ctxResp);
+
+        ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("req/header/case7")
     public ResponseEntity<ValidationResult> case7HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
@@ -373,7 +435,6 @@ public class interbankController {
 
     }
 
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("req/body/case7")
     public ResponseEntity<ValidationResult> case7BodyRequestCheck(@RequestBody Body body) {
         expected expected = new expected();
@@ -386,7 +447,6 @@ public class interbankController {
 
     }
 
-    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("resp/case7")
     public ResponseEntity<ValidationResult> case7ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
@@ -448,6 +508,54 @@ public class interbankController {
 
         assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
         assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
+
+        ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/header/case9")
+    public ResponseEntity<ValidationResult> case9HeaderRequestCheck(@RequestBody Header head) {
+        expected expected = new expected();
+
+        ValidationResult result = assertionPackage.header(head, expected);
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/body/case9")
+    public ResponseEntity<ValidationResult> case9BodyRequestCheck(@RequestBody Body body) {
+        expected expected = new expected();
+
+        ValidationResult result = assertionPackage.exeBody(body, expected);
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("resp/case9")
+    public ResponseEntity<ValidationResult> case9ResponseCheck(@RequestBody Response resp) {
+        ValidationContext ctxResp = new ValidationContext();
+
+        String expectedRC = "2001800";
+        String expectedRM = "Successful";
+
+        String formatRC = toRegex.toRegexFormat(expectedRC);
+
+        assertionResponse.assertResponseCode(resp, 7, formatRC, ctxResp);
+        assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
+        assertionResponse.assertReferenceNo(resp, 12, ctxResp);
+        assertionResponse.assertBeneAccNo(resp, ctxResp);
+        assertionResponse.assertIsoRC(resp, "00", ctxResp);
+        assertionResponse.assertIsoMessage(resp, "Success", ctxResp);
 
         ValidationResult result = ctxResp.toResult();
 
@@ -593,7 +701,7 @@ public class interbankController {
 
     }
 
-    @PostMapping("header/case13")
+    @PostMapping("req/header/case13")
     public ResponseEntity<ValidationResult> case13HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
 
@@ -605,7 +713,7 @@ public class interbankController {
 
     }
 
-    @PostMapping("body/case13")
+    @PostMapping("req/body/case13")
     public ResponseEntity<ValidationResult> case13BodyRequestCheck(@RequestBody Body body) {
         expected expected = new expected();
 

@@ -25,6 +25,18 @@ import com.saimen.constant.expected;
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 @RequestMapping("/interbank")
 public class interbankController {
+
+    @PostMapping("req/url/case1")
+    public ResponseEntity<ValidationResult> case1UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "inquiry");
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("req/header/case1")
     public ResponseEntity<ValidationResult> case1HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
@@ -423,6 +435,17 @@ public class interbankController {
 
     }
 
+    @PostMapping("req/url/case7")
+    public ResponseEntity<ValidationResult> case7UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "inquiry");
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("req/header/case7")
     public ResponseEntity<ValidationResult> case7HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
@@ -473,6 +496,17 @@ public class interbankController {
 
     }
 
+    @PostMapping("req/url/case8")
+    public ResponseEntity<ValidationResult> case8UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "inquiry");
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("req/header/case8")
     public ResponseEntity<ValidationResult> case8HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
@@ -510,6 +544,17 @@ public class interbankController {
         assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
 
         ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/url/case9")
+    public ResponseEntity<ValidationResult> case9UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "execution");
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -565,6 +610,17 @@ public class interbankController {
 
     }
 
+    @PostMapping("req/url/case10")
+    public ResponseEntity<ValidationResult> case10UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "execution");
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("req/header/case10")
     public ResponseEntity<ValidationResult> case10HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
@@ -606,6 +662,17 @@ public class interbankController {
         assertionResponse.assertIsoMessage(resp, "Success", ctxResp);
 
         ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/url/case11")
+    public ResponseEntity<ValidationResult> case11UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "execution");
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -657,6 +724,17 @@ public class interbankController {
 
     }
 
+    @PostMapping("req/url/case12")
+    public ResponseEntity<ValidationResult> case12UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "execution");
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("req/header/case12")
     public ResponseEntity<ValidationResult> case12HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
@@ -694,6 +772,17 @@ public class interbankController {
         assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
 
         ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/url/case13")
+    public ResponseEntity<ValidationResult> case13UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "status");
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)

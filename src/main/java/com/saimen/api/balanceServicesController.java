@@ -18,6 +18,7 @@ import com.saimen.api.dto.ValidationResult;
 import com.saimen.api.entity.Body;
 import com.saimen.api.entity.Header;
 import com.saimen.api.entity.Response;
+import com.saimen.api.entity.Url;
 import com.saimen.constant.expected;
 
 @RestController
@@ -362,6 +363,17 @@ public class balanceServicesController {
 
     }
 
+    @PostMapping("req/url/case6")
+    public ResponseEntity<ValidationResult> case6UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "balance");
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("req/header/case6")
     public ResponseEntity<ValidationResult> case6HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
@@ -402,6 +414,17 @@ public class balanceServicesController {
         assertionResponse.currency(resp, "IDR", ctxResp);
 
         ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/url/case7")
+    public ResponseEntity<ValidationResult> case7UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "balance");
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -456,6 +479,17 @@ public class balanceServicesController {
 
     }
 
+    @PostMapping("req/url/case8")
+    public ResponseEntity<ValidationResult> case8UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "balance");
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("req/header/case8")
     public ResponseEntity<ValidationResult> case8HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
@@ -493,6 +527,17 @@ public class balanceServicesController {
         assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
 
         ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/url/case9")
+    public ResponseEntity<ValidationResult> case9UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "balance");
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -544,6 +589,17 @@ public class balanceServicesController {
 
     }
 
+    @PostMapping("req/url/case10")
+    public ResponseEntity<ValidationResult> case10UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "balance");
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("req/header/case10")
     public ResponseEntity<ValidationResult> case10HeaderRequestCheck(@RequestBody Header head) {
         expected expected = new expected();
@@ -581,6 +637,17 @@ public class balanceServicesController {
         assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
 
         ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/url/case11")
+    public ResponseEntity<ValidationResult> case11UrlRequestCheck(@RequestBody Url url) {
+
+        ValidationResult result = assertionPackage.url(url, "balance");
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)

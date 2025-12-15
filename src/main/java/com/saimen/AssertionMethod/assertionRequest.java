@@ -17,10 +17,10 @@ public class assertionRequest {
 
     public static void assertUrl(Url urlEndpoint, ValidationContext ctx, String expectedServices) {
         String url = urlEndpoint.getUrlEndpoint();
-        String inquiryUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2/account-inquiry-external";
-        String exeUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2/transfer-interbank";
-        String statusUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2/transfer/status";
-        String balanceUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2/balance-inquiry";
+        String inquiryUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2.0/account-inquiry-external";
+        String exeUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2.0/transfer-interbank";
+        String statusUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2.0/transfer/status";
+        String balanceUrl = "https://developer-uat.dspratama.co.id:9065/disbursement/v2.0/balance-inquiry";
 
         if (url == null) {
             ctx.addError("Url Endpoint tidak ada");

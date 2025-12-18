@@ -84,6 +84,7 @@ public class interbankController {
             result = assertionPackage.getBalanceBody(body, expected);
         } else {
             ctx.addError("Unique Field Tidak Ditemukan");
+            result = ctx.toResult();
         }
 
         return "OK".equals(result.getStatus())
@@ -159,6 +160,7 @@ public class interbankController {
             result = assertionPackage.getBalanceBody(body, expected);
         } else {
             ctx.addError("Unique Field Tidak Ditemukan");
+            result = ctx.toResult();
         }
 
         return "OK".equals(result.getStatus())
@@ -221,6 +223,8 @@ public class interbankController {
         var balance = body.getAccountNo();
         Boolean getBalance = balance != null;
 
+        ValidationResult result = null;
+
         if (inquiry) {
 
             Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo", "beneficiaryBankCode",
@@ -228,6 +232,7 @@ public class interbankController {
                     "additionalInfo.transferService", "additionalInfo.amount.value", "additionalInfo.amount.currency",
                     "additionalInfo.dspsign");
             assertionRequest.checkMissingBodyMandatoryFields(body, mandatoryFieldsBody, ctx);
+            result = ctx.successResult();
         } else if (execution) {
 
             Set<String> mandatoryFieldsBody = Set.of("partnerReferenceNo", "sourceAccountNo", "beneficiaryBankCode",
@@ -240,20 +245,24 @@ public class interbankController {
                     "additionalInfo.senderInfo.identificationType",
                     "additionalInfo.dspsign");
             assertionRequest.checkMissingBodyMandatoryFields(body, mandatoryFieldsBody, ctx);
+            result = ctx.successResult();
         } else if (checkStatus) {
 
             Set<String> mandatoryFieldsBody = Set.of("originalPartnerReferenceNo", "serviceCode",
                     "additionalInfo.msgId", "additionalInfo.dspsign");
             assertionRequest.checkMissingBodyMandatoryFields(body, mandatoryFieldsBody, ctx);
+            result = ctx.successResult();
         } else if (getBalance) {
 
             Set<String> mandatoryFieldsBody = Set.of("accountNo", "additionalInfo.dspsign");
             assertionRequest.checkMissingBodyMandatoryFields(body, mandatoryFieldsBody, ctx);
+            result = ctx.successResult();
         } else {
             ctx.addError("Unique Field Tidak Ditemukan");
+            result = ctx.toResult();
         }
 
-        ValidationResult result = ctx.successResult();
+        
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
                 : ResponseEntity.unprocessableEntity().body(result);
@@ -347,6 +356,7 @@ public class interbankController {
             result = assertionPackage.getBalanceBody(body, expected);
         } else {
             ctx.addError("Unique Field Tidak Ditemukan");
+            result = ctx.toResult();
         }
 
         return "OK".equals(result.getStatus())

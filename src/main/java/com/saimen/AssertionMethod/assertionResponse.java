@@ -236,13 +236,13 @@ public class assertionResponse {
 
     public static void assertIsoRC(Response rsp, String expectedRC, ValidationContext ctx) {
 
-        String isoResponseCode = rsp.getAdditionalInfo().getIsoResponseCode();
-
         var ai = rsp.getAdditionalInfo();
         if (ai == null) {
-            ctx.addError("isoRC Tidak ada");
+            ctx.addError("Additional Info Tidak ada");
             return;
         }
+
+        String isoResponseCode = rsp.getAdditionalInfo().getIsoResponseCode();
 
         if (isoResponseCode == null) {
             ctx.addError("isoRC Tidak ada");
@@ -260,7 +260,7 @@ public class assertionResponse {
 
         var ai = rsp.getAdditionalInfo();
         if (ai == null) {
-            ctx.addError("iso Response Message Tidak ada");
+            ctx.addError("Additional Info Tidak ada");
             return;
         }
 

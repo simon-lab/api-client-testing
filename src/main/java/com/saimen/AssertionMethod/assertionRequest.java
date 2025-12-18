@@ -26,9 +26,7 @@ public class assertionRequest {
             ctx.addError("Url Endpoint tidak ada");
         } else if (url.isEmpty()) {
             ctx.addError("Url Endpoint kosong");
-        }
-
-        if (expectedServices.equalsIgnoreCase("inquiry")) {
+        } else if (expectedServices.equalsIgnoreCase("inquiry")) {
             if (!url.equals(inquiryUrl)) {
                 ctx.addError("Url Endpoint Salah");
             }
@@ -45,6 +43,8 @@ public class assertionRequest {
                 ctx.addError("Url Endpoint Salah");
             }
         }
+
+
     }
 
     public static void assertXTimeStamp(Header head, ValidationContext ctx) {

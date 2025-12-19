@@ -398,8 +398,14 @@ function renderTestCases() {
   container.innerHTML = allHtml;
 }
 
-// Render saat halaman diload
-renderTestCases();
+// --- INIT SCRIPT ---
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. Render dulu kotak-kotak inputnya (Interbank/Balance)
+  renderTestCases();
+
+  // 2. Baru isi datanya dari cache
+  loadFromCache();
+});
 
 // LOGIC INTERAKSI
 

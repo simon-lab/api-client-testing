@@ -165,53 +165,168 @@
         </div>
       </div>
 
-      <div class="accordion" id="accordionLevel1">
+      <div class="accordion" id="accordionMainGuide">
         <div class="accordion-item">
-          <h2 class="accordion-header" id="headingLvl1">
+          <h2 class="accordion-header" id="headingInterbank">
             <button
               class="accordion-button collapsed fw-bold"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target="#collapseLvl1"
+              data-bs-target="#collapseInterbank"
+              aria-expanded="false"
+              aria-controls="collapseInterbank"
               style="background-color: #e3e3e3"
             >
               Interbank Transfer
             </button>
           </h2>
           <div
-            id="collapseLvl1"
+            id="collapseInterbank"
             class="accordion-collapse collapse"
-            data-bs-parent="#accordionLevel1"
+            aria-labelledby="headingInterbank"
+            data-bs-parent="#accordionMainGuide"
           >
             <div class="accordion-body">
-              <div class="accordion" id="accordionLevel2">
+              <div class="accordion" id="accordionInterbankInner">
                 <div class="accordion-item border">
-                  <h2 class="accordion-header" id="headingLvl2">
+                  <h2 class="accordion-header" id="headingInterbankInner">
                     <button
                       class="accordion-button collapsed fw-semibold"
                       type="button"
                       data-bs-toggle="collapse"
-                      data-bs-target="#collapseLvl2"
+                      data-bs-target="#collapseInterbankInner"
+                      aria-expanded="false"
+                      aria-controls="collapseInterbankInner"
                     >
-                      Test Cases
+                      Test Cases (Interbank)
                     </button>
                   </h2>
                   <div
-                    id="collapseLvl2"
+                    id="collapseInterbankInner"
                     class="accordion-collapse collapse"
-                    data-bs-parent="#accordionLevel2"
+                    aria-labelledby="headingInterbankInner"
+                    data-bs-parent="#accordionInterbankInner"
                   >
                     <div class="accordion-body bg-light">
                       <p>
                         Berikut penjelasan singkat cara eksekusi test script:
                       </p>
-
                       <div
                         class="accordion accordion-flush"
-                        id="accordionLevel3"
+                        id="accordionInterbankList"
                       >
                         <div id="interbankGuideTestCases"></div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingBalance">
+            <button
+              class="accordion-button collapsed fw-bold"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseBalance"
+              aria-expanded="false"
+              aria-controls="collapseBalance"
+              style="background-color: #e3e3e3"
+            >
+              Balance Services
+            </button>
+          </h2>
+          <div
+            id="collapseBalance"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingBalance"
+            data-bs-parent="#accordionMainGuide"
+          >
+            <div class="accordion-body">
+              <div class="accordion" id="accordionBalanceInner">
+                <div class="accordion-item border">
+                  <h2 class="accordion-header" id="headingBalanceInner">
+                    <button
+                      class="accordion-button collapsed fw-semibold"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseBalanceInner"
+                      aria-expanded="false"
+                      aria-controls="collapseBalanceInner"
+                    >
+                      Test Cases (Balance)
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseBalanceInner"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingBalanceInner"
+                    data-bs-parent="#accordionBalanceInner"
+                  >
+                    <div class="accordion-body bg-light">
+                      <p>
+                        Berikut penjelasan singkat cara eksekusi test script:
+                      </p>
+                      <div
+                        class="accordion accordion-flush"
+                        id="accordionBalanceList"
+                      >
+                        <div id="balanceGuideTestCases"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="jsonFormat">
+            <button
+              class="accordion-button collapsed fw-bold"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapsejsonFormat"
+              aria-expanded="false"
+              aria-controls="collapsejsonFormat"
+              style="background-color: #e3e3e3"
+            >
+              Json Format
+            </button>
+          </h2>
+          <div
+            id="collapsejsonFormat"
+            class="accordion-collapse collapse"
+            aria-labelledby="jsonFormat"
+            data-bs-parent="#accordionMainGuide"
+          >
+            <div class="accordion-body">
+              <div class="accordion" id="accordionjsonFormatInner">
+                <div class="accordion-item border">
+                  <h2 class="accordion-header" id="jsonFormatInner">
+                    <button
+                      class="accordion-button collapsed fw-semibold"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapsejsonFormatInner"
+                      aria-expanded="false"
+                      aria-controls="collapsejsonFormatInner"
+                    >
+                      Format Json
+                    </button>
+                  </h2>
+                  <div
+                    id="collapsejsonFormatInner"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="jsonFormatInner"
+                    data-bs-parent="#accordionjsonFormatInner"
+                  >
+                    <div class="accordion-body bg-light">
+                      <p>Ini format Json yang benar :</p>
                     </div>
                   </div>
                 </div>
@@ -227,6 +342,7 @@
     <script src="javaScript/sidebar.js"></script>
     <script src="javaScript/validation.js"></script>
     <script src="javaScript/generateExcel.js"></script>
+    <script src="javaScript/cacheManager.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

@@ -29,7 +29,21 @@ public class interbankController {
     @PostMapping("req/url/case1")
     public ResponseEntity<ValidationResult> case1UrlRequestCheck(@RequestBody Url url) {
 
-        ValidationResult result = assertionPackage.url(url, "inquiry");
+        String expectedService = "unknown";
+
+        if (url.getDetectedService().equalsIgnoreCase("inquiry")) {
+            expectedService = "inquiry";
+        } else if (url.getDetectedService().equalsIgnoreCase("execution")) {
+            expectedService = "execution";
+        } else if (url.getDetectedService().equalsIgnoreCase("status")) {
+            expectedService = "status";
+        } else if (url.getDetectedService().equalsIgnoreCase("balance")) {
+            expectedService = "balance";
+        } else {
+            expectedService = "unknown";
+        }
+
+        ValidationResult result = assertionPackage.url(url, expectedService);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -69,22 +83,28 @@ public class interbankController {
         Boolean getBalance = balance != null;
 
         ValidationResult result = null;
+        String detectedService = "Unknown";
 
         if (inquiry) {
-
+            detectedService = "inquiry";
             result = assertionPackage.inquiryBody(body, expected);
         } else if (execution) {
-
+            detectedService = "execution";
             result = assertionPackage.exeBody(body, expected);
         } else if (checkStatus) {
-
+            detectedService = "status";
             result = assertionPackage.checkStatusBody(body, expected);
         } else if (getBalance) {
-
+            detectedService = "balance";
             result = assertionPackage.getBalanceBody(body, expected);
         } else {
+            detectedService = "unknown";
             ctx.addError("Unique Field Tidak Ditemukan");
             result = ctx.toResult();
+        }
+
+        if (result != null) {
+            result.setDetectedService(detectedService);
         }
 
         return "OK".equals(result.getStatus())
@@ -98,7 +118,7 @@ public class interbankController {
         ValidationContext ctxResp = new ValidationContext();
 
         String expectedRC = "401xx01";
-        String expectedRM = "Unauthorized Signature";
+        String expectedRM = "Access Token Invalid";
 
         String formatRC = toRegex.toRegexFormat(expectedRC);
 
@@ -106,6 +126,31 @@ public class interbankController {
         assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
 
         ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/url/case2")
+    public ResponseEntity<ValidationResult> case2UrlRequestCheck(@RequestBody Url url) {
+
+        String expectedService = "unknown";
+
+        if (url.getDetectedService().equalsIgnoreCase("inquiry")) {
+            expectedService = "inquiry";
+        } else if (url.getDetectedService().equalsIgnoreCase("execution")) {
+            expectedService = "execution";
+        } else if (url.getDetectedService().equalsIgnoreCase("status")) {
+            expectedService = "status";
+        } else if (url.getDetectedService().equalsIgnoreCase("balance")) {
+            expectedService = "balance";
+        } else {
+            expectedService = "unknown";
+        }
+
+        ValidationResult result = assertionPackage.url(url, expectedService);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -145,22 +190,28 @@ public class interbankController {
         Boolean getBalance = balance != null;
 
         ValidationResult result = null;
+        String detectedService = "Unknown";
 
         if (inquiry) {
-
+            detectedService = "inquiry";
             result = assertionPackage.inquiryBody(body, expected);
         } else if (execution) {
-
+            detectedService = "execution";
             result = assertionPackage.exeBody(body, expected);
         } else if (checkStatus) {
-
+            detectedService = "status";
             result = assertionPackage.checkStatusBody(body, expected);
         } else if (getBalance) {
-
+            detectedService = "balance";
             result = assertionPackage.getBalanceBody(body, expected);
         } else {
+            detectedService = "unknown";
             ctx.addError("Unique Field Tidak Ditemukan");
             result = ctx.toResult();
+        }
+
+        if (result != null) {
+            result.setDetectedService(detectedService);
         }
 
         return "OK".equals(result.getStatus())
@@ -182,6 +233,31 @@ public class interbankController {
         assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
 
         ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/url/case3")
+    public ResponseEntity<ValidationResult> case3UrlRequestCheck(@RequestBody Url url) {
+
+        String expectedService = "unknown";
+
+        if (url.getDetectedService().equalsIgnoreCase("inquiry")) {
+            expectedService = "inquiry";
+        } else if (url.getDetectedService().equalsIgnoreCase("execution")) {
+            expectedService = "execution";
+        } else if (url.getDetectedService().equalsIgnoreCase("status")) {
+            expectedService = "status";
+        } else if (url.getDetectedService().equalsIgnoreCase("balance")) {
+            expectedService = "balance";
+        } else {
+            expectedService = "unknown";
+        }
+
+        ValidationResult result = assertionPackage.url(url, expectedService);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -262,7 +338,6 @@ public class interbankController {
             result = ctx.toResult();
         }
 
-        
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
                 : ResponseEntity.unprocessableEntity().body(result);
@@ -288,6 +363,31 @@ public class interbankController {
 
     }
 
+    @PostMapping("req/url/case4")
+    public ResponseEntity<ValidationResult> case4UrlRequestCheck(@RequestBody Url url) {
+
+        String expectedService = "unknown";
+
+        if (url.getDetectedService().equalsIgnoreCase("inquiry")) {
+            expectedService = "inquiry";
+        } else if (url.getDetectedService().equalsIgnoreCase("execution")) {
+            expectedService = "execution";
+        } else if (url.getDetectedService().equalsIgnoreCase("status")) {
+            expectedService = "status";
+        } else if (url.getDetectedService().equalsIgnoreCase("balance")) {
+            expectedService = "balance";
+        } else {
+            expectedService = "unknown";
+        }
+
+        ValidationResult result = assertionPackage.url(url, expectedService);
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
     @PostMapping("resp/case4")
     public ResponseEntity<ValidationResult> case4ResponseCheck(@RequestBody Response resp) {
         ValidationContext ctxResp = new ValidationContext();
@@ -301,6 +401,31 @@ public class interbankController {
         assertionResponse.assertResponseMessage(resp, expectedRM, ctxResp);
 
         ValidationResult result = ctxResp.toResult();
+
+        return "OK".equals(result.getStatus())
+                ? ResponseEntity.ok(result)
+                : ResponseEntity.unprocessableEntity().body(result);
+
+    }
+
+    @PostMapping("req/url/case5")
+    public ResponseEntity<ValidationResult> case5UrlRequestCheck(@RequestBody Url url) {
+
+        String expectedService = "unknown";
+
+        if (url.getDetectedService().equalsIgnoreCase("inquiry")) {
+            expectedService = "inquiry";
+        } else if (url.getDetectedService().equalsIgnoreCase("execution")) {
+            expectedService = "execution";
+        } else if (url.getDetectedService().equalsIgnoreCase("status")) {
+            expectedService = "status";
+        } else if (url.getDetectedService().equalsIgnoreCase("balance")) {
+            expectedService = "balance";
+        } else {
+            expectedService = "unknown";
+        }
+
+        ValidationResult result = assertionPackage.url(url, expectedService);
 
         return "OK".equals(result.getStatus())
                 ? ResponseEntity.ok(result)
@@ -341,22 +466,28 @@ public class interbankController {
         Boolean getBalance = balance != null;
 
         ValidationResult result = null;
+        String detectedService = "Unknown";
 
         if (inquiry) {
-
+            detectedService = "inquiry";
             result = assertionPackage.inquiryBody(body, expected);
         } else if (execution) {
-
+            detectedService = "execution";
             result = assertionPackage.exeBody(body, expected);
         } else if (checkStatus) {
-
+            detectedService = "status";
             result = assertionPackage.checkStatusBody(body, expected);
         } else if (getBalance) {
-
+            detectedService = "balance";
             result = assertionPackage.getBalanceBody(body, expected);
         } else {
+            detectedService = "unknown";
             ctx.addError("Unique Field Tidak Ditemukan");
             result = ctx.toResult();
+        }
+
+        if (result != null) {
+            result.setDetectedService(detectedService);
         }
 
         return "OK".equals(result.getStatus())

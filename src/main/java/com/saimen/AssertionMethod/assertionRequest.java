@@ -44,7 +44,6 @@ public class assertionRequest {
             }
         }
 
-
     }
 
     public static void assertXTimeStamp(Header head, ValidationContext ctx) {

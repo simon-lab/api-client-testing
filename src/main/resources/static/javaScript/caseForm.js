@@ -19,28 +19,33 @@ const interbankTestCases = [
     id: "1",
     expected: 'Error Code: 401xx01\nError Message: "Access Token Invalid"',
     status: "active",
+    service: "any",
   },
   {
     id: "2",
     expected: 'Error Code: 401xx00\nError Message: "Unauthorized Signature"',
     status: "active",
+    service: "any",
   },
   {
     id: "3",
     expected:
       'Error Code: 400xx02\nError Message: "Invalid Mandatory Fields {.....}"',
     status: "active",
+    service: "any",
   },
   {
     id: "4",
     expected:
       'Error Code: 400xx01\nError Message: "Invalid Field Format {.....}"',
     status: "active",
+    service: "any",
   },
   {
     id: "5",
     expected: 'Error Code: 409xx00\nError Message: "Conflict"',
     status: "active",
+    service: "any",
   },
   {
     id: "6",
@@ -90,28 +95,33 @@ const balanceTestCases = [
     id: "1",
     expected: 'Error Code: 401xx01\nError Message: "Access Token Invalid"',
     status: "active",
+    service: "any",
   },
   {
     id: "2",
     expected: 'Error Code: 401xx00\nError Message: "Unauthorized Signature"',
     status: "active",
+    service: "any",
   },
   {
     id: "3",
     expected:
       'Error Code: 400xx02\nError Message: "Invalid Mandatory Fields {.....}"',
     status: "active",
+    service: "any",
   },
   {
     id: "4",
     expected:
       'Error Code: 400xx01\nError Message: "Invalid Field Format {.....}"',
     status: "active",
+    service: "any",
   },
   {
     id: "5",
     expected: 'Error Code: 409xx00\nError Message: "Conflict"',
     status: "active",
+    service: "any",
   },
   {
     id: "6",

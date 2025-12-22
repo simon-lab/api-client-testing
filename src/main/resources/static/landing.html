@@ -326,7 +326,112 @@
                     data-bs-parent="#accordionjsonFormatInner"
                   >
                     <div class="accordion-body bg-light">
-                      <p>Ini format Json yang benar :</p>
+                      <p class="mb-3">
+                        JSON (JavaScript Object Notation) memiliki aturan
+                        penulisan yang <strong>sangat ketat</strong>. Berikut
+                        panduannya:
+                      </p>
+
+                      <div class="alert alert-info border-info small">
+                        <ul class="mb-0 ps-3">
+                          <li>
+                            Gunakan
+                            <strong>Kutip Dua (<code>"</code>)</strong> untuk
+                            semua Key (Nama Field) dan Value (Isi) yang berupa
+                            teks.
+                          </li>
+                          <li>
+                            Dilarang menggunakan kutip satu (<code>'</code>).
+                          </li>
+                          <li>
+                            Dilarang ada
+                            <strong>Koma (<code>,</code>)</strong> pada baris
+                            terakhir sebelum tutup kurung <code>}</code>.
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-12 col-md-3 mb-3">
+                          <div class="card h-100 border-secondary">
+                            <div
+                              class="card-header bg-secondary text-white py-1 fw-bold small"
+                            >
+                              Format Template
+                            </div>
+                            <div class="card-body bg-white p-2">
+                              <pre
+                                class="mb-0"
+                                style="font-size: 0.85rem; color: #2e7d32"
+                              >
+{
+    "parameter": "value",
+    "parameter2": "value2",
+    "parentNestedParameter": {
+        "childParameter": "childValue",
+        "parentNestedParameter": {
+            "childParameter": "childValue",
+            "childParameter2": "childValue2"
+        }
+    }
+}</pre
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-12 col-md-6 mb-3">
+                          <div class="card h-100 border-success">
+                            <div
+                              class="card-header bg-success text-white py-1 fw-bold small"
+                            >
+                              ✅ Format Benar
+                            </div>
+                            <div class="card-body bg-white p-2">
+                              <pre
+                                class="mb-0"
+                                style="font-size: 0.85rem; color: #2e7d32"
+                              >
+{
+    "partnerReferenceNo": "DSPSimulator20240103050059653755",
+    "beneficiaryBankCode": "111",
+    "beneficiaryAccountNo": "1234123413",
+    "additionalInfo": {
+        "amount": {
+            "value": "97500.00",
+            "currency": "IDR"
+        },
+        "dspsign": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJjbGllbnRJZCI6IkQwMDAwMDAwMDAwMDAyNiJ9.bLXC5u_rN05ShSBkPLHboIwS7iS1hRS0e5u7xhkOGn0",
+        "transferService": "REALTIME ONLINE"
+    }
+}</pre
+                              >
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 mb-3">
+                          <div class="card h-100 border-danger">
+                            <div
+                              class="card-header bg-danger text-white py-1 fw-bold small"
+                            >
+                              ❌ Format Salah
+                            </div>
+                            <div class="card-body bg-white p-2">
+                              <pre
+                                class="mb-0"
+                                style="font-size: 0.85rem; color: #c62828"
+                              >
+{
+  'partnerReferenceNo': 'DSPSimulator20240103050059653755',  <span class="text-muted">// Salah kutip (')</span>
+  "beneficiaryBankCode": "111",       <span class="text-muted">// Koma terakhir dilarang</span>
+}</pre>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -50,8 +50,6 @@ async function runValidation(id) {
 
   // Ambil URL & Body & Response
   const urlBoxVal = document.getElementById(`urlEndpoint_${id}`).value;
-  const endPointObj = { UrlEndpoint: urlBoxVal };
-  const urlVal = JSON.stringify(endPointObj, null, 2);
   const bodyVal = bodyInputBox.value;
   const responseVal = responseInputBox.value;
 
@@ -68,20 +66,50 @@ async function runValidation(id) {
   const urlResp = `http://localhost:8080/${typeAPI}/resp/case${id}`;
 
   try {
-    // 5. HIT 4 API PARALEL
-    const responses = await Promise.all([
-      fetch(urlEndpoint, createOptions(urlVal)),
-      fetch(urlHeader, createOptions(headerVal)),
-      fetch(urlBody, createOptions(bodyVal)),
-      fetch(urlResp, createOptions(responseVal)),
-    ]);
+    // --- 5. EKSEKUSI API (FLOW BARU) ---
+    
+    // LANGKAH A: Jalankan Body, Header, Response duluan
+    const promiseBody = fetch(urlBody, createOptions(bodyVal));
+    console.log("Hit Validate Body dengan Request: "+ bodyVal)
+    const promiseHeader = fetch(urlHeader, createOptions(headerVal));
+    console.log("Hit Validate Header dengan Request: "+headerVal)
+    const promiseResponse = fetch(urlResp, createOptions(responseVal));
+    console.log("Hit Validate Response dengan Request: "+responseVal)
 
-    const results = await Promise.all(
-      responses.map(async (res) => ({
-        httpCode: res.status,
-        data: await res.json(),
-      }))
-    );
+    // LANGKAH B: Tunggu Hasil BODY (Wajib, untuk dapat detectedService)
+    const resBody = await promiseBody;
+    const dataBody = await resBody.json(); // Kita butuh isi JSON-nya sekarang
+
+    // LANGKAH C: Ambil Detected Service
+    // Default "unknown" jika field tidak ada
+    let detectedService = "unknown";
+    if (dataBody && dataBody.detectedService) {
+        detectedService = dataBody.detectedService;
+    }
+
+    // LANGKAH D: Request URL (Menggunakan detectedService dari Body)
+    // Payload disesuaikan dengan DTO Java: UrlRequestDto
+    const urlRequestPayload = {
+        urlEndpoint: urlBoxVal, 
+        detectedService: detectedService 
+    };
+    const urlVal = JSON.stringify(urlRequestPayload, null, 2);
+
+    const resUrl = await fetch(urlEndpoint, createOptions(urlVal));
+    console.log("Hit Validate Response dengan Request: "+urlVal)
+    
+    // LANGKAH E: Tunggu sisanya (Header & Response) selesai
+    const resHeader = await promiseHeader;
+    const resResponse = await promiseResponse;
+
+    // LANGKAH F: Susun Result Array
+    // Urutan Array WAJIB: [URL, Header, Body, Response] agar loop di bawah tidak error
+    const results = [
+        { httpCode: resUrl.status, data: await resUrl.json() },         // URL (Baru selesai)
+        { httpCode: resHeader.status, data: await resHeader.json() },   // Header
+        { httpCode: resBody.status, data: dataBody },                   // Body (Sudah ada datanya)
+        { httpCode: resResponse.status, data: await resResponse.json() }// Response
+    ];
 
     // 6. LOGIKA PEWARNAAN & FORMATTING
     let logHtml = "";
@@ -93,7 +121,6 @@ async function runValidation(id) {
       // Tentukan elemen input mana yang harus diwarnai
       let currentInput;
       if (index === 1 && isManualMode) {
-        // Index 1 adalah Header
         currentInput = manualGroupBox;
       } else {
         currentInput = inputElements[index];
@@ -103,55 +130,34 @@ async function runValidation(id) {
       let colorClass = "";
       let icon = "";
 
-      // --- CEK STATUS ---
       if (item.httpCode === 200 && item.data.status === "OK") {
-        // SUKSES
         message = item.data.message;
         colorClass = "text-success";
         icon = "✅";
         if (currentInput) currentInput.classList.add("is-valid");
-
         if (index === 1 && isManualMode) {
           manualGroupBox.classList.remove("border", "border-danger");
         }
       } else {
-        // GAGAL
         isAllPassed = false;
         colorClass = "text-danger";
         icon = "❌";
-
         if (item.httpCode === 400) message = "Bad Request";
         else if (item.httpCode === 500) message = "Internal Server Error";
         else message = item.data.message || "Unknown Error";
-
         if (currentInput) currentInput.classList.add("is-invalid");
-
         if (index === 1 && isManualMode) {
-          manualGroupBox.classList.add(
-            "border",
-            "border-danger",
-            "p-2",
-            "rounded"
-          );
+          manualGroupBox.classList.add("border", "border-danger", "p-2", "rounded");
         }
       }
 
-      // --- LOGIKA FORMAT MESSAGE LIST (BARU) ---
-      // Jika pesan adalah string dan mengandung koma, kita jadikan list
+      // Format List
       if (message && typeof message === "string" && message.includes(", ")) {
-        // 1. Pecah string berdasarkan ", "
         const msgList = message.split(", ");
-
-        // 2. Bungkus setiap item dengan <li>
         const listItems = msgList.map((msg) => `<li>${msg}</li>`).join("");
-
-        // 3. Bungkus dengan <ol> (Ordered List)
-        // class ps-3: padding left bootstrap biar angka masuk ke dalam
-        // class mb-0: hilangkan margin bawah biar rapi
         message = `<ol class="ps-3 mb-0" style="list-style-type: decimal;">${listItems}</ol>`;
       }
 
-      // Generate HTML Log
       logHtml += `
             <div class="${colorClass} mb-1 border-bottom pb-1">
                 <strong>[${type}]</strong> ${icon}<br>
@@ -161,15 +167,12 @@ async function runValidation(id) {
         `;
     });
 
-    // --- TAMBAHAN BARU: LOGIKA TOMBOL SIMPAN ---
+    // Tombol Simpan
     const btnSave = document.getElementById(`btnSave_${id}`);
-
     if (isAllPassed) {
-      // Jika SEMUA hijau (Sukses) -> Aktifkan Tombol Simpan
       btnSave.disabled = false;
       btnSave.classList.replace("btn-secondary", "btn-success");
     } else {
-      // Jika ada yang merah (Gagal) -> Matikan Tombol Simpan
       btnSave.classList.replace("btn-success", "btn-secondary");
       btnSave.disabled = true;
     }
@@ -179,10 +182,17 @@ async function runValidation(id) {
     if (isAllPassed) {
       summaryHtml = `<div class="alert alert-success py-1 fw-bold text-center">RESULT: PASSED</div>`;
     } else {
-      summaryHtml = `<div class="alert alert-danger py-1 fw-bold text-center">RESULT: FAILED</div>`;
+      // Tampilkan Detected Service agar user tahu apa yang dibaca oleh sistem
+      summaryHtml = `
+        <div class="alert alert-danger py-1 fw-bold text-center mb-2">RESULT: FAILED</div>
+        <div class="text-center text-muted small mb-3 border-bottom pb-2">
+           Detected Service by Body: <span class="fw-bold text-dark">${detectedService}</span>
+        </div>
+      `;
     }
 
     resultBox.innerHTML = summaryHtml + logHtml;
+
   } catch (error) {
     console.error(`[Case ${id}] Error:`, error);
     resultBox.innerHTML = `<div class="text-danger fw-bold">Connection Error: ${error.message}</div>`;

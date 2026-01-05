@@ -19,33 +19,28 @@ const interbankTestCases = [
     id: "1",
     expected: 'Error Code: 401xx01\nError Message: "Access Token Invalid"',
     status: "active",
-    service: "any",
   },
   {
     id: "2",
     expected: 'Error Code: 401xx00\nError Message: "Unauthorized Signature"',
     status: "active",
-    service: "any",
   },
   {
     id: "3",
     expected:
       'Error Code: 400xx02\nError Message: "Invalid Mandatory Fields {.....}"',
     status: "active",
-    service: "any",
   },
   {
     id: "4",
     expected:
       'Error Code: 400xx01\nError Message: "Invalid Field Format {.....}"',
     status: "active",
-    service: "any",
   },
   {
     id: "5",
     expected: 'Error Code: 409xx00\nError Message: "Conflict"',
     status: "active",
-    service: "any",
   },
   {
     id: "6",
@@ -95,33 +90,28 @@ const balanceTestCases = [
     id: "1",
     expected: 'Error Code: 401xx01\nError Message: "Access Token Invalid"',
     status: "active",
-    service: "any",
   },
   {
     id: "2",
     expected: 'Error Code: 401xx00\nError Message: "Unauthorized Signature"',
     status: "active",
-    service: "any",
   },
   {
     id: "3",
     expected:
       'Error Code: 400xx02\nError Message: "Invalid Mandatory Fields {.....}"',
     status: "active",
-    service: "any",
   },
   {
     id: "4",
     expected:
       'Error Code: 400xx01\nError Message: "Invalid Field Format {.....}"',
     status: "active",
-    service: "any",
   },
   {
     id: "5",
     expected: 'Error Code: 409xx00\nError Message: "Conflict"',
     status: "active",
-    service: "any",
   },
   {
     id: "6",
@@ -157,25 +147,21 @@ const balanceTestCases = [
 ];
 
 // --- STATE MANAGEMENT ---
-// Default category
 let currentCategory = "interbank";
 
 // --- DOM ELEMENTS ---
 const container = document.getElementById("testCaseContainer");
 
 // Listener Global Input (Partner & Channel ID)
-// Script ini akan mengupdate semua input case secara otomatis saat Anda mengetik di input global
 const globalInputs = ["partnerId", "channelId"];
 
 globalInputs.forEach((id) => {
   const el = document.getElementById(id);
   if (el) {
     el.addEventListener("input", function () {
-      // Tentukan target ID prefix berdasarkan input global mana yang diketik
       const targetPrefix =
         id === "partnerId" ? "inputPartnerID_" : "inputChannelID_";
 
-      // Update semua textarea yang relevan di dalam list case
       document
         .querySelectorAll(`[id^="${targetPrefix}"]`)
         .forEach((textarea) => {
@@ -189,7 +175,6 @@ let typeAPI = "";
 function renderTestCases() {
   if (!container) return;
 
-  // 1. Determine which data to use based on state
   let dataToRender = [];
   let prefix = "";
   let title = "";
@@ -213,11 +198,9 @@ function renderTestCases() {
   }
 
   console.log(`Ini TypeAPI nya:`, typeAPI);
-  // 2. Generate HTML
   let allHtml = "";
 
   dataToRender.forEach((item) => {
-    // Jika status inactive, skip (jangan buat HTML-nya)
     if (item.status === "inactive") {
       return;
     }
@@ -408,18 +391,12 @@ function renderTestCases() {
   container.innerHTML = allHtml;
 }
 
-// --- INIT SCRIPT ---
 document.addEventListener("DOMContentLoaded", function () {
-  // 1. Render dulu kotak-kotak inputnya (Interbank/Balance)
   renderTestCases();
 
-  // 2. Baru isi datanya dari cache
   loadFromCache();
 });
 
-// LOGIC INTERAKSI
-
-// Fungsi Toggle Button Manual/JSON
 function toggleMode(id, mode) {
   const boxJson = document.getElementById(`inputHeader_${id}`);
   const boxManual = document.getElementById(`manualInputGroup_${id}`);
@@ -430,32 +407,28 @@ function toggleMode(id, mode) {
     boxJson.style.display = "none";
     boxManual.removeAttribute("hidden");
 
-    // Ubah Warna
     btnManual.classList.replace("bg-secondary", "bg-primary");
     btnJson.classList.replace("bg-primary", "bg-secondary");
   } else {
     boxJson.style.display = "block";
     boxManual.setAttribute("hidden", true);
 
-    // Ubah Warna
     btnJson.classList.replace("bg-secondary", "bg-primary");
     btnManual.classList.replace("bg-primary", "bg-secondary");
   }
 }
 
-// Listener agar tombol save mati saat user mengetik ulang
 document
   .getElementById(`testCaseContainer`)
   .addEventListener("input", function (e) {
-    // Cek apakah yang diketik adalah input form (textarea)
+
     if (e.target.tagName === "TEXTAREA") {
-      // Cari ID case-nya (misal: inputBody_1 -> ambil "1")
+
       const parts = e.target.id.split("_");
       if (parts.length > 1) {
         const id = parts[1];
         const btnSave = document.getElementById(`btnSave_${id}`);
 
-        // Matikan tombol simpan karena data berubah (Butuh validasi ulang)
         if (btnSave) {
           btnSave.disabled = true;
           btnSave.classList.replace("btn-success", "btn-secondary");

@@ -12,13 +12,11 @@ if (toggleBtn) {
 }
 
 function setActiveSidebar(activeBtn) {
-  // Hapus class active dari semua menu
   document.querySelectorAll(".list-group-item").forEach((btn) => {
     btn.classList.remove("bg-primary", "text-white");
-    btn.classList.add("text-light"); // Kembali ke warna asal
+    btn.classList.add("text-light");
   });
 
-  // Tambah class active ke tombol yang diklik
   activeBtn.classList.remove("bg-transparent", "text-light");
   activeBtn.classList.add("bg-primary", "text-white");
 }
@@ -27,18 +25,14 @@ const btnInterbank = document.getElementById("interbankBtn");
 const btnBalance = document.getElementById("balanceBtn");
 const btnGuide = document.getElementById("guideBtn");
 
-// --- EVENT LISTENERS ---
-// 1. Logic untuk tombol Guide
+// EVENT LISTENERS
 if (btnGuide) {
   btnGuide.addEventListener("click", function (e) {
     e.preventDefault();
 
-    // Logic Switch Tampilan
     testingArea.classList.add("d-none");
-    guideArea.classList.remove("d-none");
+    accordionMainGuide.classList.remove("d-none");
 
-    // PANGGIL FUNGSI LOAD DISINI
-    // Jadi guide baru didownload saat user klik tombolnya (Lazy Load)
     loadGuideContent();
 
     setActiveSidebar(this);
@@ -51,8 +45,8 @@ if (btnInterbank) {
     currentCategory = "interbank";
     pageTitle.innerText = "Interbank Transfer Test";
     testingArea.classList.remove("d-none");
-    guideArea.classList.add("d-none");
-    renderTestCases(); // Re-render
+    accordionMainGuide.classList.add("d-none");
+    renderTestCases(); 
     setActiveSidebar(this);
   });
 }
@@ -63,8 +57,9 @@ if (btnBalance) {
     currentCategory = "balance";
     pageTitle.innerText = "Balance Services Test";
     testingArea.classList.remove("d-none");
-    guideArea.classList.add("d-none");
-    renderTestCases(); // Re-render
+    accordionMainGuide.classList.add("d-none");
+    renderTestCases();
     setActiveSidebar(this);
   });
 }
+

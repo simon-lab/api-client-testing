@@ -1,20 +1,16 @@
-// --- FUNGSI LOAD HTML EKSTERNAL ---
 async function loadGuideContent() {
   const guideContainer = document.getElementById("guideArea");
 
-  // Cek apakah konten sudah pernah diload? Kalau sudah ada isinya, jangan load lagi (biar hemat)
   if (guideContainer.innerHTML.trim() !== "") {
     return;
   }
 
   try {
-    // Ambil file guide.html
     const response = await fetch("guide.html");
 
     if (response.ok) {
-      // Ubah jadi text
       const htmlContent = await response.text();
-      // Masukkan ke dalam div
+
       guideContainer.innerHTML = htmlContent;
       console.log("Guide loaded successfully");
     } else {
@@ -141,7 +137,7 @@ function renderInterbankGuide() {
     const headingId = `headingGuide_${index}`;
     const collapseId = `collapseGuide_${index}`;
 
-    // Format deskripsi: ubah \n (enter) menjadi <br> HTML agar turun baris
+    // Mengubah \n (enter) menjadi <br> HTML agar turun baris
     const formattedDescription = item.description
       ? item.description.replace(/\n/g, "<br>")
       : "";
@@ -176,7 +172,7 @@ function renderInterbankGuide() {
     `;
   });
 
-  htmlContent += `</div>`; // Tutup div parent
+  htmlContent += `</div>`;
 
   container.innerHTML = htmlContent;
 }
@@ -195,7 +191,7 @@ function renderBalanceGuide() {
     const headingId = `headingGuide_${index}`;
     const collapseId = `collapseGuide_${index}`;
 
-    // Format deskripsi: ubah \n (enter) menjadi <br> HTML agar turun baris
+    // Mengubah \n (enter) menjadi <br> HTML agar turun baris
     const formattedDescription = item.description
       ? item.description.replace(/\n/g, "<br>")
       : "";
@@ -230,11 +226,10 @@ function renderBalanceGuide() {
     `;
   });
 
-  htmlContent += `</div>`; // Tutup div parent
+  htmlContent += `</div>`;
 
   container.innerHTML = htmlContent;
 }
 
-// Panggil fungsi saat halaman dimuat
 renderInterbankGuide();
 renderBalanceGuide();

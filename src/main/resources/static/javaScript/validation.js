@@ -1,5 +1,4 @@
 async function runValidation(id) {
-  // 1. AMBIL ELEMEN INPUT
   const urlBox = document.getElementById(`urlEndpoint_${id}`);
   const jsonHeaderBox = document.getElementById(`inputHeader_${id}`);
   const manualGroupBox = document.getElementById(`manualInputGroup_${id}`);
@@ -9,7 +8,7 @@ async function runValidation(id) {
 
   const inputElements = [urlBox, jsonHeaderBox, bodyInputBox, responseInputBox];
 
-  // 2. RESET STYLE
+  // RESET STYLE
   inputElements.forEach((el) => el.classList.remove("is-valid", "is-invalid"));
   manualGroupBox
     .querySelectorAll("textarea")
@@ -19,7 +18,7 @@ async function runValidation(id) {
   resultBox.innerHTML =
     '<span class="text-primary spinner-border spinner-border-sm"></span> Validating...';
 
-  // 3. LOGIKA HEADER (MANUAL vs JSON)
+  // LOGIKA HEADER Manual & JSON
   let headerVal = "";
   const isManualMode = jsonHeaderBox.style.display === "none";
 
@@ -53,7 +52,7 @@ async function runValidation(id) {
   const bodyVal = bodyInputBox.value;
   const responseVal = responseInputBox.value;
 
-  // 4. KONFIGURASI API
+  // KONFIGURASI API
   const createOptions = (data) => ({
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -66,9 +65,8 @@ async function runValidation(id) {
   const urlResp = `http://localhost:8080/${typeAPI}/resp/case${id}`;
 
   try {
-    // --- 5. EKSEKUSI API (FLOW BARU) ---
+    // EKSEKUSI API (FLOW BARU) ---
     
-    // LANGKAH A: Jalankan Body, Header, Response duluan
     const promiseBody = fetch(urlBody, createOptions(bodyVal));
     console.log("Hit Validate Body dengan Request: "+ bodyVal)
     const promiseHeader = fetch(urlHeader, createOptions(headerVal));
@@ -76,19 +74,17 @@ async function runValidation(id) {
     const promiseResponse = fetch(urlResp, createOptions(responseVal));
     console.log("Hit Validate Response dengan Request: "+responseVal)
 
-    // LANGKAH B: Tunggu Hasil BODY (Wajib, untuk dapat detectedService)
+    // Tunggu Hasil BODY (Untuk dapat detectedService)
     const resBody = await promiseBody;
-    const dataBody = await resBody.json(); // Kita butuh isi JSON-nya sekarang
+    const dataBody = await resBody.json();
 
-    // LANGKAH C: Ambil Detected Service
-    // Default "unknown" jika field tidak ada
+    // Ambil Detected Service
     let detectedService = "unknown";
     if (dataBody && dataBody.detectedService) {
         detectedService = dataBody.detectedService;
     }
 
-    // LANGKAH D: Request URL (Menggunakan detectedService dari Body)
-    // Payload disesuaikan dengan DTO Java: UrlRequestDto
+    // Request URL
     const urlRequestPayload = {
         urlEndpoint: urlBoxVal, 
         detectedService: detectedService 
@@ -98,27 +94,24 @@ async function runValidation(id) {
     const resUrl = await fetch(urlEndpoint, createOptions(urlVal));
     console.log("Hit Validate Response dengan Request: "+urlVal)
     
-    // LANGKAH E: Tunggu sisanya (Header & Response) selesai
     const resHeader = await promiseHeader;
     const resResponse = await promiseResponse;
 
-    // LANGKAH F: Susun Result Array
-    // Urutan Array WAJIB: [URL, Header, Body, Response] agar loop di bawah tidak error
+    // Susun Result Array
     const results = [
-        { httpCode: resUrl.status, data: await resUrl.json() },         // URL (Baru selesai)
-        { httpCode: resHeader.status, data: await resHeader.json() },   // Header
-        { httpCode: resBody.status, data: dataBody },                   // Body (Sudah ada datanya)
-        { httpCode: resResponse.status, data: await resResponse.json() }// Response
+        { httpCode: resUrl.status, data: await resUrl.json() },        
+        { httpCode: resHeader.status, data: await resHeader.json() },  
+        { httpCode: resBody.status, data: dataBody },                  
+        { httpCode: resResponse.status, data: await resResponse.json() }
     ];
 
-    // 6. LOGIKA PEWARNAAN & FORMATTING
+    // LOGIKA PEWARNAAN & FORMATTING
     let logHtml = "";
     let isAllPassed = true;
 
     results.forEach((item, index) => {
       const type = ["Url", "Header", "Body", "Response"][index];
 
-      // Tentukan elemen input mana yang harus diwarnai
       let currentInput;
       if (index === 1 && isManualMode) {
         currentInput = manualGroupBox;
@@ -151,7 +144,6 @@ async function runValidation(id) {
         }
       }
 
-      // Format List
       if (message && typeof message === "string" && message.includes(", ")) {
         const msgList = message.split(", ");
         const listItems = msgList.map((msg) => `<li>${msg}</li>`).join("");
@@ -177,12 +169,11 @@ async function runValidation(id) {
       btnSave.disabled = true;
     }
 
-    // 7. SUMMARY
+    // SUMMARY
     let summaryHtml = "";
     if (isAllPassed) {
       summaryHtml = `<div class="alert alert-success py-1 fw-bold text-center">RESULT: PASSED</div>`;
     } else {
-      // Tampilkan Detected Service agar user tahu apa yang dibaca oleh sistem
       summaryHtml = `
         <div class="alert alert-danger py-1 fw-bold text-center mb-2">RESULT: FAILED</div>
         <div class="text-center text-muted small mb-3 border-bottom pb-2">

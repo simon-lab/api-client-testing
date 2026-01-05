@@ -1,222 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Landing</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
 
-  <body class="sidebar-hidden">
-    <nav
-      class="navbar navbar-expand-lg navbar-light sticky-top"
-      style="background-color: #1b3c53"
-    >
-      <div class="container-fluid">
-        <button class="btn btn-outline-light me-3 border-0" id="sidebarToggle">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landing</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-        <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-          <img src="images/dsp.png" alt="Logo" class="logo-img" />
-          <span class="fw-bold" style="color: #e3e3e3">Client UAT</span>
+<body class="sidebar-hidden">
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #1b3c53">
+    <div class="container-fluid">
+      <button class="btn btn-outline-light me-3 border-0" id="sidebarToggle">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <img src="images/dsp.png" alt="Logo" class="logo-img" />
+        <span class="fw-bold" style="color: #e3e3e3">Client UAT</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="navbarDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span id="navUsername" class="d-none d-md-block text-secondary small">Halo, Loading...</span>
+              <img src="images/profile.png" alt="Profile" class="profile-pic" />
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Profile Saya</a></li>
+              <li><a class="dropdown-item" href="#">Guide</a></li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item text-danger" href="index.html">Logout</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+  <div class="sidebar">
+    <div class="list-group list-group-flush mt-3">
+      <a href="#menuServices"
+        class="list-group-item list-group-item-action bg-transparent dropdown-toggle text-light fw-bold"
+        data-bs-toggle="collapse" aria-expanded="false">
+        Disbursement
+      </a>
+
+      <div class="collapse" id="menuServices">
+        <a class="list-group-item list-group-item-action ps-4 small border-0 text-light" id="interbankBtn">
+          Interbank Transfer
         </a>
+        <a class="list-group-item list-group-item-action ps-4 small border-0 text-light" id="balanceBtn">
+          Balance Services
+        </a>
+      </div>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+      <a href="#" class="list-group-item list-group-item-action bg-transparent text-light fw-bold" id="guideBtn">
+        Guide
+      </a>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-center">
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle d-flex align-items-center gap-2"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <span class="d-none d-md-block text-secondary small"
-                  >Halo, User</span
-                >
-                <img
-                  src="images/profile.png"
-                  alt="Profile"
-                  class="profile-pic"
-                />
-              </a>
+      <a href="#menuConfig"
+        class="list-group-item list-group-item-action bg-transparent dropdown-toggle text-light fw-bold"
+        data-bs-toggle="collapse" aria-expanded="false" data-allow-role="ROLE_ADMIN">
+        Config
+      </a>
 
-              <ul
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdown"
-              >
-                <li><a class="dropdown-item" href="#">Profile Saya</a></li>
-                <li><a class="dropdown-item" href="#">Guide</a></li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item text-danger" href="index.html"
-                    >Logout</a
-                  >
-                </li>
-              </ul>
-            </li>
-          </ul>
+      <div class="collapse" id="menuConfig">
+        <a class="list-group-item list-group-item-action ps-4 small border-0 text-light" id="viewUserBtn"
+          data-allow-role="ROLE_ADMIN">
+          View User
+        </a>
+        <a class="list-group-item list-group-item-action ps-4 small border-0 text-light" id="addUserBtn"
+          data-allow-role="ROLE_ADMIN">
+          Add User
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <section class="content-header"></section>
+  <div class="content main-content">
+    <div id="testingArea">
+      <h5 class="fw-bold" id="pageTitle">Interbank Transfer Test</h5>
+
+      <div class="col-12 col-md-3 mb-3">
+        <div class="row align-items-center mb-1">
+          <label class="col-4 col-form-label fw-bold text-nowrap">
+            PartnerId:
+          </label>
+          <div class="col-8">
+            <textarea id="partnerId" class="form-control manual-form" rows="1"
+              placeholder="Masukkan Partner Id"></textarea>
+          </div>
         </div>
       </div>
-    </nav>
 
-    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
-
-    <div class="sidebar">
-      <div class="list-group list-group-flush mt-3">
-        <a
-          href="#menuServices"
-          class="list-group-item list-group-item-action bg-transparent dropdown-toggle text-light fw-bold"
-          data-bs-toggle="collapse"
-          aria-expanded="false"
-        >
-          Disbursement
-        </a>
-
-        <div class="collapse" id="menuServices">
-          <a
-            class="list-group-item list-group-item-action ps-4 small border-0 text-light"
-            id="interbankBtn"
-          >
-            Interbank Transfer
-          </a>
-          <a
-            class="list-group-item list-group-item-action ps-4 small border-0 text-light"
-            id="balanceBtn"
-          >
-            Balance Services
-          </a>
+      <div class="col-12 col-md-3 mb-3">
+        <div class="row align-items-center mb-1">
+          <label class="col-4 col-form-label fw-bold text-nowrap">
+            ChannelId:
+          </label>
+          <div class="col-8 col md-3">
+            <textarea id="channelId" class="form-control manual-form" rows="1"
+              placeholder="Masukkan Channel Id"></textarea>
+          </div>
         </div>
+      </div>
+      <div id="testCaseContainer"></div>
 
-        <a
-          href="#"
-          class="list-group-item list-group-item-action bg-transparent text-light fw-bold"
-          id="guideBtn"
-        >
-          Guide
-        </a>
+      <div class="row border-bottom pb-4 mb-4">
+        <button id="downloadExcelBtn" class="btn btn-success text-white">
+          Download Report (.xlsx)
+        </button>
       </div>
     </div>
 
-    <section class="content-header"></section>
-    <div class="content main-content">
-      <div id="testingArea">
-        <h5 class="fw-bold" id="pageTitle">Interbank Transfer Test</h5>
-
-        <div class="col-12 col-md-3 mb-3">
-          <div class="row align-items-center mb-1">
-            <label class="col-4 col-form-label fw-bold text-nowrap">
-              PartnerId:
-            </label>
-            <div class="col-8">
-              <textarea
-                id="partnerId"
-                class="form-control manual-form"
-                rows="1"
-                placeholder="Masukkan Partner Id"
-              ></textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-3 mb-3">
-          <div class="row align-items-center mb-1">
-            <label class="col-4 col-form-label fw-bold text-nowrap">
-              ChannelId:
-            </label>
-            <div class="col-8 col md-3">
-              <textarea
-                id="channelId"
-                class="form-control manual-form"
-                rows="1"
-                placeholder="Masukkan Channel Id"
-              ></textarea>
-            </div>
-          </div>
-        </div>
-        <div id="testCaseContainer"></div>
-
-        <div class="row border-bottom pb-4 mb-4">
-          <button id="downloadExcelBtn" class="btn btn-success text-white">
-            Download Report (.xlsx)
+    <div class="accordion d-none" id="accordionMainGuide">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingInterbank">
+          <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseInterbank" aria-expanded="false" aria-controls="collapseInterbank"
+            style="background-color: #e3e3e3">
+            Interbank Transfer
           </button>
+        </h2>
+        <div id="collapseInterbank" class="accordion-collapse collapse" aria-labelledby="headingInterbank"
+          data-bs-parent="#accordionMainGuide">
+          <div class="accordion-body">
+            <div class="accordion" id="accordionInterbankInner">
+              <div class="accordion-item border">
+                <h2 class="accordion-header" id="headingInterbankInner">
+                  <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseInterbankInner" aria-expanded="false"
+                    aria-controls="collapseInterbankInner">
+                    Test Cases (Interbank)
+                  </button>
+                </h2>
+                <div id="collapseInterbankInner" class="accordion-collapse collapse"
+                  aria-labelledby="headingInterbankInner" data-bs-parent="#accordionInterbankInner">
+                  <div class="accordion-body bg-light">
+                    <p>
+                      Berikut penjelasan singkat cara eksekusi test script:
+                    </p>
+                    <div class="accordion accordion-flush" id="accordionInterbankList">
+                      <div id="interbankGuideTestCases"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="accordion d-none" id="accordionMainGuide">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingInterbank">
-            <button
-              class="accordion-button collapsed fw-bold"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseInterbank"
-              aria-expanded="false"
-              aria-controls="collapseInterbank"
-              style="background-color: #e3e3e3"
-            >
-              Interbank Transfer
-            </button>
-          </h2>
-          <div
-            id="collapseInterbank"
-            class="accordion-collapse collapse"
-            aria-labelledby="headingInterbank"
-            data-bs-parent="#accordionMainGuide"
-          >
-            <div class="accordion-body">
-              <div class="accordion" id="accordionInterbankInner">
-                <div class="accordion-item border">
-                  <h2 class="accordion-header" id="headingInterbankInner">
-                    <button
-                      class="accordion-button collapsed fw-semibold"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseInterbankInner"
-                      aria-expanded="false"
-                      aria-controls="collapseInterbankInner"
-                    >
-                      Test Cases (Interbank)
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseInterbankInner"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="headingInterbankInner"
-                    data-bs-parent="#accordionInterbankInner"
-                  >
-                    <div class="accordion-body bg-light">
-                      <p>
-                        Berikut penjelasan singkat cara eksekusi test script:
-                      </p>
-                      <div
-                        class="accordion accordion-flush"
-                        id="accordionInterbankList"
-                      >
-                        <div id="interbankGuideTestCases"></div>
-                      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingBalance">
+          <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseBalance" aria-expanded="false" aria-controls="collapseBalance"
+            style="background-color: #e3e3e3">
+            Balance Services
+          </button>
+        </h2>
+        <div id="collapseBalance" class="accordion-collapse collapse" aria-labelledby="headingBalance"
+          data-bs-parent="#accordionMainGuide">
+          <div class="accordion-body">
+            <div class="accordion" id="accordionBalanceInner">
+              <div class="accordion-item border">
+                <h2 class="accordion-header" id="headingBalanceInner">
+                  <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseBalanceInner" aria-expanded="false" aria-controls="collapseBalanceInner">
+                    Test Cases (Balance)
+                  </button>
+                </h2>
+                <div id="collapseBalanceInner" class="accordion-collapse collapse" aria-labelledby="headingBalanceInner"
+                  data-bs-parent="#accordionBalanceInner">
+                  <div class="accordion-body bg-light">
+                    <p>
+                      Berikut penjelasan singkat cara eksekusi test script:
+                    </p>
+                    <div class="accordion accordion-flush" id="accordionBalanceList">
+                      <div id="balanceGuideTestCases"></div>
                     </div>
                   </div>
                 </div>
@@ -224,146 +204,64 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingBalance">
-            <button
-              class="accordion-button collapsed fw-bold"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseBalance"
-              aria-expanded="false"
-              aria-controls="collapseBalance"
-              style="background-color: #e3e3e3"
-            >
-              Balance Services
-            </button>
-          </h2>
-          <div
-            id="collapseBalance"
-            class="accordion-collapse collapse"
-            aria-labelledby="headingBalance"
-            data-bs-parent="#accordionMainGuide"
-          >
-            <div class="accordion-body">
-              <div class="accordion" id="accordionBalanceInner">
-                <div class="accordion-item border">
-                  <h2 class="accordion-header" id="headingBalanceInner">
-                    <button
-                      class="accordion-button collapsed fw-semibold"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseBalanceInner"
-                      aria-expanded="false"
-                      aria-controls="collapseBalanceInner"
-                    >
-                      Test Cases (Balance)
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseBalanceInner"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="headingBalanceInner"
-                    data-bs-parent="#accordionBalanceInner"
-                  >
-                    <div class="accordion-body bg-light">
-                      <p>
-                        Berikut penjelasan singkat cara eksekusi test script:
-                      </p>
-                      <div
-                        class="accordion accordion-flush"
-                        id="accordionBalanceList"
-                      >
-                        <div id="balanceGuideTestCases"></div>
-                      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="jsonFormat">
+          <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapsejsonFormat" aria-expanded="false" aria-controls="collapsejsonFormat"
+            style="background-color: #e3e3e3">
+            Json Format
+          </button>
+        </h2>
+        <div id="collapsejsonFormat" class="accordion-collapse collapse" aria-labelledby="jsonFormat"
+          data-bs-parent="#accordionMainGuide">
+          <div class="accordion-body">
+            <div class="accordion" id="accordionjsonFormatInner">
+              <div class="accordion-item border">
+                <h2 class="accordion-header" id="jsonFormatInner">
+                  <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapsejsonFormatInner" aria-expanded="false"
+                    aria-controls="collapsejsonFormatInner">
+                    Format Json
+                  </button>
+                </h2>
+                <div id="collapsejsonFormatInner" class="accordion-collapse collapse" aria-labelledby="jsonFormatInner"
+                  data-bs-parent="#accordionjsonFormatInner">
+                  <div class="accordion-body bg-light">
+                    <p class="mb-3">
+                      JSON (JavaScript Object Notation) memiliki aturan
+                      penulisan yang <strong>sangat ketat</strong>. Berikut
+                      panduannya:
+                    </p>
+
+                    <div class="alert alert-info border-info small">
+                      <ul class="mb-0 ps-3">
+                        <li>
+                          Gunakan
+                          <strong>Kutip Dua (<code>"</code>)</strong> untuk
+                          semua Key (Nama Field) dan Value (Isi) yang berupa
+                          teks.
+                        </li>
+                        <li>
+                          Dilarang menggunakan kutip satu (<code>'</code>).
+                        </li>
+                        <li>
+                          Dilarang ada
+                          <strong>Koma (<code>,</code>)</strong> pada baris
+                          terakhir sebelum tutup kurung <code>}</code>.
+                        </li>
+                      </ul>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="jsonFormat">
-            <button
-              class="accordion-button collapsed fw-bold"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapsejsonFormat"
-              aria-expanded="false"
-              aria-controls="collapsejsonFormat"
-              style="background-color: #e3e3e3"
-            >
-              Json Format
-            </button>
-          </h2>
-          <div
-            id="collapsejsonFormat"
-            class="accordion-collapse collapse"
-            aria-labelledby="jsonFormat"
-            data-bs-parent="#accordionMainGuide"
-          >
-            <div class="accordion-body">
-              <div class="accordion" id="accordionjsonFormatInner">
-                <div class="accordion-item border">
-                  <h2 class="accordion-header" id="jsonFormatInner">
-                    <button
-                      class="accordion-button collapsed fw-semibold"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapsejsonFormatInner"
-                      aria-expanded="false"
-                      aria-controls="collapsejsonFormatInner"
-                    >
-                      Format Json
-                    </button>
-                  </h2>
-                  <div
-                    id="collapsejsonFormatInner"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="jsonFormatInner"
-                    data-bs-parent="#accordionjsonFormatInner"
-                  >
-                    <div class="accordion-body bg-light">
-                      <p class="mb-3">
-                        JSON (JavaScript Object Notation) memiliki aturan
-                        penulisan yang <strong>sangat ketat</strong>. Berikut
-                        panduannya:
-                      </p>
-
-                      <div class="alert alert-info border-info small">
-                        <ul class="mb-0 ps-3">
-                          <li>
-                            Gunakan
-                            <strong>Kutip Dua (<code>"</code>)</strong> untuk
-                            semua Key (Nama Field) dan Value (Isi) yang berupa
-                            teks.
-                          </li>
-                          <li>
-                            Dilarang menggunakan kutip satu (<code>'</code>).
-                          </li>
-                          <li>
-                            Dilarang ada
-                            <strong>Koma (<code>,</code>)</strong> pada baris
-                            terakhir sebelum tutup kurung <code>}</code>.
-                          </li>
-                        </ul>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-12 col-md-3 mb-3">
-                          <div class="card h-100 border-secondary">
-                            <div
-                              class="card-header bg-secondary text-white py-1 fw-bold small"
-                            >
-                              Format Template
-                            </div>
-                            <div class="card-body bg-white p-2">
-                              <pre
-                                class="mb-0"
-                                style="font-size: 0.85rem; color: #2e7d32"
-                              >
+                    <div class="row">
+                      <div class="col-12 col-md-3 mb-3">
+                        <div class="card h-100 border-secondary">
+                          <div class="card-header bg-secondary text-white py-1 fw-bold small">
+                            Format Template
+                          </div>
+                          <div class="card-body bg-white p-2">
+                            <pre class="mb-0" style="font-size: 0.85rem; color: #2e7d32">
 {
     "parameter": "value",
     "parameter2": "value2",
@@ -374,26 +272,20 @@
             "childParameter2": "childValue2"
         }
     }
-}</pre
-                              >
-                            </div>
+}</pre>
                           </div>
                         </div>
                       </div>
+                    </div>
 
-                      <div class="row">
-                        <div class="col-12 col-md-6 mb-3">
-                          <div class="card h-100 border-success">
-                            <div
-                              class="card-header bg-success text-white py-1 fw-bold small"
-                            >
-                              ✅ Format Benar
-                            </div>
-                            <div class="card-body bg-white p-2">
-                              <pre
-                                class="mb-0"
-                                style="font-size: 0.85rem; color: #2e7d32"
-                              >
+                    <div class="row">
+                      <div class="col-12 col-md-6 mb-3">
+                        <div class="card h-100 border-success">
+                          <div class="card-header bg-success text-white py-1 fw-bold small">
+                            ✅ Format Benar
+                          </div>
+                          <div class="card-body bg-white p-2">
+                            <pre class="mb-0" style="font-size: 0.85rem; color: #2e7d32">
 {
     "partnerReferenceNo": "DSPSimulator20240103050059653755",
     "beneficiaryBankCode": "111",
@@ -406,29 +298,22 @@
         "dspsign": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJjbGllbnRJZCI6IkQwMDAwMDAwMDAwMDAyNiJ9.bLXC5u_rN05ShSBkPLHboIwS7iS1hRS0e5u7xhkOGn0",
         "transferService": "REALTIME ONLINE"
     }
-}</pre
-                              >
-                            </div>
+}</pre>
                           </div>
                         </div>
+                      </div>
 
-                        <div class="col-12 col-md-6 mb-3">
-                          <div class="card h-100 border-danger">
-                            <div
-                              class="card-header bg-danger text-white py-1 fw-bold small"
-                            >
-                              ❌ Format Salah
-                            </div>
-                            <div class="card-body bg-white p-2">
-                              <pre
-                                class="mb-0"
-                                style="font-size: 0.85rem; color: #c62828"
-                              >
+                      <div class="col-12 col-md-6 mb-3">
+                        <div class="card h-100 border-danger">
+                          <div class="card-header bg-danger text-white py-1 fw-bold small">
+                            ❌ Format Salah
+                          </div>
+                          <div class="card-body bg-white p-2">
+                            <pre class="mb-0" style="font-size: 0.85rem; color: #c62828">
 {
   'partnerReferenceNo': 'DSPSimulator20240103050059653755',  <span class="text-muted">// Salah kutip (')</span>
   "beneficiaryBankCode": "111",       <span class="text-muted">// Koma terakhir dilarang</span>
 }</pre>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -442,18 +327,76 @@
       </div>
     </div>
 
-    <script src="javaScript/caseForm.js"></script>
-    <script src="javaScript/guideLoader.js"></script>
-    <script src="javaScript/sidebar.js"></script>
-    <script src="javaScript/validation.js"></script>
-    <script src="javaScript/generateExcel.js"></script>
-    <script src="javaScript/cacheManager.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.min.js"></script>
-    <script src="javaScript/sessionTimer.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+
+      <div id="section-view-user" class="d-none content-section">
+        <h3 class="mb-3 border-bottom pb-2">Daftar User</h3>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover shadow-sm">
+            <thead class="table-dark">
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="section-add-user" class="d-none content-section">
+        <div class="card shadow-sm" style="max-width: 500px;">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Tambah User Baru</h5>
+          </div>
+          <div class="card-body">
+            <div id="addUserAlert" class="alert d-none"></div>
+
+            <form id="addUserForm">
+              <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" id="newUsername" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" id="newPassword" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select class="form-select" id="newRole">
+                  <option value="ROLE_USER">User Staff</option>
+                  <option value="ROLE_ADMIN">Administrator</option>
+                </select>
+              </div>
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success w-100">Simpan</button>
+                <button type="button" class="btn btn-secondary w-100"
+                  onclick="showSection('section-view-user')">Batal</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="javaScript/caseForm.js"></script>
+  <script src="javaScript/additionalFunc.js"></script>
+  <script src="javaScript/guideLoader.js"></script>
+  <script src="javaScript/sidebar.js"></script>
+  <script src="javaScript/validation.js"></script>
+  <script src="javaScript/generateExcel.js"></script>
+  <script src="javaScript/cacheManager.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.min.js"></script>
+  <script src="javaScript/sessionTimer.js"></script>
+  <script src="javaScript/adminUser.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

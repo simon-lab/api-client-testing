@@ -50,6 +50,8 @@ public class SecurityConfig {
                         // HALAMAN PUBLIC (Login & Static Files) - WAJIB PERMIT ALL
                         .requestMatchers("/index.html", "/", "/javaScript/**", "/style.css", "/images/**")
                         .permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
 
                         // SISANYA WAJIB LOGIN
                         .anyRequest().authenticated())

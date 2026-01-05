@@ -13,11 +13,21 @@ public class DataSeeder {
     CommandLineRunner initDatabase(UserRepository repo, PasswordEncoder encoder) {
         return args -> {
             if (repo.findByUsername("admin").isEmpty()) {
-                User user = new User();
-                user.setUsername("admin");
-                user.setPassword(encoder.encode("admin123")); // Enkripsi password
-                repo.save(user);
-                System.out.println("USER ADMIN DIBUAT: admin / admin123");
+                User admin = new User();
+                admin.setUsername("admin");
+                admin.setPassword(encoder.encode("admin123"));
+                admin.setRole("ROLE_ADMIN");
+                repo.save(admin);
+                System.out.println("User ADMIN berhasil dibuat.");
+            }
+
+            if (repo.findByUsername("client").isEmpty()) {
+                User client = new User();
+                client.setUsername("client");
+                client.setPassword(encoder.encode("client123"));
+                client.setRole("ROLE_CLIENT");
+                repo.save(client);
+                System.out.println("User CLIENT berhasil dibuat.");
             }
         };
     }

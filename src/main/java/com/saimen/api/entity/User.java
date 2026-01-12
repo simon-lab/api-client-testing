@@ -19,6 +19,28 @@ public class User {
     @Column(nullable = false)
     private String role;
 
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] excelFile;
+
+    private String excelFileName;
+
+    public byte[] getExcelFile() {
+        return excelFile;
+    }
+
+    public void setExcelFile(byte[] excelFile) {
+        this.excelFile = excelFile;
+    }
+
+    public String getExcelFileName() {
+        return excelFileName;
+    }
+
+    public void setExcelFileName(String excelFileName) {
+        this.excelFileName = excelFileName;
+    }
+
     public String getRole() {
         return role;
     }

@@ -8,17 +8,14 @@ async function runValidation(id) {
 
   const inputElements = [urlBox, jsonHeaderBox, bodyInputBox, responseInputBox];
 
-  // RESET STYLE
   inputElements.forEach((el) => el.classList.remove("is-valid", "is-invalid"));
   manualGroupBox
     .querySelectorAll("textarea")
     .forEach((el) => el.classList.remove("is-valid", "is-invalid"));
 
-  // UI Loading
   resultBox.innerHTML =
     '<span class="text-primary spinner-border spinner-border-sm"></span> Validating...';
 
-  // LOGIKA HEADER Manual & JSON
   let headerVal = "";
   const isManualMode = jsonHeaderBox.style.display === "none";
 
@@ -47,25 +44,22 @@ async function runValidation(id) {
     headerVal = jsonHeaderBox.value;
   }
 
-  // Ambil URL & Body & Response
   const urlBoxVal = document.getElementById(`urlEndpoint_${id}`).value;
   const bodyVal = bodyInputBox.value;
   const responseVal = responseInputBox.value;
 
-  // KONFIGURASI API
   const createOptions = (data) => ({
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: data || "{}",
   });
 
-  const urlEndpoint = `http://localhost:8080/${typeAPI}/req/url/case${id}`;
-  const urlHeader = `http://localhost:8080/${typeAPI}/req/header/case${id}`;
-  const urlBody = `http://localhost:8080/${typeAPI}/req/body/case${id}`;
-  const urlResp = `http://localhost:8080/${typeAPI}/resp/case${id}`;
+  const urlEndpoint = `http://10.126.57.48:8080/${typeAPI}/req/url/case${id}`;
+  const urlHeader = `http://10.126.57.48:8080/${typeAPI}/req/header/case${id}`;
+  const urlBody = `http://10.126.57.48:8080/${typeAPI}/req/body/case${id}`;
+  const urlResp = `http://10.126.57.48:8080/${typeAPI}/resp/case${id}`;
 
   try {
-    // EKSEKUSI API (FLOW BARU) ---
     
     const promiseBody = fetch(urlBody, createOptions(bodyVal));
     console.log("Hit Validate Body dengan Request: "+ bodyVal)
@@ -74,17 +68,14 @@ async function runValidation(id) {
     const promiseResponse = fetch(urlResp, createOptions(responseVal));
     console.log("Hit Validate Response dengan Request: "+responseVal)
 
-    // Tunggu Hasil BODY (Untuk dapat detectedService)
     const resBody = await promiseBody;
     const dataBody = await resBody.json();
 
-    // Ambil Detected Service
     let detectedService = "unknown";
     if (dataBody && dataBody.detectedService) {
         detectedService = dataBody.detectedService;
     }
 
-    // Request URL
     const urlRequestPayload = {
         urlEndpoint: urlBoxVal, 
         detectedService: detectedService 
@@ -97,7 +88,6 @@ async function runValidation(id) {
     const resHeader = await promiseHeader;
     const resResponse = await promiseResponse;
 
-    // Susun Result Array
     const results = [
         { httpCode: resUrl.status, data: await resUrl.json() },        
         { httpCode: resHeader.status, data: await resHeader.json() },  
@@ -105,7 +95,6 @@ async function runValidation(id) {
         { httpCode: resResponse.status, data: await resResponse.json() }
     ];
 
-    // LOGIKA PEWARNAAN & FORMATTING
     let logHtml = "";
     let isAllPassed = true;
 
@@ -159,7 +148,6 @@ async function runValidation(id) {
         `;
     });
 
-    // Tombol Simpan
     const btnSave = document.getElementById(`btnSave_${id}`);
     if (isAllPassed) {
       btnSave.disabled = false;
@@ -169,7 +157,6 @@ async function runValidation(id) {
       btnSave.disabled = true;
     }
 
-    // SUMMARY
     let summaryHtml = "";
     if (isAllPassed) {
       summaryHtml = `<div class="alert alert-success py-1 fw-bold text-center">RESULT: PASSED</div>`;

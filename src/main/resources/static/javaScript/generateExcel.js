@@ -1,11 +1,9 @@
-// === FUNGSI GENERATE EXCEL UTAMA ===
 document
-  .getElementById("downloadExcelBtn")
+  .getElementById("uploadExcelBtn")
   .addEventListener("click", function () {
 
     const workbook = XLSX.utils.book_new();
 
-    //PROSES SHEET 1
     const interbankData = interbankTestCases.map((item) => ({
       ...item,
       service: "Interbank Transfer",
@@ -14,7 +12,6 @@ document
     const wsInterbank = generateExcelTemplate(interbankData);
     XLSX.utils.book_append_sheet(workbook, wsInterbank, "Interbank Transfer");
 
-    //PROSES SHEET 2
     const balanceData = balanceTestCases.map((item) => ({
       ...item,
       service: "Balance Services",
@@ -22,23 +19,59 @@ document
     }));
     const wsBalance = generateExcelTemplate(balanceData);
     XLSX.utils.book_append_sheet(workbook, wsBalance, "Balance Services");
-
-    // 4. DOWNLOAD FILE
+    
     const fileName = `UAT_Report_${new Date()
       .toLocaleDateString("id-ID")
       .replace(/\//g, "-")}.xlsx`;
-    XLSX.writeFile(workbook, fileName);
+
+    // Konversi Workbook menjadi Binary Array
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+
+    // Bungkus menjadi BLOB
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    const formData = new FormData();
+    formData.append("file", blob, fileName); 
+
+    const btn = this;
+    const originalText = btn.innerText;
+    btn.innerText = "Mengupload...";
+    btn.disabled = true;
+
+    fetch("/api/upload-excel", {
+      method: "POST",
+      body: formData,
+    })
+      .then(async (response) => {
+        const result = await response.json(); 
+        
+        if (!response.ok) {
+            throw new Error(result.message || "Terjadi kesalahan saat upload");
+        }
+console.log("Upload Success:", result.message);
+        alert("Berhasil! " + result.message);
+        
+      })
+      .catch((error) => {
+        console.error("Upload Error:", error);
+        alert("Gagal Upload: " + error.message);
+      })
+      .finally(() => {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      });
   });
 
 let validationResults = {};
 
-// === FUNGSI GENERATE SHEET
+
 function generateExcelTemplate(dataInput) {
-  // HEADER METADATA DAN TABEL
   const metadata = [
     ["Skenario dan Hasil Uji Fungsionalitas"],
     [""],
-    ["Nama Penyedia Layanan:", "", "", "Bank XYZ (Ganti)"]
+    ["Nama Penyedia Layanan:", "", "", "Bank XYZ (Ganti)"],
     ["Nama Layanan API :", "", "", "Disbursement & Balance"],
     ["Nama Pengguna Layanan API:", "", "", "Client Name"],
     ["Tanggal Pengujian:", "", "", new Date().toLocaleDateString("id-ID")],
@@ -46,7 +79,6 @@ function generateExcelTemplate(dataInput) {
     [""],
   ];
 
-  // HEADER TABEL
   const tableHeader = [
     "No",
     "Service",
@@ -60,12 +92,10 @@ function generateExcelTemplate(dataInput) {
 
   let excelRows = [];
 
-  //LOOPING DATA
   dataInput.forEach((item) => {
     const uniqueId = item.prefix + item.id;
     const resultData = validationResults[uniqueId];
 
-    // Default Values
     let cellRequest = "URL Endpoint:\nHeader Request:\nRequest Body:";
     let cellResponse = "Response Body:";
     let cellResult = "";
@@ -90,12 +120,10 @@ function generateExcelTemplate(dataInput) {
     ]);
   });
 
-  // FINALISASI SHEET
   const finalData = [...metadata, tableHeader, ...excelRows];
 
   const ws = XLSX.utils.aoa_to_sheet(finalData);
 
-  // Lebar Kolom
   ws["!cols"] = [
     { wch: 5 },
     { wch: 12 },
@@ -106,8 +134,6 @@ function generateExcelTemplate(dataInput) {
     { wch: 10 },
     { wch: 20 },
   ];
-
-  // PENGATURAN MERGE CELLS
 
   ws["!merges"] = [
     { s: { r: 0, c: 0 }, e: { r: 0, c: 7 } },
@@ -125,9 +151,6 @@ function generateExcelTemplate(dataInput) {
     { s: { r: 5, c: 3 }, e: { r: 5, c: 7 } },
   ];
 
-  //STYLING (WARNA, FONT, BOLD)
-
-  // Pendefinisian Style
   const styleJudulUtama = {
     font: { bold: true, sz: 14, name: "Arial" },
     alignment: { horizontal: "center" },
@@ -190,20 +213,15 @@ function generateExcelTemplate(dataInput) {
     },
   };
 
-  //Terapkan Style ke Sel
   const range = XLSX.utils.decode_range(ws["!ref"]);
 
   for (let R = range.s.r; R <= range.e.r; ++R) {
     for (let C = range.s.c; C <= range.e.c; ++C) {
       const cell_address = { c: C, r: R };
       const cell_ref = XLSX.utils.encode_cell(cell_address);
-
-      // Jika sel tidak ada (kosong), kita BUAT sel dummy agar bisa dikasih border
       if (!ws[cell_ref]) {
-        ws[cell_ref] = { v: "", t: "s" }; // Buat sel kosong bertipe string
+        ws[cell_ref] = { v: "", t: "s" };
       }
-
-      // Logic implementasi style
 
       // Baris 1
       if (R === 0) {
@@ -232,7 +250,7 @@ function generateExcelTemplate(dataInput) {
         const dataIndex = R - 9;
         const rowData = dataInput[dataIndex];
 
-        // Cek case Inactive
+        // Untuk case Inactive
         if (rowData && rowData.status === "inactive") {
           ws[cell_ref].s = styleInactiveRow;
         } else {
@@ -262,17 +280,14 @@ function generateExcelTemplate(dataInput) {
 }
 
 function saveDataRow(id) {
-  // Definisikan ID Unik
   let prefix = currentCategory === "interbank" ? "8." : "3.";
   const uniqueId = prefix + id;
 
-  // Ambil Data Header
   const jsonHeaderBox = document.getElementById(`inputHeader_${id}`);
   const isManualMode = jsonHeaderBox.style.display === "none";
   let headerVal = "";
 
   if (isManualMode) {
-    // Ambil dari input manual
     const headerObj = {
       "Content-Type": document.getElementById(`inputContentType_${id}`).value,
       Authorization: document.getElementById(`inputAuthorization_${id}`).value,
@@ -286,26 +301,21 @@ function saveDataRow(id) {
     };
     headerVal = JSON.stringify(headerObj, null, 2);
   } else {
-    // Ambil langsung dari kotak JSON
     headerVal = jsonHeaderBox.value;
   }
 
-  // Ambil Data Lainnya
   const urlVal = document.getElementById(`urlEndpoint_${id}`).value;
   const bodyVal = document.getElementById(`inputBody_${id}`).value;
   const responseVal = document.getElementById(`inputResponse_${id}`).value;
 
-  // Ambil status result terakhir dari kotak Log (Jika user sudah validate)
   const logBox = document.getElementById(`outputResult_${id}`);
   let statusResult = "NOT TESTED";
   if (logBox.innerHTML.includes("PASSED")) statusResult = "PASSED";
   else if (logBox.innerHTML.includes("FAILED")) statusResult = "FAILED";
 
-  // Format String untuk Excel
   const requestText = `URL Endpoint: ${urlVal}\nHeader Request:\n${headerVal}\nRequest Body:\n${bodyVal}`;
   const responseText = `Response Body:\n${responseVal}`;
 
-  // SIMPAN KE VARIABLE GLOBAL (validationResults)
   validationResults[uniqueId] = {
     request: requestText,
     response: responseText,
@@ -316,14 +326,12 @@ function saveDataRow(id) {
         : "Belum Sesuai / Error",
   };
 
-  // UI Feedback
   const btnSave = document.getElementById(`btnSave_${id}`);
   const originalText = btnSave.innerText;
 
   btnSave.innerText = "Tersimpan!";
-  btnSave.classList.replace("btn-success", "btn-secondary"); // Ganti warna jadi abu
+  btnSave.classList.replace("btn-success", "btn-secondary");
 
-  // Balikin tombol setelah 1.5 detik
   setTimeout(() => {
     btnSave.innerText = "Simpan";
     btnSave.classList.replace("btn-secondary", "btn-success");

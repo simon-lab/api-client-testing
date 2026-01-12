@@ -1,7 +1,5 @@
 const body = document.body;
 
-// Fungsi Auto Resize Textarea (Agar form memanjang otomatis)
-// Kita gunakan 'delegation' agar textarea yang baru digenerate juga kena efeknya
 document.addEventListener("input", function (e) {
   if (
     e.target.tagName === "TEXTAREA" &&
@@ -11,8 +9,6 @@ document.addEventListener("input", function (e) {
     e.target.style.height = e.target.scrollHeight + "px";
   }
 });
-
-// DATA DRIVEN TESTING (Generator HTML)
 
 const interbankTestCases = [
   {
@@ -55,7 +51,7 @@ const interbankTestCases = [
   {
     id: "8",
     expected: 'Error Code: 4031618\nError Message: "Inactive Account"',
-    status: "active",
+    status: "inactive",
   },
   {
     id: "9",
@@ -121,7 +117,7 @@ const balanceTestCases = [
   {
     id: "7",
     expected: 'Response Code: 2001100\nResponse Message: "Successful"',
-    status: "active",
+    status: "inactive",
   },
   {
     id: "8",
@@ -146,13 +142,10 @@ const balanceTestCases = [
   },
 ];
 
-// --- STATE MANAGEMENT ---
 let currentCategory = "interbank";
 
-// --- DOM ELEMENTS ---
 const container = document.getElementById("testCaseContainer");
 
-// Listener Global Input (Partner & Channel ID)
 const globalInputs = ["partnerId", "channelId"];
 
 globalInputs.forEach((id) => {

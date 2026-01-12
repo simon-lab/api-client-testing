@@ -24,7 +24,6 @@ if (path === '/index.html' || path === '/' || path.endsWith('index.html')) {
     // Event Listener Aktivitas User
     window.onload = resetTimer;
     document.onmousemove = resetTimer;
-    document.onkeypress = resetTimer;
     document.onclick = resetTimer;
     document.onscroll = resetTimer;
 }

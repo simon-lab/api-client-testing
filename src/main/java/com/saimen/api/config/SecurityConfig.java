@@ -22,13 +22,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // 1. Password Encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 2. Auth Provider
     @Bean
     public AuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -37,30 +35,26 @@ public class SecurityConfig {
         return provider;
     }
 
-    // 3. Filter Chain (Aturan Satpam)
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable()) // Matikan CSRF untuk kemudahan development
+                .csrf(csrf -> csrf.disable())
 
-                // ATURAN AKSES URL
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // HALAMAN PUBLIC (Login & Static Files) - WAJIB PERMIT ALL
-                        .requestMatchers("/index.html", "/", "/javaScript/**", "/style.css", "/images/**")
+                        .requestMatchers("/index.html", "/", "/javaScript/**", "/style.css", "/images/**",
+                                "/api/upload-excel")
                         .permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
 
-                        // SISANYA WAJIB LOGIN
                         .anyRequest().authenticated())
 
-                // SETTING FORM LOGIN
                 .formLogin(form -> form
-                        .loginPage("/index.html") // URL Halaman Login (HTML kita)
-                        .loginProcessingUrl("/perform_login") // URL Virtual untuk Submit Form
-                        .defaultSuccessUrl("/landing.html", true) // KALO SUKSES KE SINI (PENTING!)
+                        .loginPage("/index.html")
+                        .loginProcessingUrl("/perform_login")
+                        .defaultSuccessUrl("/landing.html", true)
                         .failureUrl("/index.html?error=true")
                         .permitAll())
 
@@ -69,26 +63,20 @@ public class SecurityConfig {
                         .logoutUrl("/perform_logout")
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
-                        .logoutSuccessUrl("/index.html") // Balik ke login setelah logout
+                        .logoutSuccessUrl("/index.html")
                         .permitAll());
 
         return http.build();
     }
 
-    // 3. PENTING: Definisi Aturan CORS
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-
-        // Masukkan URL Frontend Anda (VS Code Live Server)
-        // Perhatikan: http://127.0.0.1:5500 BEDANYA dengan http://localhost:5500
-        // Masukkan keduanya agar aman.
-        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500", "http://localhost:5500"));
+        configuration.setAllowedOrigins(Arrays.asList("http://10.126.57.48:8080", "http://localhost:5500"));
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
 
-        // Izinkan kirim Cookie/Session
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
